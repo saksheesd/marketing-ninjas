@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Ninjas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vintage-cream: #f5f0e6;
+            --vintage-tan: #d4c4a8;
+            --vintage-brown: #8b7355;
+            --vintage-ink: #2c2416;
+            --vintage-rust: #a45a3e;
+            --vintage-gold: #c9a959;
+            --modern-dark: #0a0a0b;
+            --modern-slate: #1a1a2e;
+            --modern-cyan: #00f5ff;
+            --modern-magenta: #e040fb;
+            --modern-purple: #7c4dff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--vintage-cream);
+            color: var(--vintage-ink);
+            overflow-x: hidden;
+            transition: background 0.8s ease, color 0.8s ease;
+        }
+
+        /* Paper texture overlay */
+        .paper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vintage-rust), var(--vintage-gold));
+            z-index: 9999;
+            transition: background 0.5s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 60px;
+        }
+
+        body.dark-mode nav.scrolled {
+            background: rgba(10, 10, 11, 0.95);
+        }
+
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--vintage-ink);
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .logo {
+            color: var(--modern-cyan);
+        }
+
+        .logo span {
+            color: var(--vintage-rust);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--vintage-brown);
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Vintage */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 60px 80px;
+            position: relative;
+            background: var(--vintage-cream);
+            transition: background 0.8s ease;
+        }
+
+        .hero-badge {
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--vintage-brown);
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            color: var(--vintage-ink);
+            margin-bottom: 30px;
+            max-width: 900px;
+        }
+
+        .hero-title .highlight {
+            font-style: italic;
+            color: var(--vintage-rust);
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--vintage-tan) 0%, var(--vintage-cream) 100%);
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--vintage-tan);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, var(--vintage-tan) 1px, transparent 1px),
+                linear-gradient(var(--vintage-tan) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        .hero-image span {
+            font-size: 14px;
+            color: var(--vintage-brown);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--vintage-cream);
+            padding: 15px 30px;
+            border: 1px dashed var(--vintage-tan);
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.8;
+            color: var(--vintage-brown);
+            margin-bottom: 60px;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .ornament-line {
+            width: 80px;
+            height: 1px;
+            background: var(--vintage-gold);
+        }
+
+        .ornament-icon {
+            font-size: 24px;
+            color: var(--vintage-gold);
+        }
+
+        .cta-button {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            padding: 18px 50px;
+            border: 2px solid var(--vintage-ink);
+            background: transparent;
+            color: var(--vintage-ink);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--vintage-ink);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button:hover {
+            color: var(--vintage-cream);
+        }
+
+
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--vintage-brown);
+        }
+
+        .scroll-indicator .line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--vintage-gold), transparent);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Vintage Illustration */
+        .vintage-illustration {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .vintage-illustration.left {
+            left: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .vintage-illustration.right {
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 150px 60px;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 100px;
+        }
+
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 100px;
+            font-weight: 700;
+            color: var(--vintage-tan);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: -30px;
+            transition: color 0.5s ease;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--vintage-rust);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--vintage-ink);
+            margin-bottom: 25px;
+            transition: color 0.5s ease;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--vintage-brown);
+            transition: color 0.5s ease;
+        }
+
+        /* Image placeholder styles */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--vintage-tan) 0%, var(--vintage-cream) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(139, 115, 85, 0.2);
+            position: relative;
+        }
+
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, rgba(139, 115, 85, 0.1) 1px, transparent 1px),
+                linear-gradient(rgba(139, 115, 85, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .image-placeholder span {
+            font-size: 11px;
+            color: var(--vintage-brown);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--vintage-cream);
+            padding: 10px 20px;
+            border: 1px dashed var(--vintage-tan);
+        }
+
+        .image-placeholder.large {
+            height: 350px;
+            margin-bottom: 0;
+        }
+
+        .image-placeholder.full-width {
+            height: 300px;
+            margin: 40px 0;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(212, 196, 168, 0.15);
+            border: 1px solid rgba(139, 115, 85, 0.2);
+            padding: 50px 40px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            border-top: 2px solid var(--vintage-gold);
+            border-left: 2px solid var(--vintage-gold);
+            transition: border-color 0.5s ease;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            border-bottom: 2px solid var(--vintage-gold);
+            border-right: 2px solid var(--vintage-gold);
+            transition: border-color 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: rgba(212, 196, 168, 0.25);
+            box-shadow: 0 20px 60px rgba(44, 36, 22, 0.1);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--vintage-ink);
+            margin-bottom: 15px;
+            transition: color 0.5s ease;
+        }
+
+        .card p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--vintage-brown);
+            transition: color 0.5s ease;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 80px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            max-width: 200px;
+            height: 1px;
+            background: var(--vintage-tan);
+            transition: background 0.5s ease;
+        }
+
+        .divider-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--vintage-brown);
+            white-space: nowrap;
+            transition: color 0.5s ease;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--vintage-gold), var(--vintage-rust), var(--modern-cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+            text-align: right;
+            padding-right: calc(50% + 50px);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            text-align: left;
+            padding-left: calc(50% + 50px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            background: var(--vintage-cream);
+            border: 3px solid var(--vintage-rust);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .timeline-year {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--vintage-rust);
+            margin-bottom: 10px;
+            transition: color 0.5s ease;
+        }
+
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--vintage-ink);
+            margin-bottom: 12px;
+            transition: color 0.5s ease;
+        }
+
+        .timeline-content p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--vintage-brown);
+            transition: color 0.5s ease;
+        }
+
+        /* Parallax Container */
+        .parallax-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            pointer-events: none;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            padding: 150px 60px;
+            text-align: center;
+            background: var(--vintage-cream);
+            position: relative;
+            transition: background 0.8s ease;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 200px;
+            color: var(--vintage-tan);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: -80px;
+            transition: color 0.5s ease;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-style: italic;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--vintage-ink);
+            transition: color 0.5s ease;
+        }
+
+        .quote-author {
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--vintage-rust);
+            transition: color 0.5s ease;
+        }
+
+        /* Modern Webflow Section */
+        .webflow-section {
+            min-height: 100vh;
+            background: var(--vintage-cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--vintage-tan);
+        }
+
+        .webflow-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 100px 40px;
+        }
+
+        .webflow-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--vintage-rust);
+            border: 2px solid var(--vintage-rust);
+            padding: 12px 30px;
+            margin-bottom: 50px;
+        }
+
+        .webflow-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--vintage-ink);
+        }
+
+        .webflow-title .highlight {
+            color: var(--vintage-rust);
+        }
+
+        .webflow-desc {
+            font-size: 18px;
+            line-height: 2;
+            color: var(--vintage-brown);
+            margin-bottom: 60px;
+        }
+
+        .webflow-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .webflow-feature {
+            text-align: center;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--vintage-tan);
+            transition: all 0.4s ease;
+        }
+
+        .webflow-feature:hover {
+            border-color: var(--vintage-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(44, 36, 22, 0.08);
+        }
+
+        .webflow-feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .webflow-feature h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--vintage-ink);
+            margin-bottom: 10px;
+        }
+
+        .webflow-feature p {
+            font-size: 14px;
+            color: var(--vintage-brown);
+            line-height: 1.6;
+        }
+
+        .webflow-stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+        }
+
+        .webflow-stat {
+            text-align: center;
+        }
+
+        .webflow-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--vintage-rust);
+        }
+
+        .webflow-stat-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--vintage-brown);
+            margin-top: 10px;
+        }
+
+        .webflow-image {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--vintage-tan) 0%, var(--vintage-cream) 100%);
+            margin: 60px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--vintage-tan);
+            position: relative;
+        }
+
+        .webflow-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, var(--vintage-brown) 1px, transparent 1px),
+                linear-gradient(var(--vintage-brown) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+        }
+
+        .webflow-image span {
+            font-size: 12px;
+            color: var(--vintage-brown);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--vintage-cream);
+            padding: 15px 30px;
+            border: 1px dashed var(--vintage-tan);
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 60px;
+            text-align: center;
+            background: var(--vintage-cream);
+            border-top: 1px solid var(--vintage-tan);
+        }
+
+        .footer-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            color: var(--vintage-ink);
+        }
+
+        .footer-logo span {
+            color: var(--vintage-rust);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--vintage-brown);
+            letter-spacing: 3px;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--vintage-gold);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 100px 30px;
+            }
+
+            .hero {
+                padding: 100px 30px 80px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding-left: 60px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 20px !important;
+            }
+
+            .webflow-features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .webflow-stats {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .webflow-image {
+                height: 300px;
+            }
+
+            .hero-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="paper-texture"></div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="particles" id="particles"></div>
+
+    <nav id="navbar">
+        <div class="logo">Marketing <span>Ninjas</span></div>
+        <ul class="nav-links">
+            <li><a href="#heritage">SEI Writing</a></li>
+            <li><a href="#craftsmanship">Img Suggestions</a></li>
+            <li><a href="#innovation">Img Refining</a></li>
+            <li><a href="#future">Webflow</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge reveal">A Journey Through Time</div>
+        <h1 class="hero-title reveal reveal-delay-1">
+            The Evolution of <span class="highlight">Creativity</span>
+        </h1>
+        <p class="hero-subtitle reveal reveal-delay-2">
+            SEI Writing • Img Suggestions • Img Refining • Webflow Creation
+        </p>
+        <div class="ornament reveal reveal-delay-3">
+            <div class="ornament-line"></div>
+            <span class="ornament-icon">✦</span>
+            <div class="ornament-line"></div>
+        </div>
+        <button class="cta-button reveal">Begin the Journey</button>
+        <div class="hero-image reveal">
+            <span>Hero Image Placeholder</span>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to Explore</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- SEI WRITING SECTION -->
+    <section id="heritage">
+        <div class="section-header reveal">
+            <div class="section-number">01</div>
+            <span class="section-label">Foundation Layer</span>
+            <h2 class="section-title">SEI Writing</h2>
+            <p class="section-desc">
+                Words that resonate. Stories that convert. Our SEI (Search-Engage-Influence) framework 
+                crafts compelling copy that speaks to your audience and drives action.
+            </p>
+        </div>
+
+        <div class="image-placeholder full-width reveal">
+            <span>Image / Screenshot Placeholder</span>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card reveal">
+                <div class="card-icon">✍️</div>
+                <h3>Strategic Storytelling</h3>
+                <p>Every word serves a purpose. We craft narratives that align with your brand voice 
+                while driving measurable engagement and conversion.</p>
+            </div>
+            <div class="card reveal reveal-delay-1">
+                <div class="card-icon">🎯</div>
+                <h3>SEO-Optimized Copy</h3>
+                <p>Content that ranks and converts. Our writing combines strategic keyword placement 
+                with authentic, engaging storytelling.</p>
+            </div>
+            <div class="card reveal reveal-delay-2">
+                <div class="card-icon">💡</div>
+                <h3>Brand Voice Development</h3>
+                <p>Consistent messaging across all touchpoints. We help define and refine your unique 
+                voice that sets you apart in the market.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">Where tradition meets tomorrow</span>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- IMG SUGGESTIONS SECTION -->
+    <section id="craftsmanship">
+        <div class="section-header reveal">
+            <div class="section-number">02</div>
+            <span class="section-label">Visual Intelligence</span>
+            <h2 class="section-title">Img Suggestions</h2>
+            <p class="section-desc">
+                Finding the perfect visual for your brand shouldn't feel like searching for a needle in a haystack. 
+                Our AI-powered image suggestion system curates visuals that align with your message and mood.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card reveal">
+                <div class="image-placeholder">
+                    <span>Image Placeholder</span>
+                </div>
+                <div class="card-icon">🔍</div>
+                <h3>Smart Curation</h3>
+                <p>Our intelligent system analyzes your content and suggests images that match 
+                tone, color palette, and emotional resonance.</p>
+            </div>
+            <div class="card reveal reveal-delay-1">
+                <div class="image-placeholder">
+                    <span>Image Placeholder</span>
+                </div>
+                <div class="card-icon">🎨</div>
+                <h3>Style Matching</h3>
+                <p>From minimalist to bold, photography to illustration. We match visual styles 
+                to your existing brand aesthetic seamlessly.</p>
+            </div>
+            <div class="card reveal reveal-delay-2">
+                <div class="image-placeholder">
+                    <span>Image Placeholder</span>
+                </div>
+                <div class="card-icon">📊</div>
+                <h3>Performance Insights</h3>
+                <p>See which image styles resonate with your audience. Data-driven suggestions 
+                based on engagement metrics and industry benchmarks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section">
+        <div class="quote-mark reveal">"</div>
+        <p class="quote-text reveal">
+            Design is not just what it looks like and feels like. 
+            Design is how it works.
+        </p>
+        <span class="quote-author reveal">— Steve Jobs</span>
+    </section>
+
+    <!-- IMG REFINING SECTION -->
+    <section id="innovation">
+        <div class="section-header reveal">
+            <div class="section-number">03</div>
+            <span class="section-label">Polish & Perfect</span>
+            <h2 class="section-title">Img Refining</h2>
+            <p class="section-desc">
+                Great images become extraordinary with the right refinements. From background removal 
+                to color grading, we transform good visuals into stunning assets that capture attention.
+            </p>
+        </div>
+
+        <div class="image-placeholder full-width reveal">
+            <span>Before / After Comparison Placeholder</span>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">Step 1</div>
+                <div class="timeline-content">
+                    <h3>Background Removal</h3>
+                    <p>Clean cutouts that make your subject pop. Precise edge detection 
+                    preserves hair and fine details with perfection.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">Step 2</div>
+                <div class="timeline-content">
+                    <h3>Color Enhancement</h3>
+                    <p>Colors that complement your brand. Subtle adjustments that make 
+                    images vibrant without looking over-processed.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">Step 3</div>
+                <div class="timeline-content">
+                    <h3>Composition Tuning</h3>
+                    <p>Perfect framing every time. Resizing, cropping, and repositioning 
+                    for optimal visual impact across all platforms.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">Step 4</div>
+                <div class="timeline-content">
+                    <h3>Quality Upscaling</h3>
+                    <p>AI-powered upscaling that adds detail. Turn small images into 
+                    print-ready assets without loss of quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WEBFLOW CREATION SECTION -->
+    <section class="webflow-section" id="future">
+        <div class="webflow-content">
+            <span class="webflow-badge reveal">The Masterpiece</span>
+            <h2 class="webflow-title reveal reveal-delay-1">Webflow <span class="highlight">Creation</span></h2>
+            <p class="webflow-desc reveal reveal-delay-2">
+                Where everything comes together. SEI-optimized copy, perfectly curated images, 
+                meticulously refined visuals—all brought to life in stunning, high-performance 
+                Webflow websites that convert visitors into customers.
+            </p>
+
+            <div class="webflow-features reveal reveal-delay-3">
+                <div class="webflow-feature">
+                    <div class="webflow-feature-icon">🎨</div>
+                    <h4>Pixel-Perfect Design</h4>
+                    <p>Custom Webflow builds that match every design detail. Responsive, 
+                    accessible, and optimized for every device.</p>
+                </div>
+                <div class="webflow-feature">
+                    <div class="webflow-feature-icon">⚡</div>
+                    <h4>Lightning Performance</h4>
+                    <p>Blazing fast load times. Optimized images, clean code, and best 
+                    practices for Core Web Vitals.</p>
+                </div>
+                <div class="webflow-feature">
+                    <div class="webflow-feature-icon">🔄</div>
+                    <h4>Easy Maintenance</h4>
+                    <p>Full CMS setup. You own your content. Simple edits without 
+                    touching a line of code.</p>
+                </div>
+            </div>
+
+            <div class="webflow-stats reveal">
+                <div class="webflow-stat">
+                    <div class="webflow-stat-number" data-count="99">0</div>
+                    <div class="webflow-stat-label">Performance Score</div>
+                </div>
+                <div class="webflow-stat">
+                    <div class="webflow-stat-number" data-count="100">0</div>
+                    <div class="webflow-stat-label">Design Fidelity %</div>
+                </div>
+                <div class="webflow-stat">
+                    <div class="webflow-stat-number" data-count="0">0</div>
+                    <div class="webflow-stat-label">Code Dependencies</div>
+                </div>
+            </div>
+
+            <div class="webflow-image reveal">
+                <span>Webflow Website Preview Placeholder</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">EVOLUTION</div>
+        <p class="footer-text">COPY • IMAGES • WEBFLOW</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Nav background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            document.querySelectorAll('.image-placeholder').forEach((placeholder, i) => {
+                const speed = 0.02;
+                const yOffset = scrolled * speed;
+                placeholder.style.transform = `translateY(${yOffset}px)`;
+            });
+        });
+
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particlesContainer.appendChild(particle);
+
+            animateParticle(particle);
+        }
+
+        function animateParticle(particle) {
+            const duration = 15000 + Math.random() * 20000;
+            const startX = parseFloat(particle.style.left);
+            const startY = parseFloat(particle.style.top);
+            const endX = Math.random() * 100;
+            const endY = Math.random() * 100;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = elapsed / duration;
+
+                if (progress < 1) {
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    particle.style.left = startX + (endX - startX) * easeProgress + '%';
+                    particle.style.top = startY + (endY - startY) * easeProgress + '%';
+                    requestAnimationFrame(update);
+                } else {
+                    particle.style.left = endX + '%';
+                    particle.style.top = endY + '%';
+                    animateParticle(particle);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Counter animation
+        const counters = document.querySelectorAll('.webflow-stat-number');
+        
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.dataset.count);
+                    animateCounter(entry.target, target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        function animateCounter(element, target) {
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 4);
+                
+                element.textContent = Math.floor(target * easeProgress);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // CTA button
+        document.querySelector('.cta-button').addEventListener('click', () => {
+            document.querySelector('#heritage').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
