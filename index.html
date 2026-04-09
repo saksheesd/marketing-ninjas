@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing Ninjas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Meet WALLY — The Workflow Assassin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-secondary: #f8f8f8;
-            --text: #1a1a1a;
-            --text-secondary: #5a5a5a;
-            --text-muted: #8a8a8a;
-            --border: #e0e0e0;
-            --accent: #1a73e8;
-            --accent-hover: #1557b0;
-            --accent-glow: rgba(26, 115, 232, 0.3);
+            --bg: #0A0A0A;
+            --accent: #1D9E75;
+            --accent-secondary: #7F77DD;
+            --text: #FFFFFF;
+            --text-muted: #888888;
+            --border-radius: 12px;
         }
 
         * {
@@ -29,207 +28,924 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* ===== GLITCH ANIMATIONS ===== */
-
-        /* Glitch text effect */
-        .glitch {
-            position: relative;
-            animation: glitch-skew 4s infinite linear alternate-reverse;
-        }
-
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .glitch::before {
-            animation: glitch-effect 3s infinite linear alternate-reverse;
-            color: #ff0000;
-            z-index: -1;
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-        }
-
-        .glitch::after {
-            animation: glitch-effect-2 2s infinite linear alternate-reverse;
-            color: #00ffff;
-            z-index: -2;
-            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-        }
-
-        @keyframes glitch-effect {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes glitch-effect-2 {
-            0% { transform: translate(0); }
-            20% { transform: translate(3px, -3px); }
-            40% { transform: translate(3px, 3px); }
-            60% { transform: translate(-3px, -3px); }
-            80% { transform: translate(-3px, 3px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes glitch-skew {
-            0% { transform: skew(0deg); }
-            10% { transform: skew(-0.5deg); }
-            20% { transform: skew(0deg); }
-            100% { transform: skew(0deg); }
-        }
-
-        /* Scanline effect */
-        .scanlines::before {
-            content: '';
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
             z-index: 9999;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.03) 0px,
-                rgba(0, 0, 0, 0.03) 1px,
-                transparent 1px,
-                transparent 2px
-            );
+            transition: transform 0.1s, background 0.2s, border-color 0.2s;
+            mix-blend-mode: difference;
         }
 
-        /* Cursor glow */
-        .cursor-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(26, 115, 232, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
-        }
-
-        /* ===== MICRO ANIMATIONS ===== */
-
-        /* Button ripple */
-        .btn {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::after {
+        .cursor::before {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-            transform: scale(0);
-            opacity: 0;
-            transition: transform 0.5s, opacity 0.5s;
+            inset: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: cursor-pulse 1.5s infinite;
         }
 
-        .btn:active::after {
+        @keyframes cursor-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 0.3; }
+        }
+
+        .cursor.hover {
             transform: scale(2);
-            opacity: 1;
-            transition: 0s;
-        }
-
-        /* Magnetic button */
-        .btn-primary:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 0 20px var(--accent-glow);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-secondary);
+            background: rgba(29, 158, 117, 0.2);
             border-color: var(--text);
         }
 
-        /* Card tilt 3D effect */
-        .card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .card:hover .card-icon {
-            animation: icon-bounce 0.6s ease;
-        }
-
-        @keyframes icon-bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.1); }
-        }
-
-        /* Stat number count up */
-        .stat-number {
-            position: relative;
-            display: inline-block;
-        }
-
-        .stat-number::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
             left: 0;
-            width: 0;
-            height: 3px;
+            right: 0;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 48px;
+        }
+
+        .nav-center a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            font-size: 14px;
+            font-weight: 600;
             background: var(--accent);
-            transition: width 0.6s ease;
+            color: var(--text);
+            padding: 12px 28px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
-        .stat:hover .stat-number::after {
-            width: 100%;
+        .nav-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(29, 158, 117, 0.4);
         }
 
-        /* Process number hover */
-        .process-item:hover .process-number {
-            color: var(--accent);
-            animation: number-pulse 0.5s ease;
-        }
-
-        @keyframes number-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Text reveal animation */
-        .reveal-text {
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 60px 60px;
+            position: relative;
             overflow: hidden;
         }
 
-        .reveal-text span {
-            display: inline-block;
+        /* Background Grid */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, rgba(29, 158, 117, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(29, 158, 117, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 20s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1200px;
+        }
+
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fade-up 0.8s forwards;
+        }
+
+        @keyframes fade-up {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .line-inner {
+            display: block;
+            opacity: 0;
             transform: translateY(100%);
-            animation: reveal 0.8s ease forwards;
         }
 
-        @keyframes reveal {
-            to { transform: translateY(0); }
+        .hero-title .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%) rotateX(-90deg);
+            animation: char-reveal 0.6s forwards;
         }
 
-        /* Typing cursor */
-        .typing::after {
-            content: '|';
-            animation: blink 0.8s infinite;
+        @keyframes char-reveal {
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .hero-title .teal {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto 48px;
+            opacity: 0;
+            animation: fade-up 1s forwards;
+            animation-delay: 0.8s;
+        }
+
+        /* CTA Row */
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fade-up 1s forwards;
+            animation-delay: 1.2s;
+        }
+
+        .btn {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fade-up 1s forwards, bounce 2s infinite;
+            animation-delay: 1.5s, 2s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .scroll-indicator span {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 3D Orb Container */
+        .orb-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 60px auto 0;
+            opacity: 0;
+            transform: scale(0);
+            animation: orb-appear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 1s;
+        }
+
+        @keyframes orb-appear {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Three.js Canvas */
+        #wally-orb {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+        }
+
+        /* Orb Glow Effect */
+        .orb-glow {
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle, rgba(29, 158, 117, 0.15) 0%, transparent 60%);
+            animation: glow-pulse 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Loading Bar */
+        .loading-bar {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            width: 0%;
+            animation: load 2s forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes load {
+            to { width: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 24px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 24px 80px;
+            }
+
+            .hero-title {
+                font-size: clamp(48px, 12vw, 72px);
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .orb-container {
+                width: 220px;
+                height: 220px;
+                margin: 40px auto 0;
+            }
+        }
+
+        /* ===== SECTION 2: THE PAIN ===== */
+        .pain {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 60px;
+            position: relative;
+            background: var(--bg);
+        }
+
+        .pain-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pain-intro {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 60px;
+        }
+
+        .pain-lines {
+            margin-bottom: 40px;
+        }
+
+        .pain-line {
+            font-size: clamp(40px, 8vw, 64px);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .pain-reveal {
+            font-size: clamp(56px, 12vw, 96px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin: 60px 0 40px;
+            color: var(--text);
+        }
+
+        .pain-reveal-text {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pain-reveal.visible .pain-reveal-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pain-reveal-text:nth-child(1) { transition-delay: 0s; }
+        .pain-reveal-text:nth-child(2) { transition-delay: 0.1s; }
+        .pain-reveal-text:nth-child(3) { transition-delay: 0.2s; }
+
+        .pain-reveal-text.accent {
+            color: var(--accent);
+            text-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
+        }
+
+        .pain-outro {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        /* Ticker Strip */
+        .ticker {
+            width: 100%;
+            overflow: hidden;
+            padding: 30px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .ticker-track {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker-scroll 30s linear infinite;
+        }
+
+        .ticker-track span {
+            font-size: 14px;
+            color: var(--text);
+            padding-right: 0;
+            flex-shrink: 0;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.333%); }
+        }
+
+        @media (max-width: 768px) {
+            .pain {
+                padding: 80px 24px;
+            }
+
+            .pain-line {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+
+            .pain-reveal {
+                font-size: 48px;
+            }
+
+            .pain-intro,
+            .pain-outro {
+                font-size: 16px;
+            }
+        }
+
+        /* ===== SECTION 3: ENTER WALLY ===== */
+        .enter-wally {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 60px;
+            position: relative;
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        /* Glitch Overlay */
+        .glitch-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9997;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s;
+        }
+
+        .glitch-overlay.active {
+            opacity: 1;
+            animation: glitch-flash 0.5s steps(2) forwards;
+            pointer-events: all;
+        }
+
+        @keyframes glitch-flash {
+            0% { opacity: 0; }
+            10% { opacity: 1; background: var(--accent); }
+            20% { opacity: 0; }
+            30% { opacity: 1; background: var(--accent-secondary); }
+            40% { opacity: 0; }
+            50% { opacity: 1; background: var(--bg); }
+            60% { opacity: 0.8; transform: translateX(-5px); }
+            70% { opacity: 0; transform: translateX(5px); }
+            80% { opacity: 1; background: var(--bg); }
+            90% { opacity: 0; }
+            100% { opacity: 0; display: none; }
+        }
+
+        .glitch-line {
+            height: 3px;
+            background: var(--accent);
+            margin: 20px 0;
+            animation: glitch-line 0.3s infinite;
+        }
+
+        .glitch-line:nth-child(2) {
+            background: var(--accent-secondary);
+            animation-delay: 0.1s;
+        }
+
+        .glitch-line:nth-child(3) {
+            background: var(--text);
+            animation-delay: 0.2s;
+        }
+
+        @keyframes glitch-line {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* WALLY Orb Entrance */
+        .wally-entrance {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .wally-orb-large {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--accent) 0%, var(--accent-secondary) 100%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            animation: orb-burst 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.5s;
+            box-shadow: 
+                0 0 60px var(--accent),
+                0 0 120px var(--accent-secondary),
+                inset 0 0 60px rgba(255,255,255,0.3);
+        }
+
+        @keyframes orb-burst {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .wally-orb-large::before {
+            content: 'W';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--text);
+            text-shadow: 0 0 20px var(--bg);
+        }
+
+        .wally-orb-large::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: ring-pulse 2s infinite;
+        }
+
+        @keyframes ring-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Enter Content */
+        .enter-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .enter-title {
+            font-size: clamp(48px, 10vw, 100px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fade-up 1s forwards;
+            animation-delay: 0.8s;
+        }
+
+        .enter-title .line {
+            display: block;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fade-up 0.8s forwards;
+        }
+
+        .enter-title .line:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .enter-title .line:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .enter-title .teal {
+            color: var(--accent);
+            text-shadow: 0 0 60px rgba(29, 158, 117, 0.5);
+        }
+
+        .enter-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fade-up 1s forwards;
+            animation-delay: 1s;
+        }
+
+        /* Enter Stats */
+        .enter-stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+        }
+
+        .enter-stat {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .enter-stat .stat-number {
+            font-size: clamp(56px, 8vw, 96px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(255,255,255,0.2);
+        }
+
+        .enter-stat .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .enter-wally {
+                padding: 80px 24px;
+            }
+
+            .enter-title {
+                font-size: 40px;
+            }
+
+            .enter-stats {
+                gap: 40px;
+            }
+
+            .enter-stat .stat-number {
+                font-size: 48px;
+            }
+
+            .wally-orb-large {
+                width: 120px;
+                height: 120px;
+            }
+
+            .wally-orb-large::before {
+                font-size: 50px;
+            }
+        }
+
+        /* ===== SECTION 4: HOW IT WORKS ===== */
+        .how-it-works {
+            position: relative;
+            background: var(--bg);
+        }
+
+        .sticky-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Left Sticky Panel */
+        .sticky-left {
+            width: 40%;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .sticky-content {
+            text-align: center;
+        }
+
+        .step-indicator {
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .step-indicator span:first-child {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* WALLY Step Orb */
+        .wally-step-orb {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 40px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .orb-core {
+            position: absolute;
+            inset: 25%;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 60px var(--accent);
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .orb-ring {
+            position: absolute;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: rotate-ring 8s linear infinite;
+        }
+
+        .orb-ring-1 {
+            inset: 0;
+            border-color: var(--accent);
+        }
+
+        .orb-ring-2 {
+            inset: -20px;
+            border-color: var(--accent-secondary);
+            animation-direction: reverse;
+            animation-duration: 12s;
+        }
+
+        @keyframes rotate-ring {
+            to { transform: rotate(360deg); }
+        }
+
+        .step-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            transition: color 0.3s;
+        }
+
+        .step-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        /* Right Scrolling Steps */
+        .scroll-right {
+            width: 60%;
+        }
+
+        .step-panel {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            border-left: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .step-number {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .step-panel h4 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .step-panel p {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .step-panel em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        /* Visual: Input Field */
+        .visual-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+        }
+
+        .input-label {
+            font-size: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            font-size: 16px;
+            color: var(--text);
+            min-height: 24px;
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+            color: var(--accent);
         }
 
         @keyframes blink {
@@ -237,1011 +953,815 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Marquee */
-        .marquee {
-            overflow: hidden;
-            white-space: nowrap;
+        /* Visual: Typewriter */
+        .visual-typewriter {
+            max-width: 500px;
+            padding: 24px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
         }
 
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Pulse ring */
-        .pulse-ring {
-            position: relative;
-        }
-
-        .pulse-ring::before {
-            content: '';
-            position: absolute;
-            inset: -10px;
-            border: 2px solid var(--accent);
-            border-radius: inherit;
-            animation: pulse-ring 2s ease-out infinite;
-            opacity: 0;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(1.3); opacity: 0; }
-        }
-
-        /* Floating animation */
-        .float {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Shimmer effect */
-        .shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shimmer::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            100% { left: 100%; }
-        }
-
-        /* Border animation */
-        .border-animate {
-            position: relative;
-        }
-
-        .border-animate::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 2px;
-            background: linear-gradient(90deg, var(--accent), #ff0000, #00ff00, var(--accent));
-            background-size: 400% 100%;
-            animation: border-rainbow 4s linear infinite;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .border-animate:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes border-rainbow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
-        }
-
-        /* ===== NAVIGATION ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--text);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            transition: all 0.3s;
-        }
-
-        .logo:hover {
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .logo span {
-            color: var(--accent);
-            position: relative;
-        }
-
-        .logo span::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .logo:hover span::after {
-            width: 100%;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* ===== SECTIONS ===== */
-        section {
-            padding: 120px 60px;
-            position: relative;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
+        .typewriter-lines {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 180px;
+            gap: 12px;
         }
 
-        .hero-badge {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .hero h1 {
-            font-size: clamp(48px, 8vw, 80px);
-            font-weight: 600;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 30px;
-            max-width: 900px;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-            opacity: 0;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            line-height: 1.7;
-            margin-bottom: 50px;
-            font-weight: 400;
-            animation: fadeInUp 0.8s ease 0.4s forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .btn {
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 14px 32px;
-            border-radius: 100px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--text);
-            color: var(--bg);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 15px;
-            animation: fadeInUp 0.8s ease 0.6s forwards;
-            opacity: 0;
-        }
-
-        /* ===== SECTION HEADERS ===== */
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: clamp(36px, 5vw, 48px);
-            font-weight: 600;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
-        }
-
-        .section-desc {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* ===== CARDS GRID ===== */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 40px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) rotateX(2deg);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1), 0 0 30px var(--accent-glow);
-            border-color: var(--accent);
-        }
-
-        .card-icon {
-            font-size: 48px;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .card h3 {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-            transition: color 0.3s;
-        }
-
-        .card:hover h3 {
-            color: var(--accent);
-        }
-
-        .card p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* ===== STATS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            max-width: 1000px;
-            margin: 80px auto 0;
-            padding-top: 60px;
-            border-top: 1px solid var(--border);
-        }
-
-        .stat {
-            text-align: center;
-            cursor: pointer;
-            padding: 20px;
-            border-radius: 12px;
-            transition: all 0.3s;
-        }
-
-        .stat:hover {
-            background: rgba(26, 115, 232, 0.05);
-            transform: scale(1.05);
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -2px;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-        }
-
-        .stat:hover .stat-number {
-            color: var(--accent);
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* ===== PROCESS SECTION ===== */
-        .process-section {
-            background: var(--bg-secondary);
-        }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .process-item {
-            text-align: center;
-            padding: 40px 30px;
-            background: var(--bg);
-            border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-        }
-
-        .process-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.08);
-        }
-
-        .process-number {
-            font-size: 64px;
-            font-weight: 700;
-            color: var(--border);
-            margin-bottom: 20px;
-            letter-spacing: -3px;
-            transition: all 0.3s;
-        }
-
-        .process-item:hover .process-number {
-            color: var(--accent);
-            text-shadow: 0 0 30px var(--accent-glow);
-        }
-
-        .process-item h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            transition: color 0.3s;
-        }
-
-        .process-item:hover h3 {
-            color: var(--accent);
-        }
-
-        .process-item p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 150px 60px;
+        .type-line {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
             position: relative;
             overflow: hidden;
         }
 
-        .cta-section::before {
+        .type-line::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--accent);
+            width: 0;
+            transition: width 0.8s ease;
         }
 
-        .cta-section.visible::before {
-            opacity: 1;
-            animation: cta-pulse 3s ease-in-out infinite;
-        }
+        .type-line:nth-child(1)::after { width: 80%; transition-delay: 0s; }
+        .type-line:nth-child(2)::after { width: 65%; transition-delay: 0.3s; }
+        .type-line:nth-child(3)::after { width: 90%; transition-delay: 0.6s; }
+        .type-line:nth-child(4)::after { width: 45%; transition-delay: 0.9s; }
 
-        @keyframes cta-pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
-        }
-
-        .cta-section h2 {
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 600;
-            letter-spacing: -1.5px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-section p {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-section .btn {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Footer */
-        footer {
-            padding: 60px;
-            border-top: 1px solid var(--border);
+        /* Visual: Design Cards */
+        .visual-design {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 16px;
         }
 
-        .footer-logo {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .footer-logo span {
-            color: var(--accent);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .footer-links a {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .float-1 {
-            top: 30%;
-            left: 5%;
-            animation: float1 6s ease-in-out infinite;
-        }
-
-        .float-2 {
-            top: 50%;
-            right: 5%;
-            animation: float2 8s ease-in-out infinite;
-        }
-
-        .float-3 {
-            bottom: 20%;
-            left: 10%;
-            animation: float3 7s ease-in-out infinite;
-        }
-
-        @keyframes float1 {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
-
-        @keyframes float2 {
-            0%, 100% { transform: translateY(0) rotate(2deg); }
-            50% { transform: translateY(-15px) rotate(-2deg); }
-        }
-
-        @keyframes float3 {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-25px) rotate(1deg); }
-        }
-
-        /* Animations */
-        .fade-up {
+        .design-card {
+            width: 120px;
+            height: 160px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .fade-up.visible {
+        .design-card:nth-child(1) {
+            background: linear-gradient(135deg, rgba(29, 158, 117, 0.2), rgba(127, 119, 221, 0.2));
+        }
+
+        .design-card:nth-child(2) {
+            background: linear-gradient(135deg, rgba(127, 119, 221, 0.3), rgba(29, 158, 117, 0.1));
+            transition-delay: 0.2s;
+        }
+
+        .design-card:nth-child(3) {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(29, 158, 117, 0.2));
+            transition-delay: 0.4s;
+        }
+
+        /* Visual: Browser */
+        .visual-browser {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 400px;
+        }
+
+        .browser-bar {
+            background: rgba(255,255,255,0.08);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .browser-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .browser-dots span:nth-child(1) { background: #ff5f57; }
+        .browser-dots span:nth-child(2) { background: #ffbd2e; }
+        .browser-dots span:nth-child(3) { background: #28ca41; }
+
+        .browser-url {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .live-badge {
+            background: var(--accent);
+            color: var(--text);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .browser-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .content-block {
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        .content-block.h { height: 24px; width: 60%; }
+        .content-block.img { height: 80px; background: linear-gradient(135deg, rgba(29, 158, 117, 0.2), rgba(127, 119, 221, 0.2)); }
+        .content-block.short { width: 40%; }
+
+        /* Step panel animations on scroll */
+        .step-panel.active .type-line::after {
+            width: var(--width, 100%);
+        }
+
+        .step-panel.active .design-card {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        .stagger-4 { transition-delay: 0.4s; }
-
-        /* Responsive */
         @media (max-width: 1024px) {
-            .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .process-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-
-            .floating-card {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 15px 30px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            section {
-                padding: 80px 30px;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .process-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stat-number {
-                font-size: 36px;
-            }
-
-            footer {
+            .sticky-container {
                 flex-direction: column;
-                gap: 30px;
-                text-align: center;
+            }
+
+            .sticky-left {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 80px 24px 40px;
+            }
+
+            .scroll-right {
+                width: 100%;
+            }
+
+            .step-panel {
+                min-height: auto;
+                padding: 60px 24px;
+            }
+
+            .visual-design {
+                flex-wrap: wrap;
+            }
+
+            .design-card {
+                width: 80px;
+                height: 100px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
     <nav>
-        <a href="#" class="logo">Marketing <span>Ninjas</span></a>
-        <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="logo">WALLY</div>
+        <div class="nav-center">
+            <a href="#how-it-works">How it works</a>
+            <a href="#before-after">Before vs After</a>
+            <a href="#demo">Live Demo</a>
+        </div>
+        <a href="#demo" class="nav-cta">Watch WALLY Work</a>
     </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <span class="hero-badge fade-up">Digital Marketing Agency</span>
-        <h1 class="fade-up stagger-1">We build brands that<br>people love</h1>
-        <p class="fade-up stagger-2">Strategic storytelling, stunning visuals, and high-performance websites. We help businesses grow through creative excellence.</p>
-        <div class="hero-buttons fade-up stagger-3">
-            <a href="#contact" class="btn btn-primary">Start a Project</a>
-            <a href="#services" class="btn btn-secondary">Learn More</a>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="particles" id="particles"></div>
+
+        <div class="hero-content">
+            <div class="hero-label">Your team just got a new coworker</div>
+
+            <h1 class="hero-title" id="heroTitle">
+                <span class="line"><span class="line-inner">Meet</span></span>
+                <span class="line"><span class="line-inner teal">WALLY.</span></span>
+                <span class="line"><span class="line-inner">The Workflow</span></span>
+                <span class="line"><span class="line-inner">Assassin.</span></span>
+            </h1>
+
+            <p class="hero-subtitle">
+                He writes. He designs. He publishes.<br>
+                And he never asks for a deadline extension.
+            </p>
+
+            <div class="hero-cta">
+                <a href="#demo" class="btn btn-primary">
+                    Watch WALLY Work
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                    </svg>
+                </a>
+                <a href="#before-after" class="btn btn-secondary">See the time saved</a>
+            </div>
+
+            <!-- 3D Orb -->
+            <div class="orb-container">
+                <div class="orb-glow"></div>
+                <canvas id="wally-orb"></canvas>
+                <div class="loading-bar">
+                    <div class="loading-bar-inner"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="dot"></div>
+            <span>Scroll</span>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services">
-        <div class="section-header fade-up">
-            <span class="section-label">Services</span>
-            <h2 class="section-title">What we do</h2>
-            <p class="section-desc">We combine strategy, creativity, and technology to build brands that stand out.</p>
+    <!-- Section 2: The Pain -->
+    <section class="pain" id="pain">
+        <div class="pain-content">
+            <p class="pain-intro scroll-reveal">Content used to work like this.</p>
+
+            <div class="pain-lines">
+                <h2 class="pain-line scroll-reveal">Writer gets brief.</h2>
+                <h2 class="pain-line scroll-reveal">Sends to designer.</h2>
+                <h2 class="pain-line scroll-reveal">Designer sends to Webflow.</h2>
+                <h2 class="pain-line scroll-reveal">Content goes live.</h2>
+            </div>
+
+            <h2 class="pain-reveal scroll-reveal">
+                <span class="pain-reveal-text">4</span>
+                <span class="pain-reveal-text accent">days</span>
+                <span class="pain-reveal-text">later.</span>
+            </h2>
+
+            <p class="pain-outro scroll-reveal">For every single piece. Every week. Forever.</p>
         </div>
 
-        <div class="cards-grid">
-            <div class="card fade-up stagger-1">
-                <div class="card-icon">✍️</div>
-                <h3>SEI Writing</h3>
-                <p>Compelling copy that resonates with your audience and drives action. Every word crafted with purpose.</p>
-            </div>
-            <div class="card fade-up stagger-2">
-                <div class="card-icon">🖼️</div>
-                <h3>Image Suggestions</h3>
-                <p>AI-powered image curation that matches your brand's tone, color, and emotional resonance.</p>
-            </div>
-            <div class="card fade-up stagger-3">
-                <div class="card-icon">✨</div>
-                <h3>Image Refining</h3>
-                <p>Background removal, color enhancement, and quality upscaling to make your visuals perfect.</p>
-            </div>
-            <div class="card fade-up stagger-1">
-                <div class="card-icon">🌐</div>
-                <h3>Webflow Development</h3>
-                <p>Custom, responsive websites built with Webflow that load fast and convert visitors into customers.</p>
-            </div>
-            <div class="card fade-up stagger-2">
-                <div class="card-icon">📊</div>
-                <h3>Brand Strategy</h3>
-                <p>Define your brand voice, messaging, and visual identity to stand out in a crowded market.</p>
-            </div>
-            <div class="card fade-up stagger-3">
-                <div class="card-icon">🚀</div>
-                <h3>Growth Marketing</h3>
-                <p>Data-driven campaigns that attract, engage, and convert your target audience.</p>
-            </div>
-        </div>
-
-        <div class="stats-grid fade-up">
-            <div class="stat">
-                <div class="stat-number">150+</div>
-                <div class="stat-label">Projects Completed</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">Happy Clients</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">3x</div>
-                <div class="stat-label">Avg. Engagement</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">99%</div>
-                <div class="stat-label">Client Retention</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process -->
-    <section id="process" class="process-section">
-        <div class="section-header fade-up">
-            <span class="section-label">Process</span>
-            <h2 class="section-title">How we work</h2>
-            <p class="section-desc">A proven methodology that delivers results, every time.</p>
-        </div>
-
-        <div class="process-grid">
-            <div class="process-item fade-up stagger-1">
-                <div class="process-number">01</div>
-                <h3>Discover</h3>
-                <p>We dive deep into your brand, audience, and goals to understand what makes you unique.</p>
-            </div>
-            <div class="process-item fade-up stagger-2">
-                <div class="process-number">02</div>
-                <h3>Strategy</h3>
-                <p>We develop a comprehensive plan that aligns with your business objectives.</p>
-            </div>
-            <div class="process-item fade-up stagger-3">
-                <div class="process-number">03</div>
-                <h3>Create</h3>
-                <p>Our team crafts compelling content and builds stunning experiences.</p>
-            </div>
-            <div class="process-item fade-up stagger-4">
-                <div class="process-number">04</div>
-                <h3>Launch</h3>
-                <p>We deploy and continuously optimize for maximum impact.</p>
+        <!-- Ticker Strip -->
+        <div class="ticker">
+            <div class="ticker-track">
+                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
+                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
+                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section id="contact" class="cta-section">
-        <h2 class="fade-up">Ready to transform your brand?</h2>
-        <p class="fade-up stagger-1">Let's create something amazing together.</p>
-        <div class="fade-up stagger-2">
-            <a href="mailto:hello@marketingninjas.com" class="btn btn-primary">Get in Touch</a>
+    <!-- Section 3: Enter WALLY -->
+    <section class="enter-wally" id="enter-wally">
+        <div class="glitch-overlay" id="glitchOverlay">
+            <div class="glitch-line"></div>
+            <div class="glitch-line"></div>
+            <div class="glitch-line"></div>
+        </div>
+
+        <div class="wally-entrance" id="wallyEntrance">
+            <div class="wally-orb-large" id="wallyOrbLarge"></div>
+        </div>
+
+        <div class="enter-content">
+            <h2 class="enter-title scroll-reveal">
+                <span class="line">Then WALLY</span>
+                <span class="line teal">showed up.</span>
+            </h2>
+
+            <p class="enter-subtitle scroll-reveal">
+                Same output. 30 minutes of human effort.<br>
+                The rest? WALLY's problem.
+            </p>
+
+            <div class="enter-stats">
+                <div class="enter-stat scroll-reveal">
+                    <div class="stat-number" data-target="96">0</div>
+                    <div class="stat-label">time cut</div>
+                </div>
+                <div class="enter-stat scroll-reveal">
+                    <div class="stat-number" data-target="3.5" data-suffix=" days" data-decimal="true">0</div>
+                    <div class="stat-label">saved per piece</div>
+                </div>
+                <div class="enter-stat scroll-reveal">
+                    <div class="stat-number" data-target="30" data-suffix=" mins">0</div>
+                    <div class="stat-label">all you do</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-logo">Marketing <span>Ninjas</span></div>
-        <ul class="footer-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </footer>
+    <!-- Section 4: How It Works (Sticky) -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="sticky-container">
+            <!-- Left: Sticky Panel -->
+            <div class="sticky-left">
+                <div class="sticky-content">
+                    <div class="step-indicator">
+                        <span id="currentStep">01</span> / <span>04</span>
+                    </div>
 
+                    <div class="wally-step-orb" id="wallyStepOrb">
+                        <div class="orb-core"></div>
+                        <div class="orb-ring orb-ring-1"></div>
+                        <div class="orb-ring orb-ring-2"></div>
+                    </div>
+
+                    <h3 class="step-title" id="stepTitle">Brief in.</h3>
+                    <p class="step-desc" id="stepDesc">30 minutes of human effort.</p>
+                </div>
+            </div>
+
+            <!-- Right: Scrolling Steps -->
+            <div class="scroll-right">
+                <!-- Step 01 -->
+                <div class="step-panel" data-step="1">
+                    <div class="step-number">01</div>
+                    <h4>Brief in.</h4>
+                    <p>You spend 30 minutes writing a brief.<br>That's the whole job.<br>WALLY takes it from here.</p>
+                    
+                    <div class="visual-input">
+                        <div class="input-label">Content Brief</div>
+                        <div class="input-field">
+                            <span class="input-text"></span><span class="cursor-blink">|</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 02 -->
+                <div class="step-panel" data-step="2">
+                    <div class="step-number">02</div>
+                    <h4>Copy out.</h4>
+                    <p>WALLY reads the brief.<br>Thinks about it.<br><em>(For about 4 seconds.)</em><br>Then writes.</p>
+                    
+                    <div class="visual-typewriter">
+                        <div class="typewriter-lines">
+                            <div class="type-line"></div>
+                            <div class="type-line"></div>
+                            <div class="type-line"></div>
+                            <div class="type-line"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 03 -->
+                <div class="step-panel" data-step="3">
+                    <div class="step-number">03</div>
+                    <h4>Design done.</h4>
+                    <p>No Figma. No Slack DM to the designer.<br>No "can you make the logo bigger?"<br>Assets. Generated. Automatically.</p>
+                    
+                    <div class="visual-design">
+                        <div class="design-card"></div>
+                        <div class="design-card"></div>
+                        <div class="design-card"></div>
+                    </div>
+                </div>
+
+                <!-- Step 04 -->
+                <div class="step-panel" data-step="4">
+                    <div class="step-number">04</div>
+                    <h4>Live on Webflow.</h4>
+                    <p>Published.<br>Without a single human touching it.</p>
+                    
+                    <div class="visual-browser">
+                        <div class="browser-bar">
+                            <div class="browser-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="browser-url">
+                                <span>yoursite.com</span><span class="live-badge">Live</span>
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <div class="content-block h"></div>
+                            <div class="content-block img"></div>
+                            <div class="content-block"></div>
+                            <div class="content-block short"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <script>
-        // ===== CURSOR GLOW EFFECT =====
-        const cursorGlow = document.createElement('div');
-        cursorGlow.className = 'cursor-glow';
-        document.body.appendChild(cursorGlow);
-
+        // ===== CUSTOM CURSOR =====
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
         let cursorX = 0, cursorY = 0;
-        let targetX = 0, targetY = 0;
 
         document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
         function animateCursor() {
-            cursorX += (targetX - cursorX) * 0.1;
-            cursorY += (targetY - cursorY) * 0.1;
-            cursorGlow.style.left = cursorX + 'px';
-            cursorGlow.style.top = cursorY + 'px';
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
 
-        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
-        const observer = new IntersectionObserver((entries) => {
+        // Hover effects
+        document.querySelectorAll('a, .btn, canvas').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Hide cursor on touch
+        if ('ontouchstart' in window) {
+            cursor.style.display = 'none';
+        }
+
+        // ===== GSAP-STYLE TEXT ANIMATION =====
+        function animateTitle() {
+            const title = document.getElementById('heroTitle');
+            const lines = title.querySelectorAll('.line-inner');
+            let charIndex = 0;
+            const staggerDelay = 0.03;
+
+            lines.forEach((line, lineIndex) => {
+                const text = line.textContent;
+                line.textContent = '';
+                
+                for (let i = 0; i < text.length; i++) {
+                    const span = document.createElement('span');
+                    span.className = 'char';
+                    span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                    span.style.animationDelay = `${1 + lineIndex * 0.2 + i * staggerDelay}s`;
+                    line.appendChild(span);
+                }
+            });
+        }
+        animateTitle();
+
+        // ===== FLOATING PARTICLES =====
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.width = (2 + Math.random() * 4) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ===== THREE.JS 3D ORB =====
+        let scene, camera, renderer, orb, rings = [], particles = [];
+        let scrollY = 0;
+
+        function initThree() {
+            const canvas = document.getElementById('wally-orb');
+            const container = canvas.parentElement;
+
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 4;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Main Orb
+            const geometry = new THREE.IcosahedronGeometry(1, 1);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x7F77DD,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.8
+            });
+            orb = new THREE.Mesh(geometry, material);
+            scene.add(orb);
+
+            // Inner Glow Sphere
+            const innerGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+            const innerMaterial = new THREE.MeshBasicMaterial({
+                color: 0x1D9E75,
+                transparent: true,
+                opacity: 0.3
+            });
+            const innerOrb = new THREE.Mesh(innerGeometry, innerMaterial);
+            orb.add(innerOrb);
+
+            // Orbiting Rings
+            for (let i = 0; i < 2; i++) {
+                const ringGeometry = new THREE.TorusGeometry(1.8 + i * 0.4, 0.02, 16, 100);
+                const ringMaterial = new THREE.MeshBasicMaterial({
+                    color: i === 0 ? 0x1D9E75 : 0x7F77DD,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                ring.rotation.x = Math.PI / 2 + (i * 0.5);
+                ring.rotation.y = i * 0.3;
+                scene.add(ring);
+                rings.push(ring);
+            }
+
+            // Particle System
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 200;
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                const radius = 2 + Math.random() * 2;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI;
+                
+                positions[i] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i + 2] = radius * Math.cos(phi);
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x1D9E75,
+                size: 0.03,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particleSystem);
+            particles.push(particleSystem);
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            // Scroll Effect
+            window.addEventListener('scroll', () => {
+                scrollY = window.scrollY;
+            });
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Slow rotation
+            if (orb) {
+                orb.rotation.y += 0.003;
+                orb.rotation.x += 0.001;
+
+                // Scroll effect - float up and shrink
+                const scale = Math.max(0.3, 1 - scrollY * 0.001);
+                const floatY = scrollY * 0.002;
+                orb.scale.set(scale, scale, scale);
+                orb.position.y = floatY;
+            }
+
+            // Ring animations
+            rings.forEach((ring, i) => {
+                ring.rotation.z += 0.002 * (i === 0 ? 1 : -1);
+            });
+
+            // Particle rotation
+            particles.forEach(p => {
+                p.rotation.y += 0.001;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        initThree();
+
+        // ===== SCROLL REVEAL FOR PAIN SECTION =====
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
         }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
         });
 
-        document.querySelectorAll('.fade-up').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            revealObserver.observe(el);
         });
 
-        // CTA section glow
-        const ctaObserver = new IntersectionObserver((entries) => {
+        // ===== GLITCH EFFECT ON ENTER WALLY =====
+        const enterSection = document.getElementById('enter-wally');
+        const glitchOverlay = document.getElementById('glitchOverlay');
+        let glitchTriggered = false;
+
+        const glitchObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                if (entry.isIntersecting && !glitchTriggered) {
+                    glitchTriggered = true;
+                    glitchOverlay.classList.add('active');
+                    setTimeout(() => {
+                        glitchOverlay.classList.remove('active');
+                    }, 600);
                 }
             });
         }, { threshold: 0.3 });
-        ctaObserver.observe(document.querySelector('.cta-section'));
 
-        // ===== SMOOTH SCROLL =====
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+        glitchObserver.observe(enterSection);
 
-        // ===== COUNTER ANIMATION =====
-        const counters = document.querySelectorAll('.stat-number');
-        const counterObserver = new IntersectionObserver((entries) => {
+        // ===== COUNTER ANIMATION FOR ENTER STATS =====
+        const statNumbers = document.querySelectorAll('.enter-stat .stat-number');
+
+        const statObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !entry.target.dataset.animated) {
                     entry.target.dataset.animated = 'true';
-                    const text = entry.target.textContent;
-                    const num = parseInt(text);
-                    const suffix = text.replace(/[0-9]/g, '');
+                    const target = parseFloat(entry.target.dataset.target);
+                    const suffix = entry.target.dataset.suffix || '%';
+                    const isDecimal = entry.target.dataset.decimal === 'true';
                     let current = 0;
-                    const increment = num / 50;
+                    const increment = target / 50;
                     const timer = setInterval(() => {
                         current += increment;
-                        if (current >= num) {
-                            current = num;
+                        if (current >= target) {
+                            current = target;
                             clearInterval(timer);
                         }
-                        entry.target.textContent = Math.floor(current) + suffix;
-                    }, 20);
+                        entry.target.textContent = (isDecimal ? current.toFixed(1) : Math.floor(current)) + suffix;
+                    }, 30);
                 }
             });
         }, { threshold: 0.5 });
 
-        counters.forEach(counter => counterObserver.observe(counter));
+        statNumbers.forEach(stat => statObserver.observe(stat));
 
-        // ===== CARD 3D TILT EFFECT =====
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-            });
+        // ===== STICKY SCROLL - STEP PROGRESSION =====
+        const stepData = {
+            1: {
+                title: 'Brief in.',
+                desc: '30 minutes of human effort.',
+                color: '#1D9E75'
+            },
+            2: {
+                title: 'Copy out.',
+                desc: 'WALLY thinks, then writes.',
+                color: '#7F77DD'
+            },
+            3: {
+                title: 'Design done.',
+                desc: 'Assets generated automatically.',
+                color: '#1D9E75'
+            },
+            4: {
+                title: 'Live on Webflow.',
+                desc: 'Published. Zero human touch.',
+                color: '#7F77DD'
+            }
+        };
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        const stepPanels = document.querySelectorAll('.step-panel');
+        const stepTitle = document.getElementById('stepTitle');
+        const stepDesc = document.getElementById('stepDesc');
+        const currentStep = document.getElementById('currentStep');
+        const wallyStepOrb = document.getElementById('wallyStepOrb');
+        const orbCore = wallyStepOrb.querySelector('.orb-core');
+
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const step = entry.target.dataset.step;
+                    const data = stepData[step];
+                    
+                    // Update content
+                    stepTitle.textContent = data.title;
+                    stepDesc.textContent = data.desc;
+                    currentStep.textContent = '0' + step;
+                    
+                    // Update orb color
+                    orbCore.style.background = data.color;
+                    orbCore.style.boxShadow = `0 0 60px ${data.color}`;
+                    
+                    // Mark active
+                    stepPanels.forEach(p => p.classList.remove('active'));
+                    entry.target.classList.add('active');
+                }
             });
+        }, { threshold: 0.5 });
+
+        stepPanels.forEach(panel => stepObserver.observe(panel));
+
+        // Typewriter animation for step 2
+        const typeLines = document.querySelectorAll('.type-line');
+        const typeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    typeLines.forEach((line, i) => {
+                        line.style.setProperty('--width', line.style.width || '100%');
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.visual-typewriter').forEach(el => {
+            typeObserver.observe(el.closest('.step-panel'));
         });
 
-        // ===== PROCESS ITEM HOVER =====
-        document.querySelectorAll('.process-item').forEach(item => {
-            item.addEventListener('mousemove', (e) => {
-                const rect = item.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 25;
-                const rotateY = (centerX - x) / 25;
-                item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
-            });
-
-            item.addEventListener('mouseleave', () => {
-                item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-            });
-        });
-
-        // ===== BUTTON RIPPLE EFFECT =====
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+        // Easter egg: click orb 5 times
+        let orbClicks = 0;
+        const canvas = document.getElementById('wally-orb');
+        canvas.addEventListener('click', () => {
+            orbClicks++;
+            if (orbClicks >= 5) {
+                // Create confetti effect
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.style.cssText = `
+                        position: fixed;
+                        width: 10px;
+                        height: 10px;
+                        background: ${Math.random() > 0.5 ? '#1D9E75' : '#7F77DD'};
+                        left: 50%;
+                        top: 50%;
+                        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                        pointer-events: none;
+                        z-index: 9998;
+                        animation: confetti 2s forwards;
+                    `;
+                    confetti.style.setProperty('--x', (Math.random() - 0.5) * 1000 + 'px');
+                    confetti.style.setProperty('--y', (Math.random() - 0.5) * 1000 + 'px');
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 2000);
+                }
                 
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    background: rgba(255,255,255,0.4);
-                    border-radius: 50%;
-                    width: 10px;
-                    height: 10px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    transform: translate(-50%, -50%) scale(0);
-                    animation: ripple 0.6s ease-out forwards;
-                    pointer-events: none;
+                // Show message
+                const msg = document.createElement('div');
+                msg.textContent = 'WALLY ACTIVATED 🚀';
+                msg.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: #1D9E75;
+                    text-shadow: 0 0 30px #1D9E75;
+                    z-index: 9999;
+                    animation: message-appear 2s forwards;
                 `;
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
+                document.body.appendChild(msg);
+                setTimeout(() => msg.remove(), 2000);
+                
+                orbClicks = 0;
+            }
         });
 
-        // Add ripple keyframes
+        // Add confetti animation
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes ripple {
+            @keyframes confetti {
                 to {
-                    transform: translate(-50%, -50%) scale(20);
+                    transform: translate(var(--x), var(--y)) rotate(720deg);
                     opacity: 0;
                 }
             }
+            @keyframes message-appear {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            }
         `;
         document.head.appendChild(style);
-
-        // ===== STATS HOVER EFFECT =====
-        document.querySelectorAll('.stat').forEach(stat => {
-            stat.addEventListener('mouseenter', () => {
-                stat.querySelector('.stat-number').style.textShadow = '0 0 30px rgba(26, 115, 232, 0.5)';
-            });
-            stat.addEventListener('mouseleave', () => {
-                stat.querySelector('.stat-number').style.textShadow = 'none';
-            });
-        });
-
-        // ===== PARALLAX ON SCROLL =====
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.querySelectorAll('.float-1, .float-2, .float-3').forEach((el, i) => {
-                const speed = 0.05 + (i * 0.02);
-                el.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
-
-        // ===== MAGNETIC BUTTON EFFECT =====
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-            });
-
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
-
-        // ===== LINK HOVER SOUND (visual feedback) =====
-        document.querySelectorAll('a, .btn, .card, .process-item').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                el.style.transition = 'all 0.2s cubic-bezier(0.23, 1, 0.32, 1)';
-            });
-        });
-
-        // ===== SMOOTH REVEAL FOR STATS =====
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.stat').forEach((stat, i) => {
-            stat.style.opacity = '0';
-            stat.style.transform = 'translateY(20px)';
-            stat.style.transition = `all 0.6s ease ${i * 0.1}s`;
-            statsObserver.observe(stat);
-        });
-
-        // ===== LOADING ANIMATION =====
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
     </script>
 </body>
 </html>
