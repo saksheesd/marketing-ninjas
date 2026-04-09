@@ -15,7 +15,11 @@
             --text-muted: rgba(255, 255, 255, 0.4);
             --accent: #e8d5b7;
             --accent-dark: #c9a959;
+            --accent-glow: rgba(232, 213, 183, 0.3);
             --border: rgba(255, 255, 255, 0.1);
+            --neon-blue: #00d4ff;
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
         }
 
         * {
@@ -34,6 +38,333 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        /* Web3 Background Canvas */
+        .web3-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Animated Gradient Orbs */
+        .gradient-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            top: -20%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
+            top: 40%;
+            right: -15%;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+            bottom: -20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .orb-4 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            top: 60%;
+            left: 50%;
+            animation-delay: -15s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(30px, 30px) scale(1.05); }
+        }
+
+        /* 3D Floating Shapes Container */
+        .shapes-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            perspective: 1000px;
+        }
+
+        /* 3D Cube */
+        .cube {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            transform-style: preserve-3d;
+            animation: cubeRotate 20s linear infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--accent);
+            background: rgba(232, 213, 183, 0.05);
+            backdrop-filter: blur(2px);
+        }
+
+        .cube-face.front { transform: translateZ(40px); }
+        .cube-face.back { transform: translateZ(-40px); }
+        .cube-face.right { transform: rotateY(90deg) translateZ(40px); }
+        .cube-face.left { transform: rotateY(-90deg) translateZ(40px); }
+        .cube-face.top { transform: rotateX(90deg) translateZ(40px); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+        .cube-1 { top: 15%; left: 5%; animation-delay: 0s; }
+        .cube-2 { top: 70%; left: 15%; animation-delay: -5s; width: 60px; height: 60px; }
+        .cube-3 { top: 30%; right: 10%; animation-delay: -10s; width: 100px; height: 100px; }
+        .cube-4 { bottom: 20%; right: 20%; animation-delay: -15s; }
+
+        .cube-2 .cube-face, .cube-4 .cube-face {
+            width: 60px;
+            height: 60px;
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .cube-3 .cube-face {
+            width: 100px;
+            height: 100px;
+            border-color: var(--neon-purple);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        @keyframes cubeRotate {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* 3D Pyramid */
+        .pyramid {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86px solid transparent;
+            border-bottom-color: var(--accent);
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+            animation: pyramidFloat 15s ease-in-out infinite;
+        }
+
+        .pyramid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50px;
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86px solid rgba(232, 213, 183, 0.3);
+            transform: translateZ(-20px);
+        }
+
+        .pyramid-1 { top: 25%; left: 20%; animation-delay: 0s; }
+        .pyramid-2 { top: 60%; right: 25%; animation-delay: -7s; transform: scale(0.7); border-bottom-color: var(--neon-blue); filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3)); }
+        .pyramid-3 { bottom: 30%; left: 30%; animation-delay: -12s; transform: scale(1.2); border-bottom-color: var(--neon-purple); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3)); }
+
+        @keyframes pyramidFloat {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-30px) rotateY(180deg); }
+        }
+
+        .pyramid-2 { animation-name: pyramidFloat2; }
+        @keyframes pyramidFloat2 {
+            0%, 100% { transform: scale(0.7) translateY(0) rotateY(0deg); }
+            50% { transform: scale(0.7) translateY(-20px) rotateY(180deg); }
+        }
+
+        .pyramid-3 { animation-name: pyramidFloat3; }
+        @keyframes pyramidFloat3 {
+            0%, 100% { transform: scale(1.2) translateY(0) rotateY(0deg); }
+            50% { transform: scale(1.2) translateY(-25px) rotateY(180deg); }
+        }
+
+        /* Floating Torus */
+        .torus {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 8px solid var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--accent-glow), inset 0 0 30px var(--accent-glow);
+            animation: torusRotate 10s linear infinite;
+        }
+
+        .torus::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 4px solid transparent;
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: torusSpin 5s linear infinite reverse;
+        }
+
+        .torus-1 { top: 40%; left: 8%; }
+        .torus-2 { top: 75%; right: 15%; border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 212, 255, 0.3), inset 0 0 30px rgba(0, 212, 255, 0.3); animation-duration: 12s; }
+        .torus-2::before { border-top-color: var(--neon-blue); }
+
+        @keyframes torusRotate {
+            0% { transform: rotateX(70deg) rotateZ(0deg); }
+            100% { transform: rotateX(70deg) rotateZ(360deg); }
+        }
+
+        @keyframes torusSpin {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Floating Rings */
+        .ring {
+            position: absolute;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: ringPulse 4s ease-in-out infinite;
+        }
+
+        .ring-1 { top: 20%; right: 8%; width: 150px; height: 150px; animation-delay: 0s; }
+        .ring-2 { top: 35%; right: 5%; width: 100px; height: 100px; border-color: var(--neon-purple); animation-delay: -1s; }
+        .ring-3 { top: 50%; right: 10%; width: 180px; height: 180px; border-color: var(--neon-blue); animation-delay: -2s; }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.5; }
+        }
+
+        /* DNA Helix */
+        .dna {
+            position: absolute;
+            width: 4px;
+            height: 200px;
+            top: 50%;
+            left: 3%;
+        }
+
+        .dna-strand {
+            position: absolute;
+            width: 40px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent-glow);
+            animation: dnaMove 3s ease-in-out infinite;
+        }
+
+        .dna-strand:nth-child(odd) { left: 0; animation-name: dnaMoveLeft; }
+        .dna-strand:nth-child(even) { right: 0; animation-name: dnaMoveRight; }
+
+        @keyframes dnaMoveLeft {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+        }
+
+        @keyframes dnaMoveRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-20px); }
+        }
+
+        /* Hexagon Grid */
+        .hex-grid {
+            position: absolute;
+            top: 10%;
+            left: 2%;
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            gap: 5px;
+            opacity: 0.2;
+        }
+
+        .hex {
+            width: 50px;
+            height: 57px;
+            background: transparent;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 1px solid var(--accent);
+            animation: hexPulse 3s ease-in-out infinite;
+        }
+
+        .hex:nth-child(2) { animation-delay: -0.5s; }
+        .hex:nth-child(3) { animation-delay: -1s; }
+        .hex:nth-child(4) { animation-delay: -1.5s; }
+        .hex:nth-child(5) { animation-delay: -2s; }
+        .hex:nth-child(6) { animation-delay: -2.5s; }
+
+        @keyframes hexPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         /* Navigation */
@@ -744,6 +1075,90 @@
     </style>
 </head>
 <body>
+    <!-- Web3 Background Elements -->
+    <div class="gradient-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- 3D Shapes -->
+    <div class="shapes-container">
+        <!-- Floating Cubes -->
+        <div class="cube cube-1">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        <div class="cube cube-2">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        <div class="cube cube-3">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        <div class="cube cube-4">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+
+        <!-- Floating Pyramids -->
+        <div class="pyramid pyramid-1"></div>
+        <div class="pyramid pyramid-2"></div>
+        <div class="pyramid pyramid-3"></div>
+
+        <!-- Floating Torus Rings -->
+        <div class="torus torus-1"></div>
+        <div class="torus torus-2"></div>
+
+        <!-- Pulsing Rings -->
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+
+        <!-- Hexagon Grid -->
+        <div class="hex-grid">
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+        </div>
+
+        <!-- DNA Helix -->
+        <div class="dna">
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+            <div class="dna-strand"></div>
+        </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div id="particles"></div>
+
     <!-- Sidebar Navigation -->
     <nav class="sidebar-nav">
         <div class="nav-dot active" data-section="hero" data-label="Home"></div>
@@ -1062,6 +1477,42 @@
                 if (btn.classList.contains('primary') || btn.textContent.includes('Start') || btn.textContent.includes('Project')) {
                     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 }
+            });
+        });
+
+        // Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        const colors = ['#e8d5b7', '#c9a959', '#00d4ff', '#a855f7', '#ec4899'];
+        
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 15) + 's';
+            particle.style.width = (2 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Parallax effect for 3D shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.cube, .pyramid, .torus, .ring, .hex-grid, .dna').forEach((shape, i) => {
+                const speed = 0.1 + (i * 0.02);
+                shape.style.transform = shape.style.transform + ` translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Mouse parallax for orbs
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            document.querySelectorAll('.orb').forEach((orb, i) => {
+                const speed = 0.5 + (i * 0.2);
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
             });
         });
     </script>
