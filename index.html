@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketing Ninjas</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --bg-primary: #0a0a0a;
@@ -40,8 +43,8 @@
             overflow-x: hidden;
         }
 
-        /* Web3 Background Canvas */
-        .web3-canvas {
+        /* WebGL Canvas */
+        #webgl-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -1459,85 +1462,15 @@
     </style>
 </head>
 <body>
-    <!-- Web3 Background Elements -->
+    <!-- WebGL Background -->
+    <canvas id="webgl-canvas"></canvas>
+    
+    <!-- Gradient Orbs Overlay -->
     <div class="gradient-orbs">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
         <div class="orb orb-4"></div>
-    </div>
-
-    <!-- 3D Shapes -->
-    <div class="shapes-container">
-        <!-- Floating Cubes -->
-        <div class="cube cube-1">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-        </div>
-        <div class="cube cube-2">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-        </div>
-        <div class="cube cube-3">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-        </div>
-        <div class="cube cube-4">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-        </div>
-
-        <!-- Floating Pyramids -->
-        <div class="pyramid pyramid-1"></div>
-        <div class="pyramid pyramid-2"></div>
-        <div class="pyramid pyramid-3"></div>
-
-        <!-- Floating Torus Rings -->
-        <div class="torus torus-1"></div>
-        <div class="torus torus-2"></div>
-
-        <!-- Pulsing Rings -->
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
-
-        <!-- Hexagon Grid -->
-        <div class="hex-grid">
-            <div class="hex"></div>
-            <div class="hex"></div>
-            <div class="hex"></div>
-            <div class="hex"></div>
-            <div class="hex"></div>
-            <div class="hex"></div>
-        </div>
-
-        <!-- DNA Helix -->
-        <div class="dna">
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-        </div>
     </div>
 
     <!-- Floating Particles -->
@@ -1864,57 +1797,6 @@
             });
         });
 
-        // Floating Particles
-        const particlesContainer = document.getElementById('particles');
-        const colors = ['#e8d5b7', '#c9a959', '#00d4ff', '#a855f7', '#ec4899'];
-        
-        for (let i = 0; i < 25; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (10 + Math.random() * 15) + 's';
-            particle.style.width = (2 + Math.random() * 4) + 'px';
-            particle.style.height = particle.style.width;
-            particlesContainer.appendChild(particle);
-        }
-
-        // Parallax effect for 3D shapes
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = window.pageYOffset;
-                    document.querySelectorAll('.cube, .pyramid, .torus, .ring, .hex-grid, .dna').forEach((shape, i) => {
-                        const speed = 0.05 + (i * 0.01);
-                        const baseTransform = shape.style.transform.replace(/translateY\([^)]*\)/g, '');
-                        shape.style.transform = baseTransform + ` translateY(${scrolled * speed}px)`;
-                    });
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        // Mouse parallax for orbs
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 30;
-            const y = (e.clientY / window.innerHeight - 0.5) * 30;
-            
-            document.querySelectorAll('.orb').forEach((orb, i) => {
-                const speed = 0.8 + (i * 0.3);
-                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-            });
-
-            // Mouse parallax for 3D shapes
-            document.querySelectorAll('.cube, .pyramid, .torus').forEach((shape, i) => {
-                const speed = 0.02 + (i * 0.005);
-                const baseTransform = shape.style.transform.replace(/translate3d\([^)]*\)/g, '');
-                shape.style.transform = `translate3d(${x * speed}px, ${y * speed}px, 0)`;
-            });
-        });
-
         // Smooth counter animation for stats
         const animateCounter = (element, target, suffix = '') => {
             let current = 0;
@@ -2072,6 +1954,350 @@
         // Add loaded class after page load
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
+        });
+
+        // ===== KELVIN ZERO STYLE WEBGL ANIMATION =====
+        
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // WebGL Scene Setup
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Colors
+        const colors = {
+            accent: 0xe8d5b7,
+            gold: 0xc9a959,
+            neonBlue: 0x00d4ff,
+            neonPurple: 0xa855f7,
+            neonPink: 0xec4899
+        };
+
+        // Create multiple 3D cubes
+        const cubes = [];
+        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+        
+        // Cube materials with wireframe
+        const createCube = (size, color, x, y, z, wireframeColor) => {
+            const group = new THREE.Group();
+            
+            // Main cube
+            const material = new THREE.MeshBasicMaterial({ 
+                color: color, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            const cube = new THREE.Mesh(cubeGeometry, material);
+            cube.scale.set(size, size, size);
+            
+            // Wireframe edges
+            const edges = new THREE.EdgesGeometry(cubeGeometry);
+            const line = new THREE.LineSegments(
+                edges,
+                new THREE.LineBasicMaterial({ color: wireframeColor, transparent: true, opacity: 0.4 })
+            );
+            line.scale.set(size, size, size);
+            
+            group.add(cube);
+            group.add(line);
+            group.position.set(x, y, z);
+            
+            return group;
+        };
+
+        // Add cubes to scene
+        const cube1 = createCube(2, colors.accent, -5, 2, -10, colors.gold);
+        const cube2 = createCube(1.5, colors.neonBlue, 6, -1, -8, colors.neonBlue);
+        const cube3 = createCube(3, colors.neonPurple, -7, -3, -15, colors.neonPurple);
+        const cube4 = createCube(1.8, colors.neonPink, 4, 3, -12, colors.neonPink);
+        const cube5 = createCube(1.2, colors.accent, -3, -4, -6, colors.gold);
+        const cube6 = createCube(2.5, colors.neonBlue, 8, 1, -20, colors.neonBlue);
+
+        scene.add(cube1, cube2, cube3, cube4, cube5, cube6);
+        cubes.push(cube1, cube2, cube3, cube4, cube5, cube6);
+
+        // Create floating particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 500;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.03,
+            color: colors.accent,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Create floating lines
+        const lines = [];
+        for (let i = 0; i < 10; i++) {
+            const points = [];
+            const startX = (Math.random() - 0.5) * 20;
+            const startY = (Math.random() - 0.5) * 20;
+            const startZ = -5 - Math.random() * 15;
+            
+            for (let j = 0; j < 5; j++) {
+                points.push(new THREE.Vector3(
+                    startX + Math.random() * 2,
+                    startY + Math.random() * 2,
+                    startZ + j * 0.5
+                ));
+            }
+            
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMaterial = new THREE.LineBasicMaterial({ 
+                color: colors.neonPurple, 
+                transparent: true, 
+                opacity: 0.2 
+            });
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            scene.add(line);
+            lines.push({ line, speed: Math.random() * 0.5 + 0.2 });
+        }
+
+        // Create glowing ring
+        const ringGeometry = new THREE.RingGeometry(3, 3.1, 64);
+        const ringMaterial = new THREE.MeshBasicMaterial({ 
+            color: colors.gold, 
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.1
+        });
+        const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+        ring.position.set(-4, 1, -8);
+        scene.add(ring);
+
+        camera.position.z = 5;
+
+        // Mouse tracking
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetMouseX = 0;
+        let targetMouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Scroll tracking
+        let scrollY = 0;
+        window.addEventListener('scroll', () => {
+            scrollY = window.pageYOffset;
+        });
+
+        // Animation loop
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            // Smooth mouse movement
+            mouseX += (targetMouseX - mouseX) * 0.05;
+            mouseY += (targetMouseY - mouseY) * 0.05;
+
+            // Rotate cubes based on mouse position
+            cubes.forEach((cube, i) => {
+                cube.rotation.x += 0.002 + i * 0.001;
+                cube.rotation.y += 0.003 + i * 0.001;
+                
+                // Mouse influence
+                cube.rotation.x += mouseY * 0.0005 * (i + 1);
+                cube.rotation.y += mouseX * 0.0005 * (i + 1);
+                
+                // Floating motion
+                cube.position.y += Math.sin(time + i) * 0.002;
+                cube.position.x += Math.cos(time * 0.5 + i) * 0.001;
+                
+                // Scroll influence
+                cube.position.z += (scrollY * 0.001 * (i + 1) % 2 - 1) * 0.01;
+            });
+
+            // Rotate particles
+            particlesMesh.rotation.y += 0.0003;
+            particlesMesh.rotation.x += 0.0001;
+
+            // Animate lines
+            lines.forEach((item, i) => {
+                item.line.rotation.z += item.speed * 0.002;
+                item.line.position.y += Math.sin(time + i) * 0.002;
+            });
+
+            // Rotate ring
+            ring.rotation.x += 0.002;
+            ring.rotation.y += 0.001;
+            ring.position.z = -8 + Math.sin(time) * 0.5;
+
+            // Camera movement based on mouse
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+            camera.position.y += (mouseY * 2 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+            // Scroll-based camera movement
+            camera.position.z = 5 + scrollY * 0.002;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // GSAP ScrollTrigger animations for sections
+        gsap.utils.toArray('section').forEach((section, i) => {
+            gsap.fromTo(section.querySelector('.section-label'),
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: 'top 20%',
+                        scrub: 1
+                    }
+                }
+            );
+
+            gsap.fromTo(section.querySelector('.section-title'),
+                { opacity: 0, y: 80 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 70%',
+                        end: 'top 10%',
+                        scrub: 1
+                    }
+                }
+            );
+
+            gsap.fromTo(section.querySelector('.section-desc'),
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 60%',
+                        end: 'top 5%',
+                        scrub: 1
+                    }
+                }
+            );
+        });
+
+        // Card animations with stagger
+        gsap.utils.toArray('.card').forEach((card, i) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 100, rotateY: 5 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    rotateY: 0,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Hero title animation
+        gsap.fromTo('.hero-title',
+            { opacity: 0, scale: 0.9, y: 50 },
+            { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'power3.out' }
+        );
+
+        gsap.fromTo('.hero-subtitle',
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power3.out' }
+        );
+
+        gsap.fromTo('.hero-cta',
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power3.out' }
+        );
+
+        gsap.fromTo('.scroll-indicator',
+            { opacity: 0 },
+            { opacity: 1, duration: 1, delay: 1, ease: 'power3.out' }
+        );
+
+        // CTA section special animation
+        gsap.fromTo('.cta-title',
+            { opacity: 0, scale: 0.95 },
+            {
+                opacity: 1,
+                scale: 1,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '.cta-section',
+                    start: 'top 60%',
+                    end: 'top 30%',
+                    scrub: 1
+                }
+            }
+        );
+
+        // Parallax effect for orbs on scroll
+        gsap.to('.orb-1', {
+            y: -200,
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1
+            }
+        });
+
+        gsap.to('.orb-2', {
+            y: -150,
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 2
+            }
+        });
+
+        gsap.to('.orb-3', {
+            y: -300,
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1.5
+            }
         });
     </script>
 </body>
