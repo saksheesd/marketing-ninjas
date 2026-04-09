@@ -6,15 +6,20 @@
     <title>Meet WALLY — The Workflow Assassin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0A0A0A;
-            --accent: #1D9E75;
-            --accent-secondary: #7F77DD;
-            --text: #FFFFFF;
-            --text-muted: #888888;
-            --border-radius: 12px;
+            --bg: #ffffff;
+            --bg-secondary: #fafafa;
+            --bg-tertiary: #fff5f5;
+            --text: #1a1a1a;
+            --text-muted: #666666;
+            --accent: #ff6b35;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #fbbf24;
+            --accent-green: #10b981;
+            --accent-pink: #ec4899;
+            --shadow: rgba(0,0,0,0.08);
         }
 
         * {
@@ -37,36 +42,35 @@
 
         /* Custom Cursor */
         .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent);
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s, background 0.2s, border-color 0.2s;
-            mix-blend-mode: difference;
+            transition: transform 0.15s, background 0.2s, border-color 0.2s;
+            mix-blend-mode: multiply;
         }
 
         .cursor::before {
             content: '';
             position: absolute;
-            inset: 4px;
+            inset: 5px;
             background: var(--accent);
             border-radius: 50%;
-            opacity: 0.6;
-            animation: cursor-pulse 1.5s infinite;
+            animation: cursor-bounce 0.8s infinite;
         }
 
-        @keyframes cursor-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.3); opacity: 0.3; }
+        @keyframes cursor-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .cursor.hover {
             transform: scale(2);
-            background: rgba(29, 158, 117, 0.2);
-            border-color: var(--text);
+            background: rgba(255, 107, 53, 0.2);
+            border-color: var(--accent-secondary);
         }
 
         /* Navigation */
@@ -80,13 +84,22 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 800;
             color: var(--text);
             letter-spacing: -0.02em;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-center {
@@ -103,23 +116,24 @@
         }
 
         .nav-center a:hover {
-            color: var(--text);
+            color: var(--accent);
         }
 
         .nav-cta {
             font-size: 14px;
             font-weight: 600;
-            background: var(--accent);
-            color: var(--text);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
             padding: 12px 28px;
             border-radius: 100px;
             text-decoration: none;
             transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
         }
 
         .nav-cta:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(29, 158, 117, 0.4);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
         }
 
         /* Hero Section */
@@ -132,42 +146,81 @@
             padding: 120px 60px 60px;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-tertiary) 100%);
         }
 
-        /* Background Grid */
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background: 
-                linear-gradient(90deg, rgba(29, 158, 117, 0.03) 1px, transparent 1px),
-                linear-gradient(rgba(29, 158, 117, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-        }
-
-        /* Floating Particles */
-        .particles {
+        /* Playful Background Shapes */
+        .hero-shapes {
             position: absolute;
             inset: 0;
             overflow: hidden;
             pointer-events: none;
         }
 
-        .particle {
+        .shape {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float-particle 20s infinite linear;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.6;
+            animation: float-shape 8s ease-in-out infinite;
         }
 
-        @keyframes float-particle {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0.05));
+            top: 10%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(124, 58, 237, 0.05));
+            top: 60%;
+            right: -3%;
+            animation-delay: -2s;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.1));
+            bottom: 15%;
+            left: 10%;
+            animation-delay: -4s;
+            border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%;
+        }
+
+        .shape-4 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
+            top: 20%;
+            right: 15%;
+            animation-delay: -6s;
+            border-radius: 70% 30% 50% 50% / 50% 70% 30% 50%;
+        }
+
+        @keyframes float-shape {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            33% { transform: translate(20px, -20px) rotate(10deg) scale(1.05); }
+            66% { transform: translate(-10px, 10px) rotate(-5deg) scale(0.95); }
+        }
+
+        /* Confetti dots */
+        .confetti-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: confetti-fall 4s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
         /* Hero Content */
@@ -179,26 +232,31 @@
         }
 
         .hero-label {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
-            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             opacity: 0;
             transform: translateY(20px);
-            animation: fade-up 0.8s forwards;
+            animation: bounce-in 0.8s forwards;
         }
 
-        @keyframes fade-up {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+            60% { transform: translateY(-5px) scale(1.05); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .hero-title {
-            font-size: clamp(40px, 10vw, 120px);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.02em;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(48px, 12vw, 140px);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
             margin-bottom: 24px;
         }
 
@@ -216,74 +274,83 @@
         .hero-title .char {
             display: inline-block;
             opacity: 0;
-            transform: translateY(100%) rotateX(-90deg);
-            animation: char-reveal 0.6s forwards;
+            transform: translateY(50px) rotate(10deg);
+            animation: char-pop 0.5s forwards;
         }
 
-        @keyframes char-reveal {
-            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        @keyframes char-pop {
+            0% { opacity: 0; transform: translateY(50px) rotate(10deg) scale(0.5); }
+            60% { transform: translateY(-10px) rotate(-3deg) scale(1.1); }
+            100% { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
         }
 
-        .hero-title .teal {
-            color: var(--accent);
+        .hero-title .gradient {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-pink) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: 18px;
+            font-size: clamp(18px, 2.5vw, 24px);
             color: var(--text-muted);
             line-height: 1.6;
-            max-width: 500px;
-            margin: 0 auto 48px;
+            max-width: 550px;
+            margin: 0 auto 40px;
             opacity: 0;
-            animation: fade-up 1s forwards;
+            animation: bounce-in 1s forwards;
             animation-delay: 0.8s;
         }
 
         /* CTA Row */
         .hero-cta {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
+            flex-wrap: wrap;
             opacity: 0;
             transform: translateY(30px);
-            animation: fade-up 1s forwards;
+            animation: bounce-in 1s forwards;
             animation-delay: 1.2s;
         }
 
         .btn {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
-            padding: 16px 32px;
-            border-radius: var(--border-radius);
+            padding: 18px 36px;
+            border-radius: 100px;
             border: none;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .btn-primary {
-            background: var(--accent);
-            color: var(--text);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
         }
 
         .btn-primary:hover {
-            box-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
         }
 
         .btn-secondary {
-            background: transparent;
+            background: white;
             color: var(--text);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 2px solid var(--text);
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         .btn-secondary:hover {
-            border-color: var(--text);
-            background: rgba(255,255,255,0.05);
+            background: var(--text);
+            color: white;
+            transform: translateY(-3px);
         }
 
         /* Scroll Indicator */
@@ -297,25 +364,25 @@
             align-items: center;
             gap: 8px;
             opacity: 0;
-            animation: fade-up 1s forwards, bounce 2s infinite;
+            animation: bounce-in 1s forwards, bounce 1.5s infinite;
             animation-delay: 1.5s, 2s;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
+            50% { transform: translateX(-50%) translateY(15px); }
         }
 
         .scroll-indicator .dot {
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             background: var(--accent);
             border-radius: 50%;
             box-shadow: 0 0 20px var(--accent);
         }
 
         .scroll-indicator span {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -324,101 +391,39 @@
         /* 3D Orb Container */
         .orb-container {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             margin: 60px auto 0;
             opacity: 0;
-            transform: scale(0);
-            animation: orb-appear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transform: scale(0) rotate(-180deg);
+            animation: orb-spin-in 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             animation-delay: 1s;
         }
 
-        @keyframes orb-appear {
-            to { opacity: 1; transform: scale(1); }
+        @keyframes orb-spin-in {
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
         }
 
-        /* Three.js Canvas */
         #wally-orb {
             position: absolute;
             inset: 0;
             cursor: pointer;
         }
 
-        /* Orb Glow Effect */
         .orb-glow {
             position: absolute;
             inset: -50%;
-            background: radial-gradient(circle, rgba(29, 158, 117, 0.15) 0%, transparent 60%);
-            animation: glow-pulse 3s infinite;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, transparent 60%);
+            animation: glow-pulse 2s infinite;
             pointer-events: none;
         }
 
         @keyframes glow-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: scale(1.3) rotate(180deg); opacity: 1; }
         }
 
-        /* Loading Bar */
-        .loading-bar {
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .loading-bar-inner {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-            width: 0%;
-            animation: load 2s forwards;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes load {
-            to { width: 100%; }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                padding: 20px 24px;
-            }
-
-            .nav-center {
-                display: none;
-            }
-
-            .hero {
-                padding: 100px 24px 80px;
-            }
-
-            .hero-title {
-                font-size: clamp(48px, 12vw, 72px);
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .orb-container {
-                width: 220px;
-                height: 220px;
-                margin: 40px auto 0;
-            }
-        }
-
-        /* ===== SECTION 2: THE PAIN ===== */
+        /* Section: The Pain */
         .pain {
             min-height: 100vh;
             display: flex;
@@ -426,8 +431,8 @@
             justify-content: center;
             align-items: center;
             padding: 100px 60px;
+            background: var(--bg-secondary);
             position: relative;
-            background: var(--bg);
         }
 
         .pain-content {
@@ -437,8 +442,8 @@
 
         .scroll-reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .scroll-reveal.visible {
@@ -447,9 +452,9 @@
         }
 
         .pain-intro {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-muted);
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .pain-lines {
@@ -457,46 +462,48 @@
         }
 
         .pain-line {
-            font-size: clamp(40px, 8vw, 64px);
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 800;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: var(--text);
         }
 
         .pain-reveal {
-            font-size: clamp(56px, 12vw, 96px);
-            font-weight: 700;
-            line-height: 1.1;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(64px, 15vw, 120px);
+            font-weight: 900;
+            line-height: 1;
             letter-spacing: -0.03em;
-            margin: 60px 0 40px;
+            margin: 50px 0 40px;
             color: var(--text);
         }
 
         .pain-reveal-text {
             display: inline-block;
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(50px) scale(0.8);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .pain-reveal.visible .pain-reveal-text {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .pain-reveal-text:nth-child(1) { transition-delay: 0s; }
-        .pain-reveal-text:nth-child(2) { transition-delay: 0.1s; }
-        .pain-reveal-text:nth-child(3) { transition-delay: 0.2s; }
+        .pain-reveal-text:nth-child(2) { transition-delay: 0.15s; }
+        .pain-reveal-text:nth-child(3) { transition-delay: 0.3s; }
 
         .pain-reveal-text.accent {
             color: var(--accent);
-            text-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
+            text-shadow: 4px 4px 0 rgba(255, 107, 53, 0.2);
         }
 
         .pain-outro {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-muted);
         }
 
@@ -506,21 +513,24 @@
             overflow: hidden;
             padding: 30px 0;
             margin-top: 80px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent-pink));
         }
 
         .ticker-track {
             display: flex;
             white-space: nowrap;
-            animation: ticker-scroll 30s linear infinite;
+            animation: ticker-scroll 20s linear infinite;
         }
 
         .ticker-track span {
-            font-size: 14px;
-            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
             padding-right: 0;
             flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         @keyframes ticker-scroll {
@@ -528,27 +538,7 @@
             100% { transform: translateX(-33.333%); }
         }
 
-        @media (max-width: 768px) {
-            .pain {
-                padding: 80px 24px;
-            }
-
-            .pain-line {
-                font-size: 32px;
-                margin-bottom: 16px;
-            }
-
-            .pain-reveal {
-                font-size: 48px;
-            }
-
-            .pain-intro,
-            .pain-outro {
-                font-size: 16px;
-            }
-        }
-
-        /* ===== SECTION 3: ENTER WALLY ===== */
+        /* Section: Enter WALLY */
         .enter-wally {
             min-height: 100vh;
             display: flex;
@@ -556,12 +546,11 @@
             justify-content: center;
             align-items: center;
             padding: 100px 60px;
-            position: relative;
             background: var(--bg);
+            position: relative;
             overflow: hidden;
         }
 
-        /* Glitch Overlay */
         .glitch-overlay {
             position: fixed;
             inset: 0;
@@ -572,109 +561,55 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.1s;
         }
 
         .glitch-overlay.active {
             opacity: 1;
-            animation: glitch-flash 0.5s steps(2) forwards;
-            pointer-events: all;
+            animation: playful-glitch 0.6s forwards;
         }
 
-        @keyframes glitch-flash {
-            0% { opacity: 0; }
-            10% { opacity: 1; background: var(--accent); }
-            20% { opacity: 0; }
-            30% { opacity: 1; background: var(--accent-secondary); }
-            40% { opacity: 0; }
-            50% { opacity: 1; background: var(--bg); }
-            60% { opacity: 0.8; transform: translateX(-5px); }
-            70% { opacity: 0; transform: translateX(5px); }
-            80% { opacity: 1; background: var(--bg); }
-            90% { opacity: 0; }
-            100% { opacity: 0; display: none; }
-        }
-
-        .glitch-line {
-            height: 3px;
-            background: var(--accent);
-            margin: 20px 0;
-            animation: glitch-line 0.3s infinite;
-        }
-
-        .glitch-line:nth-child(2) {
-            background: var(--accent-secondary);
-            animation-delay: 0.1s;
-        }
-
-        .glitch-line:nth-child(3) {
-            background: var(--text);
-            animation-delay: 0.2s;
-        }
-
-        @keyframes glitch-line {
-            0% { transform: translateX(-100%); opacity: 0; }
-            50% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(100%); opacity: 0; }
-        }
-
-        /* WALLY Orb Entrance */
-        .wally-entrance {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
+        @keyframes playful-glitch {
+            0% { opacity: 0; background: var(--accent); }
+            15% { opacity: 1; background: var(--accent-tertiary); }
+            30% { opacity: 0; background: var(--accent-pink); }
+            45% { opacity: 1; background: var(--accent-secondary); }
+            60% { opacity: 0; background: var(--accent); transform: translateX(-10px) rotate(-2deg); }
+            75% { opacity: 1; background: white; transform: translateX(10px) rotate(2deg); }
+            100% { opacity: 0; background: white; transform: translateX(0) rotate(0); }
         }
 
         .wally-orb-large {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--accent) 0%, var(--accent-secondary) 100%);
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
             border-radius: 50%;
             opacity: 0;
-            transform: scale(0);
-            animation: orb-burst 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transform: scale(0) rotate(-360deg);
+            animation: playful-burst 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             animation-delay: 0.5s;
             box-shadow: 
-                0 0 60px var(--accent),
-                0 0 120px var(--accent-secondary),
-                inset 0 0 60px rgba(255,255,255,0.3);
+                0 0 80px var(--accent),
+                0 0 120px var(--accent-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes orb-burst {
-            0% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1.5); }
-            100% { opacity: 1; transform: scale(1); }
+        @keyframes playful-burst {
+            0% { opacity: 0; transform: scale(0) rotate(-360deg); }
+            60% { opacity: 1; transform: scale(1.3) rotate(20deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
         }
 
         .wally-orb-large::before {
             content: 'W';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 80px;
-            font-weight: 700;
-            color: var(--text);
-            text-shadow: 0 0 20px var(--bg);
+            font-family: 'Poppins', sans-serif;
+            font-size: 100px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.1);
         }
 
-        .wally-orb-large::after {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: ring-pulse 2s infinite;
-        }
-
-        @keyframes ring-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0; }
-        }
-
-        /* Enter Content */
         .enter-content {
             text-align: center;
             max-width: 900px;
@@ -683,13 +618,14 @@
         }
 
         .enter-title {
+            font-family: 'Poppins', sans-serif;
             font-size: clamp(48px, 10vw, 100px);
-            font-weight: 700;
+            font-weight: 900;
             line-height: 1.05;
             letter-spacing: -0.02em;
             margin-bottom: 30px;
             opacity: 0;
-            animation: fade-up 1s forwards;
+            animation: bounce-in 1s forwards;
             animation-delay: 0.8s;
         }
 
@@ -697,33 +633,29 @@
             display: block;
             opacity: 0;
             transform: translateY(50px);
-            animation: fade-up 0.8s forwards;
+            animation: bounce-in 0.8s forwards;
         }
 
-        .enter-title .line:nth-child(1) {
-            animation-delay: 0.6s;
-        }
+        .enter-title .line:nth-child(1) { animation-delay: 0.6s; }
+        .enter-title .line:nth-child(2) { animation-delay: 0.8s; }
 
-        .enter-title .line:nth-child(2) {
-            animation-delay: 0.8s;
-        }
-
-        .enter-title .teal {
-            color: var(--accent);
-            text-shadow: 0 0 60px rgba(29, 158, 117, 0.5);
+        .enter-title .gradient {
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .enter-subtitle {
-            font-size: clamp(16px, 2.5vw, 22px);
+            font-size: clamp(18px, 2.5vw, 24px);
             color: var(--text-muted);
             line-height: 1.6;
             margin-bottom: 80px;
             opacity: 0;
-            animation: fade-up 1s forwards;
+            animation: bounce-in 1s forwards;
             animation-delay: 1s;
         }
 
-        /* Enter Stats */
         .enter-stats {
             display: flex;
             justify-content: center;
@@ -738,53 +670,28 @@
         }
 
         .enter-stat .stat-number {
+            font-family: 'Poppins', sans-serif;
             font-size: clamp(56px, 8vw, 96px);
-            font-weight: 700;
+            font-weight: 900;
             letter-spacing: -0.03em;
-            color: var(--text);
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1;
             margin-bottom: 10px;
-            text-shadow: 0 0 40px rgba(255,255,255,0.2);
         }
 
         .enter-stat .stat-label {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .enter-wally {
-                padding: 80px 24px;
-            }
-
-            .enter-title {
-                font-size: 40px;
-            }
-
-            .enter-stats {
-                gap: 40px;
-            }
-
-            .enter-stat .stat-number {
-                font-size: 48px;
-            }
-
-            .wally-orb-large {
-                width: 120px;
-                height: 120px;
-            }
-
-            .wally-orb-large::before {
-                font-size: 50px;
-            }
-        }
-
-        /* ===== SECTION 4: HOW IT WORKS ===== */
+        /* Section: How It Works */
         .how-it-works {
             position: relative;
-            background: var(--bg);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg) 100%);
         }
 
         .sticky-container {
@@ -794,7 +701,6 @@
             position: relative;
         }
 
-        /* Left Sticky Panel */
         .sticky-left {
             width: 40%;
             position: sticky;
@@ -811,41 +717,42 @@
         }
 
         .step-indicator {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-muted);
+            font-weight: 600;
             letter-spacing: 2px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .step-indicator span:first-child {
-            color: var(--accent);
-            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* WALLY Step Orb */
         .wally-step-orb {
             width: 150px;
             height: 150px;
-            margin: 0 auto 40px;
+            margin: 0 auto 30px;
             position: relative;
-            transition: all 0.5s ease;
         }
 
         .orb-core {
             position: absolute;
             inset: 25%;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
             border-radius: 50%;
             box-shadow: 0 0 60px var(--accent);
-            transition: background 0.5s ease, box-shadow 0.5s ease;
+            transition: all 0.5s ease;
         }
 
         .orb-ring {
             position: absolute;
-            border: 2px solid var(--accent);
+            border: 3px solid;
             border-radius: 50%;
-            opacity: 0.5;
-            animation: rotate-ring 8s linear infinite;
+            opacity: 0.6;
+            animation: rotate-ring 6s linear infinite;
         }
 
         .orb-ring-1 {
@@ -854,10 +761,10 @@
         }
 
         .orb-ring-2 {
-            inset: -20px;
+            inset: -25px;
             border-color: var(--accent-secondary);
             animation-direction: reverse;
-            animation-duration: 12s;
+            animation-duration: 9s;
         }
 
         @keyframes rotate-ring {
@@ -865,12 +772,12 @@
         }
 
         .step-title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
             color: var(--text);
             letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            transition: color 0.3s;
+            margin-bottom: 12px;
         }
 
         .step-desc {
@@ -878,7 +785,6 @@
             color: var(--text-muted);
         }
 
-        /* Right Scrolling Steps */
         .scroll-right {
             width: 60%;
         }
@@ -889,49 +795,59 @@
             flex-direction: column;
             justify-content: center;
             padding: 60px;
-            border-left: 1px solid rgba(255,255,255,0.05);
+            border-left: 3px dashed var(--border);
         }
 
         .step-number {
             font-size: 14px;
-            color: var(--accent);
-            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
             letter-spacing: 2px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .step-panel h4 {
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
             color: var(--text);
             letter-spacing: -0.02em;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .step-panel p {
             font-size: 18px;
             color: var(--text-muted);
             line-height: 1.7;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .step-panel em {
             color: var(--accent);
             font-style: normal;
+            font-weight: 600;
         }
 
-        /* Visual: Input Field */
+        /* Visual Elements */
         .visual-input {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 16px;
             padding: 24px;
             max-width: 500px;
+            box-shadow: 0 8px 30px var(--shadow);
         }
 
         .input-label {
             font-size: 12px;
-            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 12px;
@@ -944,7 +860,7 @@
         }
 
         .cursor-blink {
-            animation: blink 1s infinite;
+            animation: blink 0.8s infinite;
             color: var(--accent);
         }
 
@@ -953,88 +869,86 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Visual: Typewriter */
         .visual-typewriter {
             max-width: 500px;
             padding: 24px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 12px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px var(--shadow);
         }
 
         .typewriter-lines {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .type-line {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            position: relative;
+            height: 10px;
+            background: var(--bg-secondary);
+            border-radius: 5px;
             overflow: hidden;
         }
 
         .type-line::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+            display: block;
             height: 100%;
-            background: var(--accent);
+            background: linear-gradient(90deg, var(--accent), var(--accent-pink));
             width: 0;
             transition: width 0.8s ease;
         }
 
-        .type-line:nth-child(1)::after { width: 80%; transition-delay: 0s; }
-        .type-line:nth-child(2)::after { width: 65%; transition-delay: 0.3s; }
-        .type-line:nth-child(3)::after { width: 90%; transition-delay: 0.6s; }
-        .type-line:nth-child(4)::after { width: 45%; transition-delay: 0.9s; }
+        .type-line:nth-child(1)::after { width: 80%; }
+        .type-line:nth-child(2)::after { width: 65%; }
+        .type-line:nth-child(3)::after { width: 90%; }
+        .type-line:nth-child(4)::after { width: 45%; }
 
-        /* Visual: Design Cards */
         .visual-design {
             display: flex;
             gap: 16px;
         }
 
         .design-card {
-            width: 120px;
-            height: 160px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
+            width: 130px;
+            height: 170px;
+            border-radius: 16px;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px) rotate(-5deg);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px var(--shadow);
         }
 
         .design-card:nth-child(1) {
-            background: linear-gradient(135deg, rgba(29, 158, 117, 0.2), rgba(127, 119, 221, 0.2));
+            background: linear-gradient(135deg, var(--accent), var(--accent-tertiary));
+            transition-delay: 0s;
         }
 
         .design-card:nth-child(2) {
-            background: linear-gradient(135deg, rgba(127, 119, 221, 0.3), rgba(29, 158, 117, 0.1));
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-pink));
+            transform: translateY(30px) rotate(3deg);
             transition-delay: 0.2s;
         }
 
         .design-card:nth-child(3) {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(29, 158, 117, 0.2));
+            background: linear-gradient(135deg, var(--accent-green), var(--accent));
             transition-delay: 0.4s;
         }
 
-        /* Visual: Browser */
         .visual-browser {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
             max-width: 400px;
+            box-shadow: 0 8px 30px var(--shadow);
         }
 
         .browser-bar {
-            background: rgba(255,255,255,0.08);
+            background: var(--bg-secondary);
             padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .browser-dots {
@@ -1043,19 +957,18 @@
         }
 
         .browser-dots span {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
         }
 
-        .browser-dots span:nth-child(1) { background: #ff5f57; }
-        .browser-dots span:nth-child(2) { background: #ffbd2e; }
-        .browser-dots span:nth-child(3) { background: #28ca41; }
+        .browser-dots span:nth-child(1) { background: #ff6b6b; }
+        .browser-dots span:nth-child(2) { background: #ffd93d; }
+        .browser-dots span:nth-child(3) { background: #6bcb77; }
 
         .browser-url {
             flex: 1;
-            background: rgba(255,255,255,0.1);
+            background: white;
             border-radius: 6px;
             padding: 6px 12px;
             font-size: 12px;
@@ -1066,18 +979,18 @@
         }
 
         .live-badge {
-            background: var(--accent);
-            color: var(--text);
+            background: var(--accent-green);
+            color: white;
             padding: 2px 8px;
             border-radius: 4px;
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             animation: pulse-badge 2s infinite;
         }
 
         @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .browser-content {
@@ -1089,56 +1002,20 @@
 
         .content-block {
             height: 16px;
-            background: rgba(255,255,255,0.1);
+            background: var(--bg-secondary);
             border-radius: 4px;
         }
 
-        .content-block.h { height: 24px; width: 60%; }
-        .content-block.img { height: 80px; background: linear-gradient(135deg, rgba(29, 158, 117, 0.2), rgba(127, 119, 221, 0.2)); }
+        .content-block.h { height: 24px; width: 60%; background: linear-gradient(90deg, var(--accent), var(--accent-pink)); }
+        .content-block.img { height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent-secondary)); }
         .content-block.short { width: 40%; }
-
-        /* Step panel animations on scroll */
-        .step-panel.active .type-line::after {
-            width: var(--width, 100%);
-        }
 
         .step-panel.active .design-card {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotate(0deg);
         }
 
-        @media (max-width: 1024px) {
-            .sticky-container {
-                flex-direction: column;
-            }
-
-            .sticky-left {
-                width: 100%;
-                position: relative;
-                height: auto;
-                padding: 80px 24px 40px;
-            }
-
-            .scroll-right {
-                width: 100%;
-            }
-
-            .step-panel {
-                min-height: auto;
-                padding: 60px 24px;
-            }
-
-            .visual-design {
-                flex-wrap: wrap;
-            }
-
-            .design-card {
-                width: 80px;
-                height: 100px;
-            }
-        }
-
-        /* ===== SECTION 5: BEFORE VS AFTER ===== */
+        /* Section: Before vs After */
         .comparison {
             min-height: 100vh;
             padding: 100px 60px;
@@ -1151,17 +1028,18 @@
         .comparison-toggle {
             display: flex;
             gap: 4px;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-secondary);
             padding: 6px;
             border-radius: 100px;
             margin-bottom: 60px;
+            box-shadow: inset 0 2px 10px var(--shadow);
         }
 
         .toggle-btn {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 14px;
-            font-weight: 600;
-            padding: 12px 28px;
+            font-weight: 700;
+            padding: 14px 32px;
             border: none;
             border-radius: 100px;
             background: transparent;
@@ -1171,8 +1049,9 @@
         }
 
         .toggle-btn.active {
-            background: var(--accent);
-            color: var(--text);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
         }
 
         .toggle-btn:hover:not(.active) {
@@ -1187,19 +1066,13 @@
 
         .comparison-side {
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: bounce-in 0.5s forwards;
         }
 
         .comparison-side.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Timeline */
         .timeline {
             position: relative;
             padding-left: 80px;
@@ -1224,32 +1097,30 @@
             flex-shrink: 0;
             position: absolute;
             left: -80px;
+            box-shadow: 0 4px 15px var(--shadow);
         }
 
         .timeline-icon.tired {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.1);
+            background: var(--bg-secondary);
+            font-size: 28px;
         }
 
         .timeline-icon.wally {
-            background: var(--accent);
-            color: var(--text);
-            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
             font-size: 20px;
-            box-shadow: 0 0 30px rgba(29, 158, 117, 0.4);
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
         }
 
         .timeline-icon.wally.glow {
-            box-shadow: 0 0 50px rgba(29, 158, 117, 0.6);
+            animation: glow-icon 1s infinite;
         }
 
-        .timeline-icon.wally.pulse {
-            animation: icon-pulse 1s infinite;
-        }
-
-        @keyframes icon-pulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(29, 158, 117, 0.4); }
-            50% { box-shadow: 0 0 60px rgba(29, 158, 117, 0.8); }
+        @keyframes glow-icon {
+            0%, 100% { box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4); }
+            50% { box-shadow: 0 4px 40px rgba(255, 107, 53, 0.8); }
         }
 
         .timeline-content {
@@ -1267,13 +1138,17 @@
 
         .timeline-time {
             font-size: 14px;
-            color: var(--accent);
-            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
         .timeline-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
             color: var(--text);
         }
 
@@ -1291,21 +1166,20 @@
         }
 
         .connector-line {
-            width: 2px;
+            width: 3px;
             height: 40px;
-            background: rgba(255,255,255,0.1);
+            background: var(--border);
+            border-radius: 2px;
         }
 
         .timeline-connector.wally .connector-line {
-            background: var(--accent);
-            opacity: 0.3;
+            background: linear-gradient(180deg, var(--accent), var(--accent-pink));
         }
 
         .connector-spinner {
             margin-left: 12px;
-            color: var(--text-muted);
-            animation: spin 2s linear infinite;
-            font-size: 18px;
+            font-size: 20px;
+            animation: spin 1.5s linear infinite;
         }
 
         @keyframes spin {
@@ -1314,31 +1188,41 @@
 
         .connector-check {
             margin-left: 12px;
-            color: var(--accent);
+            background: var(--accent-green);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .timeline-item.final {
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 2px dashed var(--border);
         }
 
         .live-badge-sm {
-            color: var(--accent);
-            font-size: 14px;
-            font-weight: 600;
+            background: var(--accent-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
         }
 
-        /* Comparison Stats */
         .comparison-stats {
             display: flex;
             justify-content: center;
             gap: 60px;
             margin-top: 60px;
             padding-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 2px dashed var(--border);
         }
 
         .compare-stat {
@@ -1346,34 +1230,38 @@
         }
 
         .compare-stat .stat-num {
-            font-size: 48px;
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 900;
             display: block;
             letter-spacing: -0.02em;
         }
 
         .compare-stat .stat-num.red {
-            color: #ff6b6b;
+            color: #ef4444;
         }
 
         .compare-stat .stat-num.teal {
-            color: var(--accent);
-            text-shadow: 0 0 30px rgba(29, 158, 117, 0.5);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .compare-stat .stat-text {
             font-size: 14px;
             color: var(--text-muted);
+            font-weight: 600;
         }
 
-        /* ===== SECTION 6: LIVE DEMO ===== */
+        /* Section: Demo */
         .demo-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 100px 60px;
-            background: var(--bg);
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-tertiary) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -1388,56 +1276,57 @@
         }
 
         .demo-orb {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(29, 158, 117, 0.15) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
             border-radius: 50%;
             transition: transform 0.5s ease;
         }
 
         .demo-orb.processing {
-            animation: orb-fast-spin 2s linear infinite;
+            animation: orb-spin-fast 1s linear infinite;
         }
 
-        @keyframes orb-fast-spin {
+        @keyframes orb-spin-fast {
             to { transform: rotate(360deg); }
         }
 
         .demo-card {
             position: relative;
             z-index: 1;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: white;
             border-radius: 24px;
             padding: 60px;
             max-width: 700px;
             width: 100%;
-            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px var(--shadow);
+            border: 2px solid var(--border);
         }
 
         .demo-title {
-            font-size: clamp(36px, 6vw, 64px);
-            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800;
             text-align: center;
             margin-bottom: 40px;
             letter-spacing: -0.02em;
         }
 
         .demo-input-group {
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .demo-input {
             width: 100%;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
             padding: 20px;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 15px;
             color: var(--text);
             resize: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .demo-input::placeholder {
@@ -1447,46 +1336,37 @@
         .demo-input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(29, 158, 117, 0.2);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
         }
 
         .demo-btn {
             width: 100%;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 16px;
-            font-weight: 600;
-            padding: 18px 32px;
-            background: var(--accent);
-            color: var(--text);
+            font-weight: 700;
+            padding: 20px 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 100px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
         }
 
         .demo-btn:hover {
-            box-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4);
         }
 
         .demo-btn.processing {
-            background: var(--accent-secondary);
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-pink));
         }
 
-        .demo-btn.processing .btn-arrow {
-            animation: spin 0.5s linear infinite;
-        }
-
-        .btn-arrow {
-            font-size: 20px;
-            transition: transform 0.3s;
-        }
-
-        /* Demo Progress */
         .demo-progress {
             display: none;
             margin-top: 40px;
@@ -1499,7 +1379,7 @@
         .progress-steps {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .progress-step {
@@ -1507,59 +1387,56 @@
             align-items: center;
             gap: 16px;
             opacity: 0.5;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
         }
 
-        .progress-step.active {
-            opacity: 1;
-        }
-
-        .progress-step.complete {
+        .progress-step.active, .progress-step.complete {
             opacity: 1;
         }
 
         .progress-step .step-indicator {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: var(--bg-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
             flex-shrink: 0;
         }
 
         .progress-step.active .step-indicator {
             background: var(--accent);
-            color: var(--text);
+            color: white;
         }
 
         .progress-step.complete .step-indicator {
-            background: var(--accent);
-            color: var(--text);
+            background: var(--accent-green);
+            color: white;
         }
 
         .progress-step .step-name {
             width: 180px;
             font-size: 14px;
+            font-weight: 600;
             color: var(--text);
         }
 
         .progress-step .step-bar {
             flex: 1;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
             overflow: hidden;
         }
 
         .progress-step .step-fill {
             height: 100%;
             width: 0;
-            background: var(--accent);
+            background: linear-gradient(90deg, var(--accent), var(--accent-pink));
             transition: width 0.8s ease;
         }
 
@@ -1568,33 +1445,23 @@
         }
 
         .progress-step .step-status {
-            font-size: 16px;
+            font-size: 18px;
             width: 24px;
         }
 
-        .progress-step.complete .step-status {
-            color: var(--accent);
-        }
-
-        /* Demo Result */
         .demo-result {
             display: none;
             margin-top: 40px;
             text-align: center;
             padding: 30px;
-            background: rgba(29, 158, 117, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(29, 158, 117, 0.3);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border-radius: 16px;
+            border: 2px solid var(--accent-green);
         }
 
         .demo-result.active {
             display: block;
-            animation: result-appear 0.5s ease;
-        }
-
-        @keyframes result-appear {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            animation: bounce-in 0.5s forwards;
         }
 
         .result-url {
@@ -1606,18 +1473,19 @@
         }
 
         .result-domain {
-            font-size: 18px;
-            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
             color: var(--text);
         }
 
         .result-badge {
-            background: var(--accent);
-            color: var(--text);
-            padding: 4px 12px;
+            background: var(--accent-green);
+            color: white;
+            padding: 6px 16px;
             border-radius: 100px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .result-text {
@@ -1625,68 +1493,22 @@
             color: var(--text-muted);
         }
 
-        @media (max-width: 768px) {
-            .comparison {
-                padding: 80px 24px;
-            }
-
-            .comparison-stats {
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .timeline {
-                padding-left: 60px;
-            }
-
-            .timeline-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
-                left: -60px;
-            }
-
-            .timeline-connector {
-                padding-left: 60px;
-                margin-left: -20px;
-            }
-
-            .demo-section {
-                padding: 80px 24px;
-            }
-
-            .demo-card {
-                padding: 40px 24px;
-            }
-
-            .progress-step .step-name {
-                width: 120px;
-                font-size: 12px;
-            }
-        }
-
-        /* ===== SECTION 7: CLOSING ===== */
+        /* Section: Closing */
         .closing {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            background: var(--bg);
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg) 50%, var(--bg-tertiary) 100%);
             overflow: hidden;
-        }
-
-        #auroraCanvas {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
+            padding: 100px 60px;
         }
 
         .closing-content {
             position: relative;
             z-index: 2;
             text-align: center;
-            padding: 60px;
             max-width: 900px;
         }
 
@@ -1695,7 +1517,8 @@
         }
 
         .closing-line {
-            font-size: clamp(32px, 6vw, 56px);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(28px, 5vw, 48px);
             font-weight: 700;
             line-height: 1.3;
             letter-spacing: -0.02em;
@@ -1708,37 +1531,40 @@
 
         .closing-line .word {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px) scale(0.8);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .closing.visible .word {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .closing-line:nth-child(1) .word:nth-child(1) { transition-delay: 0s; }
-        .closing-line:nth-child(1) .word:nth-child(2) { transition-delay: 0.1s; }
-        .closing-line:nth-child(1) .word:nth-child(3) { transition-delay: 0.2s; }
-        .closing-line:nth-child(2) .word:nth-child(1) { transition-delay: 0.4s; }
-        .closing-line:nth-child(2) .word:nth-child(2) { transition-delay: 0.5s; }
-        .closing-line:nth-child(2) .word:nth-child(3) { transition-delay: 0.6s; }
-        .closing-line:nth-child(3) .word:nth-child(1) { transition-delay: 0.8s; }
-        .closing-line:nth-child(3) .word:nth-child(2) { transition-delay: 0.9s; }
-        .closing-line:nth-child(3) .word:nth-child(3) { transition-delay: 1s; }
-        .closing-line:nth-child(3) .word:nth-child(4) { transition-delay: 1.1s; }
-        .closing-line:nth-child(3) .word:nth-child(5) { transition-delay: 1.2s; }
-        .closing-line:nth-child(3) .word:nth-child(6) { transition-delay: 1.3s; }
-        .closing-line:nth-child(4) .word:nth-child(1) { transition-delay: 1.5s; }
-        .closing-line:nth-child(4) .word:nth-child(2) { transition-delay: 1.6s; }
-        .closing-line:nth-child(4) .word:nth-child(3) { transition-delay: 1.7s; }
+        .closing-line:nth-child(1) .word:nth-child(2) { transition-delay: 0.08s; }
+        .closing-line:nth-child(1) .word:nth-child(3) { transition-delay: 0.16s; }
+        .closing-line:nth-child(2) .word:nth-child(1) { transition-delay: 0.3s; }
+        .closing-line:nth-child(2) .word:nth-child(2) { transition-delay: 0.38s; }
+        .closing-line:nth-child(2) .word:nth-child(3) { transition-delay: 0.46s; }
+        .closing-line:nth-child(3) .word:nth-child(1) { transition-delay: 0.6s; }
+        .closing-line:nth-child(3) .word:nth-child(2) { transition-delay: 0.68s; }
+        .closing-line:nth-child(3) .word:nth-child(3) { transition-delay: 0.76s; }
+        .closing-line:nth-child(3) .word:nth-child(4) { transition-delay: 0.84s; }
+        .closing-line:nth-child(3) .word:nth-child(5) { transition-delay: 0.92s; }
+        .closing-line:nth-child(3) .word:nth-child(6) { transition-delay: 1s; }
+        .closing-line:nth-child(4) .word:nth-child(1) { transition-delay: 1.1s; }
+        .closing-line:nth-child(4) .word:nth-child(2) { transition-delay: 1.18s; }
+        .closing-line:nth-child(4) .word:nth-child(3) { transition-delay: 1.26s; }
 
         .closing-tagline {
-            font-size: clamp(28px, 4vw, 48px);
-            font-weight: 700;
-            color: var(--accent);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(24px, 4vw, 42px);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 50px;
-            text-shadow: 0 0 60px rgba(29, 158, 117, 0.5);
         }
 
         .closing-cta {
@@ -1747,19 +1573,19 @@
             gap: 12px;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
             padding: 20px 48px;
-            background: var(--accent);
-            color: var(--text);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            color: white;
             border-radius: 100px;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 0 40px rgba(29, 158, 117, 0.3);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.3);
         }
 
         .closing-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 60px rgba(29, 158, 117, 0.5);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 107, 53, 0.4);
         }
 
         .closing-cta svg {
@@ -1767,29 +1593,12 @@
         }
 
         .closing-cta:hover svg {
-            transform: translateX(5px);
+            transform: translateX(8px);
         }
 
-        .closing-particles {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .closing-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.5;
-        }
-
-        /* ===== FOOTER ===== */
+        /* Footer */
         .wally-footer {
-            background: rgba(255,255,255,0.02);
-            border-top: 1px solid rgba(255,255,255,0.05);
+            background: var(--text);
             padding: 60px;
         }
 
@@ -1808,12 +1617,12 @@
         }
 
         .footer-orb {
-            width: 48px;
-            height: 48px;
-            background: var(--accent);
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(29, 158, 117, 0.5);
-            animation: footer-orb-spin 10s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+            animation: footer-orb-spin 6s linear infinite;
         }
 
         @keyframes footer-orb-spin {
@@ -1821,9 +1630,10 @@
         }
 
         .footer-logo span {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
         }
 
         .footer-credits {
@@ -1832,46 +1642,46 @@
 
         .footer-credits p {
             font-size: 14px;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.7);
             margin-bottom: 4px;
         }
 
         .footer-sub {
-            font-size: 12px;
-            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .closing-content {
-                padding: 40px 24px;
-            }
-
-            .closing-line {
-                font-size: 28px;
-            }
-
-            .closing-tagline {
-                font-size: 24px;
-            }
-
-            .closing-cta {
-                padding: 16px 32px;
-                font-size: 16px;
-            }
-
-            .wally-footer {
-                padding: 40px 24px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-                text-align: center;
-            }
-
-            .footer-credits {
-                text-align: center;
-            }
+            nav { padding: 16px 24px; }
+            .nav-center { display: none; }
+            .hero { padding: 100px 24px 80px; }
+            .hero-cta { flex-direction: column; align-items: center; }
+            .btn { width: 100%; justify-content: center; }
+            .orb-container { width: 250px; height: 250px; }
+            
+            .pain, .enter-wally, .comparison, .demo-section, .closing { padding: 80px 24px; }
+            .pain-line { font-size: 28px; }
+            .pain-reveal { font-size: 56px; }
+            .enter-stats { gap: 40px; }
+            .enter-stat .stat-number { font-size: 56px; }
+            
+            .sticky-container { flex-direction: column; }
+            .sticky-left { width: 100%; position: relative; height: auto; padding: 80px 24px 40px; }
+            .scroll-right { width: 100%; }
+            .step-panel { min-height: auto; padding: 60px 24px; border-left: none; border-top: 2px dashed var(--border); }
+            
+            .comparison-stats { flex-direction: column; gap: 30px; }
+            .compare-stat .stat-num { font-size: 48px; }
+            
+            .demo-card { padding: 40px 24px; }
+            .progress-step .step-name { width: 120px; font-size: 12px; }
+            
+            .footer-content { flex-direction: column; gap: 30px; text-align: center; }
+            .footer-credits { text-align: center; }
         }
     </style>
 </head>
@@ -1881,7 +1691,7 @@
 
     <!-- Navigation -->
     <nav>
-        <div class="logo">WALLY</div>
+        <div class="logo">WALL<span>Y</span></div>
         <div class="nav-center">
             <a href="#how-it-works">How it works</a>
             <a href="#before-after">Before vs After</a>
@@ -1892,41 +1702,42 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <div class="hero-bg"></div>
-        <div class="particles" id="particles"></div>
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
 
         <div class="hero-content">
             <div class="hero-label">Your team just got a new coworker</div>
 
             <h1 class="hero-title" id="heroTitle">
                 <span class="line"><span class="line-inner">Meet</span></span>
-                <span class="line"><span class="line-inner teal">WALLY.</span></span>
+                <span class="line"><span class="line-inner gradient">WALLY!</span></span>
                 <span class="line"><span class="line-inner">The Workflow</span></span>
-                <span class="line"><span class="line-inner">Assassin.</span></span>
+                <span class="line"><span class="line-inner">Assassin. 🎯</span></span>
             </h1>
 
             <p class="hero-subtitle">
                 He writes. He designs. He publishes.<br>
-                And he never asks for a deadline extension.
+                And he never asks for a coffee break.
             </p>
 
             <div class="hero-cta">
                 <a href="#demo" class="btn btn-primary">
                     Watch WALLY Work
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 5v14M5 12l7 7 7-7"/>
                     </svg>
                 </a>
-                <a href="#before-after" class="btn btn-secondary">See the time saved</a>
+                <a href="#before-after" class="btn btn-secondary">See the magic</a>
             </div>
 
             <!-- 3D Orb -->
             <div class="orb-container">
                 <div class="orb-glow"></div>
                 <canvas id="wally-orb"></canvas>
-                <div class="loading-bar">
-                    <div class="loading-bar-inner"></div>
-                </div>
             </div>
         </div>
 
@@ -1936,10 +1747,10 @@
         </div>
     </section>
 
-    <!-- Section 2: The Pain -->
+    <!-- Section: The Pain -->
     <section class="pain" id="pain">
         <div class="pain-content">
-            <p class="pain-intro scroll-reveal">Content used to work like this.</p>
+            <p class="pain-intro scroll-reveal">Content used to work like this. 😩</p>
 
             <div class="pain-lines">
                 <h2 class="pain-line scroll-reveal">Writer gets brief.</h2>
@@ -1951,7 +1762,7 @@
             <h2 class="pain-reveal scroll-reveal">
                 <span class="pain-reveal-text">4</span>
                 <span class="pain-reveal-text accent">days</span>
-                <span class="pain-reveal-text">later.</span>
+                <span class="pain-reveal-text">later. 😤</span>
             </h2>
 
             <p class="pain-outro scroll-reveal">For every single piece. Every week. Forever.</p>
@@ -1960,39 +1771,33 @@
         <!-- Ticker Strip -->
         <div class="ticker">
             <div class="ticker-track">
-                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
-                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
-                <span>3 people · 4 days · 12 Slack messages · 1 confused designer · 3 revision rounds · 0 fun · </span>
+                <span>😴 3 people · ⏰ 4 days · 💬 12 Slack messages · 😤 1 confused designer · 🔄 3 revision rounds · 💤 0 fun · </span>
+                <span>😴 3 people · ⏰ 4 days · 💬 12 Slack messages · 😤 1 confused designer · 🔄 3 revision rounds · 💤 0 fun · </span>
+                <span>😴 3 people · ⏰ 4 days · 💬 12 Slack messages · 😤 1 confused designer · 🔄 3 revision rounds · 💤 0 fun · </span>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: Enter WALLY -->
+    <!-- Section: Enter WALLY -->
     <section class="enter-wally" id="enter-wally">
-        <div class="glitch-overlay" id="glitchOverlay">
-            <div class="glitch-line"></div>
-            <div class="glitch-line"></div>
-            <div class="glitch-line"></div>
-        </div>
-
-        <div class="wally-entrance" id="wallyEntrance">
-            <div class="wally-orb-large" id="wallyOrbLarge"></div>
-        </div>
+        <div class="glitch-overlay" id="glitchOverlay"></div>
+        
+        <div class="wally-orb-large"></div>
 
         <div class="enter-content">
             <h2 class="enter-title scroll-reveal">
                 <span class="line">Then WALLY</span>
-                <span class="line teal">showed up.</span>
+                <span class="line gradient">showed up! 🎉</span>
             </h2>
 
             <p class="enter-subtitle scroll-reveal">
                 Same output. 30 minutes of human effort.<br>
-                The rest? WALLY's problem.
+                The rest? WALLY's problem. 🚀
             </p>
 
             <div class="enter-stats">
                 <div class="enter-stat scroll-reveal">
-                    <div class="stat-number" data-target="96">0</div>
+                    <div class="stat-number" data-target="96">0%</div>
                     <div class="stat-label">time cut</div>
                 </div>
                 <div class="enter-stat scroll-reveal">
@@ -2000,24 +1805,23 @@
                     <div class="stat-label">saved per piece</div>
                 </div>
                 <div class="enter-stat scroll-reveal">
-                    <div class="stat-number" data-target="30" data-suffix=" mins">0</div>
+                    <div class="stat-number" data-target="30" data-suffix=" mins" data-suffix-first="30">0 mins</div>
                     <div class="stat-label">all you do</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 4: How It Works (Sticky) -->
+    <!-- Section: How It Works -->
     <section class="how-it-works" id="how-it-works">
         <div class="sticky-container">
-            <!-- Left: Sticky Panel -->
             <div class="sticky-left">
                 <div class="sticky-content">
                     <div class="step-indicator">
-                        <span id="currentStep">01</span> / <span>04</span>
+                        <span id="currentStep">01</span> / 04
                     </div>
 
-                    <div class="wally-step-orb" id="wallyStepOrb">
+                    <div class="wally-step-orb">
                         <div class="orb-core"></div>
                         <div class="orb-ring orb-ring-1"></div>
                         <div class="orb-ring orb-ring-2"></div>
@@ -2028,27 +1832,24 @@
                 </div>
             </div>
 
-            <!-- Right: Scrolling Steps -->
             <div class="scroll-right">
-                <!-- Step 01 -->
                 <div class="step-panel" data-step="1">
-                    <div class="step-number">01</div>
-                    <h4>Brief in.</h4>
+                    <div class="step-number">STEP 01</div>
+                    <h4>Brief in. 📝</h4>
                     <p>You spend 30 minutes writing a brief.<br>That's the whole job.<br>WALLY takes it from here.</p>
                     
                     <div class="visual-input">
                         <div class="input-label">Content Brief</div>
                         <div class="input-field">
-                            <span class="input-text"></span><span class="cursor-blink">|</span>
+                            <span>Write a blog post about...</span><span class="cursor-blink">|</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 02 -->
                 <div class="step-panel" data-step="2">
-                    <div class="step-number">02</div>
-                    <h4>Copy out.</h4>
-                    <p>WALLY reads the brief.<br>Thinks about it.<br><em>(For about 4 seconds.)</em><br>Then writes.</p>
+                    <div class="step-number">STEP 02</div>
+                    <h4>Copy out. ✍️</h4>
+                    <p>WALLY reads the brief.<br>Thinks about it.<br><em>(For about 4 seconds.)</em><br>Then writes. Blazingly fast.</p>
                     
                     <div class="visual-typewriter">
                         <div class="typewriter-lines">
@@ -2060,11 +1861,10 @@
                     </div>
                 </div>
 
-                <!-- Step 03 -->
                 <div class="step-panel" data-step="3">
-                    <div class="step-number">03</div>
-                    <h4>Design done.</h4>
-                    <p>No Figma. No Slack DM to the designer.<br>No "can you make the logo bigger?"<br>Assets. Generated. Automatically.</p>
+                    <div class="step-number">STEP 03</div>
+                    <h4>Design done. 🎨</h4>
+                    <p>No Figma. No Slack DM to the designer.<br>No "can you make the logo bigger?"<br>Assets. Generated. Automatically. ✨</p>
                     
                     <div class="visual-design">
                         <div class="design-card"></div>
@@ -2073,11 +1873,10 @@
                     </div>
                 </div>
 
-                <!-- Step 04 -->
                 <div class="step-panel" data-step="4">
-                    <div class="step-number">04</div>
-                    <h4>Live on Webflow.</h4>
-                    <p>Published.<br>Without a single human touching it.</p>
+                    <div class="step-number">STEP 04</div>
+                    <h4>Live on Webflow. 🚀</h4>
+                    <p>Published.<br>Without a single human touching it.<br>Done and dusted!</p>
                     
                     <div class="visual-browser">
                         <div class="browser-bar">
@@ -2085,13 +1884,13 @@
                                 <span></span><span></span><span></span>
                             </div>
                             <div class="browser-url">
-                                <span>yoursite.com</span><span class="live-badge">Live</span>
+                                <span>yoursite.com</span>
+                                <span class="live-badge">Live</span>
                             </div>
                         </div>
                         <div class="browser-content">
                             <div class="content-block h"></div>
                             <div class="content-block img"></div>
-                            <div class="content-block"></div>
                             <div class="content-block short"></div>
                         </div>
                     </div>
@@ -2100,15 +1899,14 @@
         </div>
     </section>
 
-    <!-- Section 5: Before vs After -->
+    <!-- Section: Before vs After -->
     <section class="comparison" id="before-after">
         <div class="comparison-toggle">
-            <button class="toggle-btn active" data-mode="before">Before WALLY</button>
-            <button class="toggle-btn" data-mode="after">After WALLY</button>
+            <button class="toggle-btn active" data-mode="before">Before WALLY 😴</button>
+            <button class="toggle-btn" data-mode="after">After WALLY 🚀</button>
         </div>
 
         <div class="comparison-container">
-            <!-- Before Side -->
             <div class="comparison-side before-side active" id="beforeSide">
                 <div class="timeline">
                     <div class="timeline-item">
@@ -2164,7 +1962,7 @@
                         <div class="timeline-content">
                             <span class="timeline-day">Day 3</span>
                             <span class="timeline-title">Sent to Webflow</span>
-                            <span class="timeline-sub">Finally</span>
+                            <span class="timeline-sub">Finally!</span>
                         </div>
                     </div>
                     <div class="timeline-connector">
@@ -2175,7 +1973,7 @@
                         <div class="timeline-content">
                             <span class="timeline-day">Day 4</span>
                             <span class="timeline-title">Content goes live</span>
-                            <span class="timeline-sub">4 days later</span>
+                            <span class="timeline-sub">4 days later 😩</span>
                         </div>
                     </div>
                 </div>
@@ -2195,10 +1993,9 @@
                 </div>
             </div>
 
-            <!-- After Side -->
             <div class="comparison-side after-side" id="afterSide">
-                <div class="timeline wally-timeline">
-                    <div class="timeline-item wally-step">
+                <div class="timeline">
+                    <div class="timeline-item">
                         <div class="timeline-icon wally">W</div>
                         <div class="timeline-content">
                             <span class="timeline-time">0:00</span>
@@ -2210,7 +2007,7 @@
                         <div class="connector-line"></div>
                         <div class="connector-check">✓</div>
                     </div>
-                    <div class="timeline-item wally-step">
+                    <div class="timeline-item">
                         <div class="timeline-icon wally">W</div>
                         <div class="timeline-content">
                             <span class="timeline-time">0:01</span>
@@ -2222,7 +2019,7 @@
                         <div class="connector-line"></div>
                         <div class="connector-check">✓</div>
                     </div>
-                    <div class="timeline-item wally-step">
+                    <div class="timeline-item">
                         <div class="timeline-icon wally glow">W</div>
                         <div class="timeline-content">
                             <span class="timeline-time">0:04</span>
@@ -2234,7 +2031,7 @@
                         <div class="connector-line"></div>
                         <div class="connector-check">✓</div>
                     </div>
-                    <div class="timeline-item wally-step">
+                    <div class="timeline-item">
                         <div class="timeline-icon wally glow">W</div>
                         <div class="timeline-content">
                             <span class="timeline-time">0:08</span>
@@ -2246,12 +2043,12 @@
                         <div class="connector-line"></div>
                         <div class="connector-check">✓</div>
                     </div>
-                    <div class="timeline-item final wally-step">
-                        <div class="timeline-icon wally glow pulse">W</div>
+                    <div class="timeline-item final">
+                        <div class="timeline-icon wally glow">W</div>
                         <div class="timeline-content">
                             <span class="timeline-time">0:30</span>
                             <span class="timeline-title">Published to Webflow</span>
-                            <span class="timeline-sub live-badge-sm">● Live</span>
+                            <span class="live-badge-sm">● Live</span>
                         </div>
                     </div>
                 </div>
@@ -2273,22 +2070,26 @@
         </div>
     </section>
 
-    <!-- Section 6: Live Demo Simulator -->
+    <!-- Section: Live Demo -->
     <section class="demo-section" id="demo">
+        <div class="demo-orb-bg" id="demoOrbBg">
+            <div class="demo-orb"></div>
+        </div>
+
         <div class="demo-card">
-            <h2 class="demo-title scroll-reveal">Watch WALLY work.</h2>
+            <h2 class="demo-title scroll-reveal">Watch WALLY work! ✨</h2>
             
             <div class="demo-input-group">
                 <textarea 
                     class="demo-input scroll-reveal" 
-                    placeholder="Paste your content brief here...&#10;&#10;Example: Write a blog post about AI in marketing for a tech startup audience..."
+                    placeholder="Paste your content brief here...&#10;&#10;Example: Write a blog post about AI in marketing..."
                     rows="4"
                 ></textarea>
             </div>
 
             <button class="demo-btn scroll-reveal" id="demoBtn">
                 <span class="btn-text">Unleash WALLY</span>
-                <span class="btn-arrow">→</span>
+                <span class="btn-arrow">🚀</span>
             </button>
 
             <div class="demo-progress" id="demoProgress">
@@ -2319,19 +2120,13 @@
                     <span class="result-domain">yoursite.com</span>
                     <span class="result-badge">✓ Live</span>
                 </div>
-                <p class="result-text">Content published successfully</p>
+                <p class="result-text">Content published successfully! 🎉</p>
             </div>
-        </div>
-
-        <div class="demo-orb-bg" id="demoOrbBg">
-            <div class="demo-orb"></div>
         </div>
     </section>
 
-    <!-- Section 7: Closing Vision -->
+    <!-- Section: Closing -->
     <section class="closing" id="closing">
-        <canvas id="auroraCanvas"></canvas>
-        
         <div class="closing-content">
             <div class="closing-text">
                 <p class="closing-line">
@@ -2358,7 +2153,7 @@
                 </p>
             </div>
 
-            <p class="closing-tagline scroll-reveal">WALLY handles the rest.</p>
+            <p class="closing-tagline scroll-reveal">WALLY handles the rest. 🤖</p>
 
             <a href="#demo" class="closing-cta scroll-reveal">
                 See WALLY in action
@@ -2367,8 +2162,6 @@
                 </svg>
             </a>
         </div>
-
-        <div class="closing-particles" id="closingParticles"></div>
     </section>
 
     <!-- Footer -->
@@ -2380,7 +2173,7 @@
             </div>
             <div class="footer-credits">
                 <p>Write · Automate · Launch · Live</p>
-                <p class="footer-sub">Days destroyed: 3.5 per content piece</p>
+                <p class="footer-sub">Days destroyed: 3.5 per content piece 💪</p>
             </div>
         </div>
     </footer>
@@ -2400,21 +2193,19 @@
         });
 
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
             cursor.style.left = cursorX + 'px';
             cursor.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
 
-        // Hover effects
-        document.querySelectorAll('a, .btn, canvas').forEach(el => {
+        document.querySelectorAll('a, .btn, button, canvas, .toggle-btn').forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
 
-        // Hide cursor on touch
         if ('ontouchstart' in window) {
             cursor.style.display = 'none';
         }
@@ -2424,7 +2215,7 @@
             const title = document.getElementById('heroTitle');
             const lines = title.querySelectorAll('.line-inner');
             let charIndex = 0;
-            const staggerDelay = 0.03;
+            const staggerDelay = 0.04;
 
             lines.forEach((line, lineIndex) => {
                 const text = line.textContent;
@@ -2441,22 +2232,6 @@
         }
         animateTitle();
 
-        // ===== FLOATING PARTICLES =====
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (15 + Math.random() * 20) + 's';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.width = (2 + Math.random() * 4) + 'px';
-                particle.style.height = particle.style.width;
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
-
         // ===== THREE.JS 3D ORB =====
         let scene, camera, renderer, orb, rings = [], particles = [];
         let scrollY = 0;
@@ -2465,46 +2240,42 @@
             const canvas = document.getElementById('wally-orb');
             const container = canvas.parentElement;
 
-            // Scene
             scene = new THREE.Scene();
-
-            // Camera
             camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.z = 4;
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Main Orb
+            // Main Orb - colorful
             const geometry = new THREE.IcosahedronGeometry(1, 1);
             const material = new THREE.MeshBasicMaterial({
-                color: 0x7F77DD,
+                color: 0xff6b35,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.9
             });
             orb = new THREE.Mesh(geometry, material);
             scene.add(orb);
 
             // Inner Glow Sphere
-            const innerGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+            const innerGeometry = new THREE.SphereGeometry(0.65, 32, 32);
             const innerMaterial = new THREE.MeshBasicMaterial({
-                color: 0x1D9E75,
+                color: 0xec4899,
                 transparent: true,
-                opacity: 0.3
+                opacity: 0.5
             });
             const innerOrb = new THREE.Mesh(innerGeometry, innerMaterial);
             orb.add(innerOrb);
 
             // Orbiting Rings
             for (let i = 0; i < 2; i++) {
-                const ringGeometry = new THREE.TorusGeometry(1.8 + i * 0.4, 0.02, 16, 100);
+                const ringGeometry = new THREE.TorusGeometry(1.6 + i * 0.4, 0.03, 16, 100);
                 const ringMaterial = new THREE.MeshBasicMaterial({
-                    color: i === 0 ? 0x1D9E75 : 0x7F77DD,
+                    color: i === 0 ? 0xfbbf24 : 0x7c3aed,
                     transparent: true,
-                    opacity: 0.6
+                    opacity: 0.7
                 });
                 const ring = new THREE.Mesh(ringGeometry, ringMaterial);
                 ring.rotation.x = Math.PI / 2 + (i * 0.5);
@@ -2515,7 +2286,7 @@
 
             // Particle System
             const particleGeometry = new THREE.BufferGeometry();
-            const particleCount = 200;
+            const particleCount = 150;
             const positions = new Float32Array(particleCount * 3);
 
             for (let i = 0; i < particleCount * 3; i += 3) {
@@ -2531,24 +2302,22 @@
             particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
             const particleMaterial = new THREE.PointsMaterial({
-                color: 0x1D9E75,
-                size: 0.03,
+                color: 0xff6b35,
+                size: 0.04,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.9
             });
 
             const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
             scene.add(particleSystem);
             particles.push(particleSystem);
 
-            // Handle Resize
             window.addEventListener('resize', () => {
                 camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(container.clientWidth, container.clientHeight);
             });
 
-            // Scroll Effect
             window.addEventListener('scroll', () => {
                 scrollY = window.scrollY;
             });
@@ -2559,26 +2328,22 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Slow rotation
             if (orb) {
-                orb.rotation.y += 0.003;
-                orb.rotation.x += 0.001;
+                orb.rotation.y += 0.005;
+                orb.rotation.x += 0.002;
 
-                // Scroll effect - float up and shrink
                 const scale = Math.max(0.3, 1 - scrollY * 0.001);
                 const floatY = scrollY * 0.002;
                 orb.scale.set(scale, scale, scale);
                 orb.position.y = floatY;
             }
 
-            // Ring animations
             rings.forEach((ring, i) => {
-                ring.rotation.z += 0.002 * (i === 0 ? 1 : -1);
+                ring.rotation.z += 0.003 * (i === 0 ? 1 : -1);
             });
 
-            // Particle rotation
             particles.forEach(p => {
-                p.rotation.y += 0.001;
+                p.rotation.y += 0.002;
             });
 
             renderer.render(scene, camera);
@@ -2586,23 +2351,20 @@
 
         initThree();
 
-        // ===== SCROLL REVEAL FOR PAIN SECTION =====
+        // ===== SCROLL REVEAL =====
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, {
-            threshold: 0.3,
-            rootMargin: '0px 0px -100px 0px'
-        });
+        }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
 
         document.querySelectorAll('.scroll-reveal').forEach(el => {
             revealObserver.observe(el);
         });
 
-        // ===== GLITCH EFFECT ON ENTER WALLY =====
+        // ===== GLITCH EFFECT =====
         const enterSection = document.getElementById('enter-wally');
         const glitchOverlay = document.getElementById('glitchOverlay');
         let glitchTriggered = false;
@@ -2614,14 +2376,14 @@
                     glitchOverlay.classList.add('active');
                     setTimeout(() => {
                         glitchOverlay.classList.remove('active');
-                    }, 600);
+                    }, 700);
                 }
             });
         }, { threshold: 0.3 });
 
         glitchObserver.observe(enterSection);
 
-        // ===== COUNTER ANIMATION FOR ENTER STATS =====
+        // ===== COUNTER ANIMATION =====
         const statNumbers = document.querySelectorAll('.enter-stat .stat-number');
 
         const statObserver = new IntersectionObserver((entries) => {
@@ -2632,7 +2394,7 @@
                     const suffix = entry.target.dataset.suffix || '%';
                     const isDecimal = entry.target.dataset.decimal === 'true';
                     let current = 0;
-                    const increment = target / 50;
+                    const increment = target / 40;
                     const timer = setInterval(() => {
                         current += increment;
                         if (current >= target) {
@@ -2649,34 +2411,16 @@
 
         // ===== STICKY SCROLL - STEP PROGRESSION =====
         const stepData = {
-            1: {
-                title: 'Brief in.',
-                desc: '30 minutes of human effort.',
-                color: '#1D9E75'
-            },
-            2: {
-                title: 'Copy out.',
-                desc: 'WALLY thinks, then writes.',
-                color: '#7F77DD'
-            },
-            3: {
-                title: 'Design done.',
-                desc: 'Assets generated automatically.',
-                color: '#1D9E75'
-            },
-            4: {
-                title: 'Live on Webflow.',
-                desc: 'Published. Zero human touch.',
-                color: '#7F77DD'
-            }
+            1: { title: 'Brief in.', desc: '30 minutes of human effort.' },
+            2: { title: 'Copy out.', desc: 'WALLY thinks, then writes.' },
+            3: { title: 'Design done.', desc: 'Assets generated automatically.' },
+            4: { title: 'Live on Webflow.', desc: 'Published. Zero human touch.' }
         };
 
         const stepPanels = document.querySelectorAll('.step-panel');
         const stepTitle = document.getElementById('stepTitle');
         const stepDesc = document.getElementById('stepDesc');
         const currentStep = document.getElementById('currentStep');
-        const wallyStepOrb = document.getElementById('wallyStepOrb');
-        const orbCore = wallyStepOrb.querySelector('.orb-core');
 
         const stepObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -2684,16 +2428,10 @@
                     const step = entry.target.dataset.step;
                     const data = stepData[step];
                     
-                    // Update content
                     stepTitle.textContent = data.title;
                     stepDesc.textContent = data.desc;
                     currentStep.textContent = '0' + step;
                     
-                    // Update orb color
-                    orbCore.style.background = data.color;
-                    orbCore.style.boxShadow = `0 0 60px ${data.color}`;
-                    
-                    // Mark active
                     stepPanels.forEach(p => p.classList.remove('active'));
                     entry.target.classList.add('active');
                 }
@@ -2701,22 +2439,6 @@
         }, { threshold: 0.5 });
 
         stepPanels.forEach(panel => stepObserver.observe(panel));
-
-        // Typewriter animation for step 2
-        const typeLines = document.querySelectorAll('.type-line');
-        const typeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    typeLines.forEach((line, i) => {
-                        line.style.setProperty('--width', line.style.width || '100%');
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.visual-typewriter').forEach(el => {
-            typeObserver.observe(el.closest('.step-panel'));
-        });
 
         // ===== BEFORE VS AFTER TOGGLE =====
         const toggleBtns = document.querySelectorAll('.toggle-btn');
@@ -2745,13 +2467,11 @@
         const demoProgress = document.getElementById('demoProgress');
         const demoResult = document.getElementById('demoResult');
         const demoOrbBg = document.getElementById('demoOrbBg');
-        const demoInput = document.querySelector('.demo-input');
         const progressSteps = document.querySelectorAll('.progress-step');
 
         demoBtn.addEventListener('click', () => {
             if (demoBtn.classList.contains('processing')) return;
 
-            // Reset
             demoProgress.classList.add('active');
             demoResult.classList.remove('active');
             progressSteps.forEach(step => {
@@ -2760,7 +2480,6 @@
                 step.querySelector('.step-status').textContent = '⏳';
             });
 
-            // Start processing
             demoBtn.classList.add('processing');
             demoBtn.querySelector('.btn-text').textContent = 'WALLY is thinking...';
             demoOrbBg.querySelector('.demo-orb').classList.add('processing');
@@ -2778,9 +2497,8 @@
                         step.querySelector('.step-status').textContent = '✓';
                         stepIndex++;
                         processStep();
-                    }, 1200);
+                    }, 1000);
                 } else {
-                    // Complete
                     demoBtn.classList.remove('processing');
                     demoBtn.querySelector('.btn-text').textContent = 'Unleash WALLY';
                     demoOrbBg.querySelector('.demo-orb').classList.remove('processing');
@@ -2795,59 +2513,6 @@
             setTimeout(processStep, 500);
         });
 
-        // ===== AURORA BACKGROUND ANIMATION =====
-        const auroraCanvas = document.getElementById('auroraCanvas');
-        const ctx = auroraCanvas.getContext('2d');
-        let auroraTime = 0;
-
-        function resizeAurora() {
-            auroraCanvas.width = window.innerWidth;
-            auroraCanvas.height = window.innerHeight;
-        }
-        resizeAurora();
-        window.addEventListener('resize', resizeAurora);
-
-        function drawAurora() {
-            ctx.fillStyle = '#0A0A0A';
-            ctx.fillRect(0, 0, auroraCanvas.width, auroraCanvas.height);
-
-            const time = Date.now() * 0.0005;
-
-            for (let i = 0; i < 3; i++) {
-                const gradient = ctx.createRadialGradient(
-                    auroraCanvas.width * (0.3 + i * 0.2 + Math.sin(time + i) * 0.1),
-                    auroraCanvas.height * (0.3 + Math.cos(time + i) * 0.2),
-                    0,
-                    auroraCanvas.width * 0.5,
-                    auroraCanvas.height * 0.5,
-                    auroraCanvas.width * 0.6
-                );
-
-                const hue1 = i === 0 ? '158' : '123';
-                const hue2 = i === 1 ? '270' : '158';
-                gradient.addColorStop(0, `hsla(${hue1}, 80%, 50%, 0.1)`);
-                gradient.addColorStop(0.5, `hsla(${hue2}, 60%, 40%, 0.05)`);
-                gradient.addColorStop(1, 'transparent');
-
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, auroraCanvas.width, auroraCanvas.height);
-            }
-
-            // Noise overlay
-            const imageData = ctx.getImageData(0, 0, auroraCanvas.width, auroraCanvas.height);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 40) {
-                const noise = (Math.random() - 0.5) * 10;
-                data[i] += noise;
-                data[i + 1] += noise;
-                data[i + 2] += noise;
-            }
-            ctx.putImageData(imageData, 0, 0);
-
-            requestAnimationFrame(drawAurora);
-        }
-        drawAurora();
-
         // ===== CLOSING SECTION REVEAL =====
         const closingSection = document.querySelector('.closing');
         const closingObserver = new IntersectionObserver((entries) => {
@@ -2860,61 +2525,52 @@
 
         closingObserver.observe(closingSection);
 
-        // ===== FOOTER PARTICLES =====
-        function createFooterParticles() {
-            const container = document.getElementById('closingParticles');
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'closing-particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(particle);
-            }
-        }
-        createFooterParticles();
-
-        // Easter egg: click orb 5 times
+        // ===== EASTER EGG: CLICK ORB 5 TIMES =====
         let orbClicks = 0;
         const canvas = document.getElementById('wally-orb');
         canvas.addEventListener('click', () => {
             orbClicks++;
             if (orbClicks >= 5) {
-                // Create confetti effect
-                for (let i = 0; i < 50; i++) {
+                // Confetti
+                const colors = ['#ff6b35', '#ec4899', '#fbbf24', '#7c3aed', '#10b981'];
+                for (let i = 0; i < 60; i++) {
                     const confetti = document.createElement('div');
                     confetti.style.cssText = `
                         position: fixed;
-                        width: 10px;
-                        height: 10px;
-                        background: ${Math.random() > 0.5 ? '#1D9E75' : '#7F77DD'};
+                        width: ${8 + Math.random() * 8}px;
+                        height: ${8 + Math.random() * 8}px;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
                         left: 50%;
                         top: 50%;
-                        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
                         pointer-events: none;
                         z-index: 9998;
-                        animation: confetti 2s forwards;
+                        animation: confetti-explode 2s forwards;
                     `;
-                    confetti.style.setProperty('--x', (Math.random() - 0.5) * 1000 + 'px');
-                    confetti.style.setProperty('--y', (Math.random() - 0.5) * 1000 + 'px');
+                    const angle = (Math.random() - 0.5) * Math.PI * 2;
+                    const distance = 200 + Math.random() * 400;
+                    confetti.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+                    confetti.style.setProperty('--y', Math.sin(angle) * distance + 'px');
                     document.body.appendChild(confetti);
                     setTimeout(() => confetti.remove(), 2000);
                 }
                 
-                // Show message
                 const msg = document.createElement('div');
-                msg.textContent = 'WALLY ACTIVATED 🚀';
+                msg.textContent = '🎉 WALLY ACTIVATED! 🚀';
                 msg.style.cssText = `
                     position: fixed;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    font-size: 32px;
-                    font-weight: 700;
-                    color: #1D9E75;
-                    text-shadow: 0 0 30px #1D9E75;
+                    font-size: 36px;
+                    font-weight: 800;
+                    font-family: 'Poppins', sans-serif;
+                    background: linear-gradient(135deg, #ff6b35, #ec4899);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-shadow: none;
                     z-index: 9999;
-                    animation: message-appear 2s forwards;
+                    animation: message-pop 2s forwards;
                 `;
                 document.body.appendChild(msg);
                 setTimeout(() => msg.remove(), 2000);
@@ -2923,18 +2579,18 @@
             }
         });
 
-        // Add confetti animation
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes confetti {
+            @keyframes confetti-explode {
                 to {
-                    transform: translate(var(--x), var(--y)) rotate(720deg);
+                    transform: translate(var(--x), var(--y)) rotate(720deg) scale(0);
                     opacity: 0;
                 }
             }
-            @keyframes message-appear {
+            @keyframes message-pop {
                 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-                50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                30% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                60% { transform: translate(-50%, -50%) scale(1); }
                 100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
             }
         `;
