@@ -4,25 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketing Ninjas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-card: #161616;
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --text-muted: rgba(255, 255, 255, 0.4);
-            --accent: #e8d5b7;
-            --accent-dark: #c9a959;
-            --accent-glow: rgba(232, 213, 183, 0.3);
-            --border: rgba(255, 255, 255, 0.1);
-            --neon-blue: #00d4ff;
-            --neon-purple: #a855f7;
-            --neon-pink: #ec4899;
+            --bg: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --border: #e0e0e0;
+            --accent: #1a73e8;
+            --accent-hover: #1557b0;
         }
 
         * {
@@ -36,605 +28,171 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* WebGL Canvas */
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Animated Gradient Orbs */
-        .gradient-orbs {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
-            animation: orbFloat 25s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
-            top: -30%;
-            left: -20%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
-            top: 50%;
-            right: -20%;
-            animation-delay: -8s;
-        }
-
-        .orb-3 {
-            width: 900px;
-            height: 900px;
-            background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
-            bottom: -30%;
-            left: 30%;
-            animation-delay: -15s;
-        }
-
-        .orb-4 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            top: 70%;
-            left: 60%;
-            animation-delay: -20s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -20px) scale(1.05); }
-            50% { transform: translate(-20px, 30px) scale(0.95); }
-            75% { transform: translate(20px, 20px) scale(1.03); }
-        }
-
-        /* 3D Floating Shapes Container */
-        .shapes-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            perspective: 1000px;
-        }
-
-        /* 3D Cube */
-        .cube {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            transform-style: preserve-3d;
-            animation: cubeRotate 25s linear infinite;
-            opacity: 0.08;
-        }
-
-        .cube-face {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border: 1px solid var(--accent);
-            background: rgba(232, 213, 183, 0.02);
-        }
-
-        .cube-face.front { transform: translateZ(30px); }
-        .cube-face.back { transform: translateZ(-30px); }
-        .cube-face.right { transform: rotateY(90deg) translateZ(30px); }
-        .cube-face.left { transform: rotateY(-90deg) translateZ(30px); }
-        .cube-face.top { transform: rotateX(90deg) translateZ(30px); }
-        .cube-face.bottom { transform: rotateX(-90deg) translateZ(30px); }
-
-        .cube-1 { top: 20%; left: 3%; animation-delay: 0s; }
-        .cube-2 { top: 65%; left: 10%; animation-delay: -6s; width: 45px; height: 45px; }
-        .cube-3 { top: 35%; right: 5%; animation-delay: -12s; width: 75px; height: 75px; }
-        .cube-4 { bottom: 25%; right: 12%; animation-delay: -18s; width: 50px; height: 50px; }
-
-        .cube-2 .cube-face, .cube-4 .cube-face {
-            width: 45px;
-            height: 45px;
-            border-color: var(--neon-blue);
-            background: rgba(0, 212, 255, 0.02);
-        }
-
-        .cube-3 .cube-face {
-            width: 75px;
-            height: 75px;
-            border-color: var(--neon-purple);
-            background: rgba(168, 85, 247, 0.02);
-        }
-
-        @keyframes cubeRotate {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-        }
-
-        /* 3D Pyramid */
-        .pyramid {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 35px solid transparent;
-            border-right: 35px solid transparent;
-            border-bottom: 60px solid transparent;
-            border-bottom-color: var(--accent);
-            filter: blur(1px);
-            opacity: 0.08;
-            animation: pyramidFloat 18s ease-in-out infinite;
-        }
-
-        .pyramid::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -35px;
-            width: 0;
-            height: 0;
-            border-left: 35px solid transparent;
-            border-right: 35px solid transparent;
-            border-bottom: 60px solid rgba(232, 213, 183, 0.1);
-            transform: translateZ(-15px);
-        }
-
-        .pyramid-1 { top: 30%; left: 15%; animation-delay: 0s; }
-        .pyramid-2 { top: 55%; right: 20%; animation-delay: -9s; transform: scale(0.6); border-bottom-color: var(--neon-blue); }
-        .pyramid-3 { bottom: 35%; left: 25%; animation-delay: -14s; transform: scale(0.8); border-bottom-color: var(--neon-purple); }
-
-        @keyframes pyramidFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
-        }
-
-        .pyramid-2 { animation-name: pyramidFloat2; }
-        @keyframes pyramidFloat2 {
-            0%, 100% { transform: scale(0.6) translateY(0) rotateY(0deg); }
-            50% { transform: scale(0.6) translateY(-15px) rotateY(180deg); }
-        }
-
-        .pyramid-3 { animation-name: pyramidFloat3; }
-        @keyframes pyramidFloat3 {
-            0%, 100% { transform: scale(0.8) translateY(0) rotateY(0deg); }
-            50% { transform: scale(0.8) translateY(-18px) rotateY(180deg); }
-        }
-
-        /* Floating Torus */
-        .torus {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 4px solid var(--accent);
-            border-radius: 50%;
-            opacity: 0.06;
-            animation: torusRotate 12s linear infinite;
-        }
-
-        .torus::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: torusSpin 6s linear infinite reverse;
-        }
-
-        .torus-1 { top: 45%; left: 5%; }
-        .torus-2 { top: 70%; right: 10%; border-color: var(--neon-blue); animation-duration: 15s; }
-        .torus-2::before { border-top-color: var(--neon-blue); }
-
-        @keyframes torusRotate {
-            0% { transform: rotateX(70deg) rotateZ(0deg); }
-            100% { transform: rotateX(70deg) rotateZ(360deg); }
-        }
-
-        @keyframes torusSpin {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-        }
-
-        /* Floating Rings */
-        .ring {
-            position: absolute;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            opacity: 0.06;
-            animation: ringPulse 5s ease-in-out infinite;
-        }
-
-        .ring-1 { top: 15%; right: 5%; width: 120px; height: 120px; animation-delay: 0s; }
-        .ring-2 { top: 28%; right: 3%; width: 80px; height: 80px; border-color: var(--neon-purple); animation-delay: -1.5s; }
-        .ring-3 { top: 42%; right: 8%; width: 150px; height: 150px; border-color: var(--neon-blue); animation-delay: -3s; }
-
-        @keyframes ringPulse {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.06; }
-            50% { transform: scale(1.08) rotate(90deg); opacity: 0.1; }
-        }
-
-        /* DNA Helix */
-        .dna {
-            position: absolute;
-            width: 3px;
-            height: 150px;
-            top: 55%;
-            left: 2%;
-            opacity: 0.1;
-        }
-
-        .dna-strand {
-            position: absolute;
-            width: 30px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-            animation: dnaMove 4s ease-in-out infinite;
-        }
-
-        .dna-strand:nth-child(odd) { left: 0; animation-name: dnaMoveLeft; }
-        .dna-strand:nth-child(even) { right: 0; animation-name: dnaMoveRight; }
-
-        @keyframes dnaMoveLeft {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(15px); }
-        }
-
-        @keyframes dnaMoveRight {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(-15px); }
-        }
-
-        /* Hexagon Grid */
-        .hex-grid {
-            position: absolute;
-            top: 12%;
-            left: 1.5%;
-            display: grid;
-            grid-template-columns: repeat(3, 35px);
-            gap: 4px;
-            opacity: 0.08;
-        }
-
-        .hex {
-            width: 35px;
-            height: 40px;
-            background: transparent;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            border: 1px solid var(--accent);
-            animation: hexPulse 4s ease-in-out infinite;
-        }
-
-        .hex:nth-child(2) { animation-delay: -0.7s; }
-        .hex:nth-child(3) { animation-delay: -1.4s; }
-        .hex:nth-child(4) { animation-delay: -2.1s; }
-        .hex:nth-child(5) { animation-delay: -2.8s; }
-        .hex:nth-child(6) { animation-delay: -3.5s; }
-
-        @keyframes hexPulse {
-            0%, 100% { opacity: 0.08; transform: scale(1); }
-            50% { opacity: 0.15; transform: scale(1.05); }
-        }
-
-        /* Floating Particles */
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: particleFloat 20s linear infinite;
-        }
-
-        @keyframes particleFloat {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.15; }
-            90% { opacity: 0.15; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
         /* Navigation */
-        .sidebar-nav {
+        nav {
             position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 60px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
         }
 
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.5px;
         }
 
-        .nav-dot::before {
-            content: attr(data-label);
-            position: absolute;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
             color: var(--text-secondary);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .nav-dot:hover::before {
-            opacity: 1;
-        }
-
-        .nav-dot.active {
-            border-color: var(--accent);
-            background: var(--accent);
-            box-shadow: 0 0 20px rgba(232, 213, 183, 0.3);
+        .nav-links a:hover {
+            color: var(--text);
         }
 
         /* Sections */
         section {
-            min-height: 100vh;
-            padding: 120px 10%;
+            padding: 120px 60px;
             position: relative;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 180px;
+        }
+
+        .hero-badge {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            max-width: 900px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 14px 32px;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--text);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
         }
 
         .section-label {
-            font-size: 11px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--accent);
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .section-label.visible {
-            opacity: 1;
-            transform: translateY(0);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(48px, 7vw, 80px);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease 0.1s;
-        }
-
-        .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title .italic {
-            font-style: italic;
-            color: var(--accent);
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
         }
 
         .section-desc {
             font-size: 18px;
-            line-height: 1.8;
             color: var(--text-secondary);
             max-width: 600px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease 0.2s;
-        }
-
-        .section-desc.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            align-items: center;
-            background: var(--bg-primary);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(232, 213, 183, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(56px, 10vw, 120px);
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease 0.7s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .btn {
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 16px 40px;
-            border: 2px solid var(--border);
-            background: transparent;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .btn.primary {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        .btn.primary:hover {
-            background: var(--accent-dark);
-            border-color: var(--accent-dark);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1s forwards;
-        }
-
-        .scroll-indicator span {
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .scroll-indicator .line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { transform: scaleY(1); opacity: 1; }
-            50% { transform: scaleY(0.6); opacity: 0.5; }
-        }
-
-        /* Stats Section */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-top: 80px;
-            padding-top: 60px;
-            border-top: 1px solid var(--border);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease 0.3s;
-        }
-
-        .stats-grid.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
+            margin: 0 auto;
+            line-height: 1.7;
         }
 
         /* Cards Grid */
@@ -642,38 +200,34 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .card {
-            background: var(--bg-card);
+            background: var(--bg);
             border: 1px solid var(--border);
+            border-radius: 20px;
             padding: 40px;
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0);
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            border-color: var(--accent);
             transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: transparent;
         }
 
         .card-icon {
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 25px;
         }
 
         .card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
 
         .card p {
@@ -682,266 +236,103 @@
             line-height: 1.7;
         }
 
-        /* Features Section */
-        .features-layout {
+        /* Stats */
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-            margin-top: 60px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin: 80px auto 0;
+            padding-top: 60px;
+            border-top: 1px solid var(--border);
         }
 
-        .feature-content {
-            opacity: 0;
-            transform: translateX(-40px);
-            transition: all 0.8s ease;
+        .stat {
+            text-align: center;
         }
 
-        .feature-content.visible {
-            opacity: 1;
-            transform: translateX(0);
+        .stat-number {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -2px;
+            margin-bottom: 8px;
         }
 
-        .feature-list {
-            list-style: none;
-            margin-top: 30px;
-        }
-
-        .feature-list li {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .feature-list li::before {
-            content: '→';
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .feature-image {
-            height: 400px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateX(40px);
-            transition: all 0.8s ease 0.2s;
-        }
-
-        .feature-image.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .feature-image::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: 
-                linear-gradient(90deg, var(--border) 1px, transparent 1px),
-                linear-gradient(var(--border) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.3;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(40px, 40px); }
-        }
-
-        .feature-image span {
-            font-size: 12px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+        .stat-label {
+            font-size: 14px;
             color: var(--text-muted);
-            background: var(--bg-primary);
-            padding: 15px 30px;
-            border: 1px dashed var(--border);
-            z-index: 1;
+            font-weight: 500;
         }
 
-        /* Timeline / Roadmap */
-        .roadmap {
-            margin-top: 80px;
-            position: relative;
+        /* Process Section */
+        .process-section {
+            background: var(--bg-secondary);
         }
 
-        .roadmap::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--border);
-            transform: translateX(-50%);
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .roadmap-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 60px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease;
+        .process-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--bg);
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
 
-        .roadmap-item.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .process-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
         }
 
-        .roadmap-item::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 20px;
-            width: 16px;
-            height: 16px;
-            background: var(--accent);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 30px rgba(232, 213, 183, 0.3);
-        }
-
-        .roadmap-content {
-            flex: 0 0 45%;
-            padding-right: 60px;
-            text-align: right;
-        }
-
-        .roadmap-content.right {
-            padding-right: 0;
-            padding-left: 60px;
-            text-align: left;
-            margin-left: auto;
-        }
-
-        .roadmap-phase {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .roadmap-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
+        .process-number {
+            font-size: 64px;
             font-weight: 700;
-            margin-bottom: 15px;
+            color: var(--border);
+            margin-bottom: 20px;
+            letter-spacing: -3px;
         }
 
-        .roadmap-desc {
+        .process-item h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .process-item p {
             font-size: 14px;
             color: var(--text-secondary);
             line-height: 1.7;
         }
 
-        /* Team Section */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .team-member {
-            text-align: center;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.6s ease;
-        }
-
-        .team-member.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .team-member:hover .team-avatar {
-            border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(232, 213, 183, 0.2);
-        }
-
-        .team-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .team-role {
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
         /* CTA Section */
         .cta-section {
             text-align: center;
-            background: var(--bg-secondary);
+            padding: 150px 60px;
         }
 
-        .cta-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(36px, 5vw, 64px);
-            font-weight: 700;
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease;
+        .cta-section h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 600;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
         }
 
-        .cta-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease 0.2s;
-        }
-
-        .cta-buttons.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .cta-section p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
         }
 
         /* Footer */
         footer {
-            padding: 60px 10%;
+            padding: 60px;
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
@@ -949,10 +340,8 @@
         }
 
         .footer-logo {
-            font-family: 'Inter', sans-serif;
             font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-weight: 600;
         }
 
         .footer-logo span {
@@ -961,100 +350,131 @@
 
         .footer-links {
             display: flex;
-            gap: 40px;
+            gap: 30px;
             list-style: none;
         }
 
         .footer-links a {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.2s;
         }
 
         .footer-links a:hover {
-            color: var(--accent);
+            color: var(--text);
         }
 
-        .footer-social {
-            display: flex;
-            gap: 20px;
+        /* Floating Elements */
+        .floating-card {
+            position: absolute;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
         }
 
-        .footer-social a {
-            font-size: 20px;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .float-1 {
+            top: 30%;
+            left: 5%;
+            animation: float1 6s ease-in-out infinite;
         }
 
-        .footer-social a:hover {
-            color: var(--accent);
+        .float-2 {
+            top: 50%;
+            right: 5%;
+            animation: float2 8s ease-in-out infinite;
         }
+
+        .float-3 {
+            bottom: 20%;
+            left: 10%;
+            animation: float3 7s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0) rotate(2deg); }
+            50% { transform: translateY(-15px) rotate(-2deg); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-25px) rotate(1deg); }
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .sidebar-nav {
-                display: none;
-            }
-
-            section {
-                padding: 100px 6%;
-            }
-
             .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .features-layout {
-                grid-template-columns: 1fr;
-                gap: 40px;
+            
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-
+            
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
             }
 
-            .roadmap::before {
-                left: 20px;
-            }
-
-            .roadmap-item {
-                flex-direction: column !important;
-                padding-left: 60px;
-            }
-
-            .roadmap-item::before {
-                left: 20px;
-            }
-
-            .roadmap-content {
-                padding: 0 !important;
-                text-align: left !important;
-                flex: 1;
-            }
-
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .floating-card {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 30px;
+            }
+
             .cards-grid {
                 grid-template-columns: 1fr;
             }
 
-            .stats-grid {
+            .process-grid {
                 grid-template-columns: 1fr;
-                gap: 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .stat-number {
                 font-size: 36px;
-            }
-
-            .team-grid {
-                grid-template-columns: 1fr;
             }
 
             footer {
@@ -1062,651 +482,129 @@
                 gap: 30px;
                 text-align: center;
             }
-
-            .footer-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-
-        /* ===== ANIMATIONS ===== */
-
-        /* Text reveal animation */
-        @keyframes textReveal {
-            0% {
-                clip-path: inset(0 100% 0 0);
-                opacity: 0;
-            }
-            100% {
-                clip-path: inset(0 0 0 0);
-                opacity: 1;
-            }
-        }
-
-        .text-reveal {
-            animation: textReveal 1s ease forwards;
-        }
-
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        /* Pulse animation */
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-
-        .pulse {
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        /* Glow pulse */
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
-            50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
-        }
-
-        .glow-pulse {
-            animation: glowPulse 2s ease-in-out infinite;
-        }
-
-        /* Rotate animation */
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .rotate {
-            animation: rotate 20s linear infinite;
-        }
-
-        /* Slide in from left */
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Slide in from right */
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Slide in from bottom */
-        @keyframes slideInBottom {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Scale in */
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Border animation */
-        @keyframes borderGlow {
-            0%, 100% { border-color: var(--border); }
-            50% { border-color: var(--accent); }
-        }
-
-        /* Typing cursor */
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
-        }
-
-        /* Marquee */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .marquee {
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
-
-        /* Gradient text animation */
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, var(--accent), var(--neon-blue), var(--accent));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 5s linear infinite;
-        }
-
-        /* Card hover effects */
-        .card {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--accent-glow);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.2) rotate(5deg);
-        }
-
-        .card-icon {
-            transition: all 0.4s ease;
-        }
-
-        /* Button hover effects */
-        .btn {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: var(--accent);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn.primary:hover {
-            background: var(--accent-dark);
-            border-color: var(--accent-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(232, 213, 183, 0.3);
-        }
-
-        .btn:not(.primary):hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* Stats counter animation */
-        .stat-number {
-            position: relative;
-            display: inline-block;
-        }
-
-        .stat-number::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease;
-        }
-
-        .stat-item:hover .stat-number::after {
-            transform: scaleX(1);
-        }
-
-        /* Nav dot hover */
-        .nav-dot {
-            transition: all 0.3s ease;
-        }
-
-        .nav-dot:hover {
-            border-color: var(--accent);
-            transform: scale(1.2);
-        }
-
-        /* Hero title animation on load */
-        .hero-title {
-            position: relative;
-        }
-
-        .hero-title span {
-            display: inline-block;
-            animation: slideInBottom 0.8s ease forwards;
-            opacity: 0;
-        }
-
-        .hero-title span:nth-child(1) { animation-delay: 0.2s; }
-        .hero-title span:nth-child(2) { animation-delay: 0.4s; }
-
-        /* Section divider line animation */
-        .stats-grid::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            transition: width 1s ease;
-        }
-
-        .stats-grid.visible::before {
-            width: 100%;
-            left: 0;
-        }
-
-        /* Roadmap connector animation */
-        .roadmap::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--accent), var(--neon-purple), var(--neon-blue));
-            transform: translateX(-50%) scaleY(0);
-            transform-origin: top;
-            transition: transform 1s ease;
-        }
-
-        .roadmap.visible::before {
-            transform: translateX(-50%) scaleY(1);
-        }
-
-        /* Image placeholder shimmer */
-        .feature-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            100% { left: 100%; }
-        }
-
-        /* Feature list item stagger */
-        .feature-list li {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.5s ease;
-        }
-
-        .feature-content.visible .feature-list li {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .feature-content.visible .feature-list li:nth-child(1) { transition-delay: 0.1s; }
-        .feature-content.visible .feature-list li:nth-child(2) { transition-delay: 0.2s; }
-        .feature-content.visible .feature-list li:nth-child(3) { transition-delay: 0.3s; }
-        .feature-content.visible .feature-list li:nth-child(4) { transition-delay: 0.4s; }
-
-        /* CTA section background animation */
-        .cta-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .cta-section.visible::before {
-            opacity: 0.3;
-            animation: ctaGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes ctaGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        /* Footer link hover animation */
-        .footer-links a {
-            position: relative;
-        }
-
-        .footer-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        .footer-links a:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        /* Scroll indicator bounce */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-            40% { transform: translateY(-15px) translateX(-50%); }
-            60% { transform: translateY(-7px) translateX(-50%); }
-        }
-
-        .scroll-indicator {
-            animation: bounce 2s infinite;
         }
     </style>
 </head>
 <body>
-    <!-- WebGL Background -->
-    <canvas id="webgl-canvas"></canvas>
-    
-    <!-- Gradient Orbs Overlay -->
-    <div class="gradient-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
-    </div>
-
-    <!-- Floating Particles -->
-    <div id="particles"></div>
-
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar-nav">
-        <div class="nav-dot active" data-section="hero" data-label="Home"></div>
-        <div class="nav-dot" data-section="writing" data-label="Writing"></div>
-        <div class="nav-dot" data-section="images" data-label="Images"></div>
-        <div class="nav-dot" data-section="webflow" data-label="Webflow"></div>
-        <div class="nav-dot" data-section="process" data-label="Process"></div>
-        <div class="nav-dot" data-section="contact" data-label="Contact"></div>
+    <nav>
+        <a href="#" class="logo">Marketing <span>Ninjas</span></a>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <h1 class="hero-title">
-            <span class="highlight">Marketing</span> Ninjas
-        </h1>
-        <p class="hero-subtitle">
-            We craft compelling stories, curate stunning visuals, and build 
-            high-performance websites that convert.
-        </p>
-        <div class="hero-cta">
-            <button class="btn primary">Start a Project</button>
-            <button class="btn">View Our Work</button>
-        </div>
-        <div class="scroll-indicator">
-            <span>Scroll to explore</span>
-            <div class="line"></div>
+    <!-- Hero -->
+    <section class="hero">
+        <span class="hero-badge fade-up">Digital Marketing Agency</span>
+        <h1 class="fade-up stagger-1">We build brands that<br>people love</h1>
+        <p class="fade-up stagger-2">Strategic storytelling, stunning visuals, and high-performance websites. We help businesses grow through creative excellence.</p>
+        <div class="hero-buttons fade-up stagger-3">
+            <a href="#contact" class="btn btn-primary">Start a Project</a>
+            <a href="#services" class="btn btn-secondary">Learn More</a>
         </div>
     </section>
 
-    <!-- Writing Section -->
-    <section id="writing">
-        <span class="section-label">01 — SEI Writing</span>
-        <h2 class="section-title">
-            Words That <span class="italic">Resonate</span>
-        </h2>
-        <p class="section-desc">
-            Strategic storytelling that connects with your audience and drives action. 
-            We craft narratives that align with your brand voice while delivering measurable results.
-        </p>
+    <!-- Services -->
+    <section id="services">
+        <div class="section-header fade-up">
+            <span class="section-label">Services</span>
+            <h2 class="section-title">What we do</h2>
+            <p class="section-desc">We combine strategy, creativity, and technology to build brands that stand out.</p>
+        </div>
 
-        <div class="stats-grid">
-            <div class="stat-item">
+        <div class="cards-grid">
+            <div class="card fade-up stagger-1">
+                <div class="card-icon">✍️</div>
+                <h3>SEI Writing</h3>
+                <p>Compelling copy that resonates with your audience and drives action. Every word crafted with purpose.</p>
+            </div>
+            <div class="card fade-up stagger-2">
+                <div class="card-icon">🖼️</div>
+                <h3>Image Suggestions</h3>
+                <p>AI-powered image curation that matches your brand's tone, color, and emotional resonance.</p>
+            </div>
+            <div class="card fade-up stagger-3">
+                <div class="card-icon">✨</div>
+                <h3>Image Refining</h3>
+                <p>Background removal, color enhancement, and quality upscaling to make your visuals perfect.</p>
+            </div>
+            <div class="card fade-up stagger-1">
+                <div class="card-icon">🌐</div>
+                <h3>Webflow Development</h3>
+                <p>Custom, responsive websites built with Webflow that load fast and convert visitors into customers.</p>
+            </div>
+            <div class="card fade-up stagger-2">
+                <div class="card-icon">📊</div>
+                <h3>Brand Strategy</h3>
+                <p>Define your brand voice, messaging, and visual identity to stand out in a crowded market.</p>
+            </div>
+            <div class="card fade-up stagger-3">
+                <div class="card-icon">🚀</div>
+                <h3>Growth Marketing</h3>
+                <p>Data-driven campaigns that attract, engage, and convert your target audience.</p>
+            </div>
+        </div>
+
+        <div class="stats-grid fade-up">
+            <div class="stat">
                 <div class="stat-number">150+</div>
                 <div class="stat-label">Projects Completed</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">3x</div>
-                <div class="stat-label">Average Engagement Lift</div>
-            </div>
-            <div class="stat-item">
+            <div class="stat">
                 <div class="stat-number">50+</div>
                 <div class="stat-label">Happy Clients</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">98%</div>
+            <div class="stat">
+                <div class="stat-number">3x</div>
+                <div class="stat-label">Avg. Engagement</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99%</div>
                 <div class="stat-label">Client Retention</div>
             </div>
         </div>
+    </section>
 
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">✍️</div>
-                <h3>Strategic Storytelling</h3>
-                <p>Every word serves a purpose. We craft narratives that align with your brand voice while driving measurable engagement.</p>
+    <!-- Process -->
+    <section id="process" class="process-section">
+        <div class="section-header fade-up">
+            <span class="section-label">Process</span>
+            <h2 class="section-title">How we work</h2>
+            <p class="section-desc">A proven methodology that delivers results, every time.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-item fade-up stagger-1">
+                <div class="process-number">01</div>
+                <h3>Discover</h3>
+                <p>We dive deep into your brand, audience, and goals to understand what makes you unique.</p>
             </div>
-            <div class="card">
-                <div class="card-icon">🎯</div>
-                <h3>SEO-Optimized Copy</h3>
-                <p>Content that ranks and converts. Our writing combines strategic keyword placement with authentic, engaging storytelling.</p>
+            <div class="process-item fade-up stagger-2">
+                <div class="process-number">02</div>
+                <h3>Strategy</h3>
+                <p>We develop a comprehensive plan that aligns with your business objectives.</p>
             </div>
-            <div class="card">
-                <div class="card-icon">💡</div>
-                <h3>Brand Voice Development</h3>
-                <p>Consistent messaging across all touchpoints. We help define and refine your unique voice that sets you apart.</p>
+            <div class="process-item fade-up stagger-3">
+                <div class="process-number">03</div>
+                <h3>Create</h3>
+                <p>Our team crafts compelling content and builds stunning experiences.</p>
+            </div>
+            <div class="process-item fade-up stagger-4">
+                <div class="process-number">04</div>
+                <h3>Launch</h3>
+                <p>We deploy and continuously optimize for maximum impact.</p>
             </div>
         </div>
     </section>
 
-    <!-- Images Section -->
-    <section id="images">
-        <span class="section-label">02 — Image Magic</span>
-        <h2 class="section-title">
-            Visuals That <span class="italic">Captivate</span>
-        </h2>
-        <p class="section-desc">
-            From smart suggestions to meticulous refinement, we ensure every visual 
-            element supports your brand story with impact.
-        </p>
-
-        <div class="features-layout">
-            <div class="feature-content">
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 20px;">
-                    Intelligent Image Curation
-                </h3>
-                <p style="color: var(--text-secondary); line-height: 1.8;">
-                    Our AI-powered system analyzes your content and suggests images that match 
-                    tone, color palette, and emotional resonance with your target audience.
-                </p>
-                <ul class="feature-list">
-                    <li>Smart Curation</li>
-                    <li>Style Matching</li>
-                    <li>Performance Insights</li>
-                    <li>Brand Consistency</li>
-                </ul>
-            </div>
-            <div class="feature-image">
-                <span>Image Suggestions Preview</span>
-            </div>
-        </div>
-
-        <div class="features-layout" style="margin-top: 80px;">
-            <div class="feature-image" style="order: 2;">
-                <span>Image Refining Preview</span>
-            </div>
-            <div class="feature-content" style="order: 1;">
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 20px;">
-                    Precision Image Refinement
-                </h3>
-                <p style="color: var(--text-secondary); line-height: 1.8;">
-                    Great images become extraordinary with the right refinements. From background 
-                    removal to color grading, we transform good visuals into stunning assets.
-                </p>
-                <ul class="feature-list">
-                    <li>Background Removal</li>
-                    <li>Color Enhancement</li>
-                    <li>Composition Tuning</li>
-                    <li>Quality Upscaling</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Webflow Section -->
-    <section id="webflow">
-        <span class="section-label">03 — Webflow</span>
-        <h2 class="section-title">
-            Websites That <span class="italic">Convert</span>
-        </h2>
-        <p class="section-desc">
-            Where strategy meets design. We bring together perfectly crafted copy and 
-            stunning visuals in high-performance Webflow websites.
-        </p>
-
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">🎨</div>
-                <h3>Pixel-Perfect Design</h3>
-                <p>Custom Webflow builds that match every design detail. Responsive, accessible, and optimized for every device.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">⚡</div>
-                <h3>Lightning Performance</h3>
-                <p>Blazing fast load times. Optimized images, clean code, and best practices for Core Web Vitals.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🔄</div>
-                <h3>Easy Maintenance</h3>
-                <p>Full CMS setup. You own your content. Simple edits without touching a line of code.</p>
-            </div>
-        </div>
-
-        <div class="stats-grid" style="margin-top: 80px;">
-            <div class="stat-item">
-                <div class="stat-number">99</div>
-                <div class="stat-label">Performance Score</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Design Fidelity</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">0</div>
-                <div class="stat-label">Code Dependencies</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">24h</div>
-                <div class="stat-label">Support Response</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section id="process">
-        <span class="section-label">04 — Our Process</span>
-        <h2 class="section-title">
-            How We <span class="italic">Work</span>
-        </h2>
-        <p class="section-desc">
-            A proven methodology that delivers results, every time.
-        </p>
-
-        <div class="roadmap">
-            <div class="roadmap-item">
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">Phase 01</span>
-                    <h3 class="roadmap-title">Discovery</h3>
-                    <p class="roadmap-desc">We dive deep into your brand, audience, and goals to understand what makes you unique.</p>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">Phase 02</span>
-                    <h3 class="roadmap-title">Strategy</h3>
-                    <p class="roadmap-desc">We develop a comprehensive content and design strategy that aligns with your business objectives.</p>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">Phase 03</span>
-                    <h3 class="roadmap-title">Creation</h3>
-                    <p class="roadmap-desc">Our team crafts compelling copy, curates perfect visuals, and builds stunning web experiences.</p>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">Phase 04</span>
-                    <h3 class="roadmap-title">Launch & Optimize</h3>
-                    <p class="roadmap-desc">We launch your project and continuously monitor, test, and refine for maximum impact.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <h2 class="cta-title">
-            Ready to <span class="italic">Transform</span> Your Brand?
-        </h2>
-        <div class="cta-buttons">
-            <button class="btn primary">Start a Project</button>
-            <button class="btn">Schedule a Call</button>
+    <!-- CTA -->
+    <section id="contact" class="cta-section">
+        <h2 class="fade-up">Ready to transform your brand?</h2>
+        <p class="fade-up stagger-1">Let's create something amazing together.</p>
+        <div class="fade-up stagger-2">
+            <a href="mailto:hello@marketingninjas.com" class="btn btn-primary">Get in Touch</a>
         </div>
     </section>
 
@@ -1714,590 +612,74 @@
     <footer>
         <div class="footer-logo">Marketing <span>Ninjas</span></div>
         <ul class="footer-links">
-            <li><a href="#writing">Services</a></li>
+            <li><a href="#services">Services</a></li>
             <li><a href="#process">Process</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <div class="footer-social">
-            <a href="#">𝕏</a>
-            <a href="#">in</a>
-            <a href="#">Be</a>
-        </div>
     </footer>
 
     <script>
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // Intersection Observer for fade-up animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-        document.querySelectorAll('.section-label, .section-title, .section-desc, .stats-grid, .card, .feature-content, .feature-image, .roadmap-item, .cta-title, .cta-buttons').forEach(el => {
+        document.querySelectorAll('.fade-up').forEach(el => {
             observer.observe(el);
         });
 
-        // Staggered card animations
-        document.querySelectorAll('.card').forEach((card, index) => {
-            card.style.transitionDelay = `${index * 0.1}s`;
-        });
-
-        document.querySelectorAll('.roadmap-item').forEach((item, index) => {
-            item.style.transitionDelay = `${index * 0.15}s`;
-        });
-
-        document.querySelectorAll('.team-member').forEach((member, index) => {
-            member.style.transitionDelay = `${index * 0.1}s`;
-        });
-
-        // Sidebar navigation
-        const sections = document.querySelectorAll('section');
-        const navDots = document.querySelectorAll('.nav-dot');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop - sectionHeight / 3) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navDots.forEach(dot => {
-                dot.classList.remove('active');
-                if (dot.dataset.section === current) {
-                    dot.classList.add('active');
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Click navigation
-        navDots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const sectionId = dot.dataset.section;
-                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        // Button interactions
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (btn.classList.contains('primary') || btn.textContent.includes('Start') || btn.textContent.includes('Project')) {
-                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Smooth counter animation for stats
-        const animateCounter = (element, target, suffix = '') => {
-            let current = 0;
-            const increment = target / 60;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current) + suffix;
-            }, 16);
-        };
-
-        // Trigger counter animation when stats are visible
-        const statsObserver = new IntersectionObserver((entries) => {
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !entry.target.dataset.animated) {
                     entry.target.dataset.animated = 'true';
-                    const numbers = entry.target.querySelectorAll('.stat-number');
-                    numbers.forEach(num => {
-                        const text = num.textContent;
-                        const target = parseInt(text);
-                        const suffix = text.replace(/[0-9]/g, '');
-                        if (!isNaN(target)) {
-                            num.textContent = '0' + suffix;
-                            setTimeout(() => animateCounter(num, target, suffix), 300);
+                    const text = entry.target.textContent;
+                    const num = parseInt(text);
+                    const suffix = text.replace(/[0-9]/g, '');
+                    let current = 0;
+                    const increment = num / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= num) {
+                            current = num;
+                            clearInterval(timer);
                         }
-                    });
+                        entry.target.textContent = Math.floor(current) + suffix;
+                    }, 20);
                 }
             });
         }, { threshold: 0.5 });
 
-        document.querySelectorAll('.stats-grid').forEach(grid => {
-            statsObserver.observe(grid);
-        });
+        counters.forEach(counter => counterObserver.observe(counter));
 
-        // Ripple effect on buttons
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    pointer-events: none;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: 100px;
-                    height: 100px;
-                    margin-left: -50px;
-                    margin-top: -50px;
-                `;
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // Add ripple keyframes dynamically
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Card tilt effect
-        document.querySelectorAll('.card').forEach(card => {
+        // Card hover effect
+        document.querySelectorAll('.card, .process-item').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
             });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
-
-        // Magnetic button effect
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-            });
-
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
-
-        // Cursor follower glow
-        const cursorGlow = document.createElement('div');
-        cursorGlow.style.cssText = `
-            position: fixed;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(232, 213, 183, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease;
-        `;
-        document.body.appendChild(cursorGlow);
-
-        let cursorVisible = false;
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-            if (!cursorVisible) {
-                cursorGlow.style.opacity = '1';
-                cursorVisible = true;
-            }
-        });
-
-        document.addEventListener('mouseleave', () => {
-            cursorGlow.style.opacity = '0';
-            cursorVisible = false;
-        });
-
-        // Smooth reveal for section content
-        const revealOnScroll = () => {
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight * 0.8;
-                if (isVisible) {
-                    section.classList.add('visible');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
-
-        // Add loaded class after page load
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
-
-        // ===== KELVIN ZERO STYLE WEBGL ANIMATION =====
-        
-        // Register GSAP plugins
-        gsap.registerPlugin(ScrollTrigger);
-
-        // WebGL Scene Setup
-        const canvas = document.getElementById('webgl-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Colors
-        const colors = {
-            accent: 0xe8d5b7,
-            gold: 0xc9a959,
-            neonBlue: 0x00d4ff,
-            neonPurple: 0xa855f7,
-            neonPink: 0xec4899
-        };
-
-        // Create multiple 3D cubes
-        const cubes = [];
-        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-        
-        // Cube materials with wireframe
-        const createCube = (size, color, x, y, z, wireframeColor) => {
-            const group = new THREE.Group();
-            
-            // Main cube
-            const material = new THREE.MeshBasicMaterial({ 
-                color: color, 
-                wireframe: true,
-                transparent: true,
-                opacity: 0.15
-            });
-            const cube = new THREE.Mesh(cubeGeometry, material);
-            cube.scale.set(size, size, size);
-            
-            // Wireframe edges
-            const edges = new THREE.EdgesGeometry(cubeGeometry);
-            const line = new THREE.LineSegments(
-                edges,
-                new THREE.LineBasicMaterial({ color: wireframeColor, transparent: true, opacity: 0.4 })
-            );
-            line.scale.set(size, size, size);
-            
-            group.add(cube);
-            group.add(line);
-            group.position.set(x, y, z);
-            
-            return group;
-        };
-
-        // Add cubes to scene
-        const cube1 = createCube(2, colors.accent, -5, 2, -10, colors.gold);
-        const cube2 = createCube(1.5, colors.neonBlue, 6, -1, -8, colors.neonBlue);
-        const cube3 = createCube(3, colors.neonPurple, -7, -3, -15, colors.neonPurple);
-        const cube4 = createCube(1.8, colors.neonPink, 4, 3, -12, colors.neonPink);
-        const cube5 = createCube(1.2, colors.accent, -3, -4, -6, colors.gold);
-        const cube6 = createCube(2.5, colors.neonBlue, 8, 1, -20, colors.neonBlue);
-
-        scene.add(cube1, cube2, cube3, cube4, cube5, cube6);
-        cubes.push(cube1, cube2, cube3, cube4, cube5, cube6);
-
-        // Create floating particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 500;
-        const posArray = new Float32Array(particlesCount * 3);
-
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 50;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.03,
-            color: colors.accent,
-            transparent: true,
-            opacity: 0.6,
-            blending: THREE.AdditiveBlending
-        });
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Create floating lines
-        const lines = [];
-        for (let i = 0; i < 10; i++) {
-            const points = [];
-            const startX = (Math.random() - 0.5) * 20;
-            const startY = (Math.random() - 0.5) * 20;
-            const startZ = -5 - Math.random() * 15;
-            
-            for (let j = 0; j < 5; j++) {
-                points.push(new THREE.Vector3(
-                    startX + Math.random() * 2,
-                    startY + Math.random() * 2,
-                    startZ + j * 0.5
-                ));
-            }
-            
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: colors.neonPurple, 
-                transparent: true, 
-                opacity: 0.2 
-            });
-            const line = new THREE.Line(lineGeometry, lineMaterial);
-            scene.add(line);
-            lines.push({ line, speed: Math.random() * 0.5 + 0.2 });
-        }
-
-        // Create glowing ring
-        const ringGeometry = new THREE.RingGeometry(3, 3.1, 64);
-        const ringMaterial = new THREE.MeshBasicMaterial({ 
-            color: colors.gold, 
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.1
-        });
-        const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-        ring.position.set(-4, 1, -8);
-        scene.add(ring);
-
-        camera.position.z = 5;
-
-        // Mouse tracking
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetMouseX = 0;
-        let targetMouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        // Scroll tracking
-        let scrollY = 0;
-        window.addEventListener('scroll', () => {
-            scrollY = window.pageYOffset;
-        });
-
-        // Animation loop
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.01;
-
-            // Smooth mouse movement
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
-
-            // Rotate cubes based on mouse position
-            cubes.forEach((cube, i) => {
-                cube.rotation.x += 0.002 + i * 0.001;
-                cube.rotation.y += 0.003 + i * 0.001;
-                
-                // Mouse influence
-                cube.rotation.x += mouseY * 0.0005 * (i + 1);
-                cube.rotation.y += mouseX * 0.0005 * (i + 1);
-                
-                // Floating motion
-                cube.position.y += Math.sin(time + i) * 0.002;
-                cube.position.x += Math.cos(time * 0.5 + i) * 0.001;
-                
-                // Scroll influence
-                cube.position.z += (scrollY * 0.001 * (i + 1) % 2 - 1) * 0.01;
-            });
-
-            // Rotate particles
-            particlesMesh.rotation.y += 0.0003;
-            particlesMesh.rotation.x += 0.0001;
-
-            // Animate lines
-            lines.forEach((item, i) => {
-                item.line.rotation.z += item.speed * 0.002;
-                item.line.position.y += Math.sin(time + i) * 0.002;
-            });
-
-            // Rotate ring
-            ring.rotation.x += 0.002;
-            ring.rotation.y += 0.001;
-            ring.position.z = -8 + Math.sin(time) * 0.5;
-
-            // Camera movement based on mouse
-            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-            camera.position.y += (mouseY * 2 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-
-            // Scroll-based camera movement
-            camera.position.z = 5 + scrollY * 0.002;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // GSAP ScrollTrigger animations for sections
-        gsap.utils.toArray('section').forEach((section, i) => {
-            gsap.fromTo(section.querySelector('.section-label'),
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 80%',
-                        end: 'top 20%',
-                        scrub: 1
-                    }
-                }
-            );
-
-            gsap.fromTo(section.querySelector('.section-title'),
-                { opacity: 0, y: 80 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 70%',
-                        end: 'top 10%',
-                        scrub: 1
-                    }
-                }
-            );
-
-            gsap.fromTo(section.querySelector('.section-desc'),
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 60%',
-                        end: 'top 5%',
-                        scrub: 1
-                    }
-                }
-            );
-        });
-
-        // Card animations with stagger
-        gsap.utils.toArray('.card').forEach((card, i) => {
-            gsap.fromTo(card,
-                { opacity: 0, y: 100, rotateY: 5 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    rotateY: 0,
-                    duration: 0.8,
-                    delay: i * 0.1,
-                    scrollTrigger: {
-                        trigger: card,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        });
-
-        // Hero title animation
-        gsap.fromTo('.hero-title',
-            { opacity: 0, scale: 0.9, y: 50 },
-            { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: 'power3.out' }
-        );
-
-        gsap.fromTo('.hero-subtitle',
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power3.out' }
-        );
-
-        gsap.fromTo('.hero-cta',
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power3.out' }
-        );
-
-        gsap.fromTo('.scroll-indicator',
-            { opacity: 0 },
-            { opacity: 1, duration: 1, delay: 1, ease: 'power3.out' }
-        );
-
-        // CTA section special animation
-        gsap.fromTo('.cta-title',
-            { opacity: 0, scale: 0.95 },
-            {
-                opacity: 1,
-                scale: 1,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: '.cta-section',
-                    start: 'top 60%',
-                    end: 'top 30%',
-                    scrub: 1
-                }
-            }
-        );
-
-        // Parallax effect for orbs on scroll
-        gsap.to('.orb-1', {
-            y: -200,
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1
-            }
-        });
-
-        gsap.to('.orb-2', {
-            y: -150,
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 2
-            }
-        });
-
-        gsap.to('.orb-3', {
-            y: -300,
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 1.5
-            }
         });
     </script>
 </body>
