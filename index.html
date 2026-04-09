@@ -1137,6 +1137,533 @@
                 height: 100px;
             }
         }
+
+        /* ===== SECTION 5: BEFORE VS AFTER ===== */
+        .comparison {
+            min-height: 100vh;
+            padding: 100px 60px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .comparison-toggle {
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px;
+            border-radius: 100px;
+            margin-bottom: 60px;
+        }
+
+        .toggle-btn {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        .toggle-btn:hover:not(.active) {
+            color: var(--text);
+        }
+
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .comparison-side {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .comparison-side.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 80px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            position: absolute;
+            left: -80px;
+        }
+
+        .timeline-icon.tired {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .timeline-icon.wally {
+            background: var(--accent);
+            color: var(--text);
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 0 0 30px rgba(29, 158, 117, 0.4);
+        }
+
+        .timeline-icon.wally.glow {
+            box-shadow: 0 0 50px rgba(29, 158, 117, 0.6);
+        }
+
+        .timeline-icon.wally.pulse {
+            animation: icon-pulse 1s infinite;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(29, 158, 117, 0.4); }
+            50% { box-shadow: 0 0 60px rgba(29, 158, 117, 0.8); }
+        }
+
+        .timeline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .timeline-day {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timeline-time {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .timeline-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .timeline-connector {
+            display: flex;
+            align-items: center;
+            margin-left: -28px;
+            margin-bottom: 20px;
+            padding-left: 80px;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .timeline-connector.wally .connector-line {
+            background: var(--accent);
+            opacity: 0.3;
+        }
+
+        .connector-spinner {
+            margin-left: 12px;
+            color: var(--text-muted);
+            animation: spin 2s linear infinite;
+            font-size: 18px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .connector-check {
+            margin-left: 12px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .timeline-item.final {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .live-badge-sm {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Comparison Stats */
+        .comparison-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .compare-stat {
+            text-align: center;
+        }
+
+        .compare-stat .stat-num {
+            font-size: 48px;
+            font-weight: 700;
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .compare-stat .stat-num.red {
+            color: #ff6b6b;
+        }
+
+        .compare-stat .stat-num.teal {
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(29, 158, 117, 0.5);
+        }
+
+        .compare-stat .stat-text {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ===== SECTION 6: LIVE DEMO ===== */
+        .demo-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 60px;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-orb-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .demo-orb {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(29, 158, 117, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        .demo-orb.processing {
+            animation: orb-fast-spin 2s linear infinite;
+        }
+
+        @keyframes orb-fast-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .demo-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 60px;
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+        }
+
+        .demo-title {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .demo-input-group {
+            margin-bottom: 30px;
+        }
+
+        .demo-input {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            color: var(--text);
+            resize: none;
+            transition: border-color 0.3s;
+        }
+
+        .demo-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .demo-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(29, 158, 117, 0.2);
+        }
+
+        .demo-btn {
+            width: 100%;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 18px 32px;
+            background: var(--accent);
+            color: var(--text);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .demo-btn:hover {
+            box-shadow: 0 0 40px rgba(29, 158, 117, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .demo-btn.processing {
+            background: var(--accent-secondary);
+        }
+
+        .demo-btn.processing .btn-arrow {
+            animation: spin 0.5s linear infinite;
+        }
+
+        .btn-arrow {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        /* Demo Progress */
+        .demo-progress {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .demo-progress.active {
+            display: block;
+        }
+
+        .progress-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .progress-step.active {
+            opacity: 1;
+        }
+
+        .progress-step.complete {
+            opacity: 1;
+        }
+
+        .progress-step .step-indicator {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .progress-step.active .step-indicator {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        .progress-step.complete .step-indicator {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        .progress-step .step-name {
+            width: 180px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .progress-step .step-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-step .step-fill {
+            height: 100%;
+            width: 0;
+            background: var(--accent);
+            transition: width 0.8s ease;
+        }
+
+        .progress-step.active .step-fill {
+            width: 100%;
+        }
+
+        .progress-step .step-status {
+            font-size: 16px;
+            width: 24px;
+        }
+
+        .progress-step.complete .step-status {
+            color: var(--accent);
+        }
+
+        /* Demo Result */
+        .demo-result {
+            display: none;
+            margin-top: 40px;
+            text-align: center;
+            padding: 30px;
+            background: rgba(29, 158, 117, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(29, 158, 117, 0.3);
+        }
+
+        .demo-result.active {
+            display: block;
+            animation: result-appear 0.5s ease;
+        }
+
+        @keyframes result-appear {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-url {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .result-domain {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .result-badge {
+            background: var(--accent);
+            color: var(--text);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .result-text {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                padding: 80px 24px;
+            }
+
+            .comparison-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .timeline {
+                padding-left: 60px;
+            }
+
+            .timeline-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+                left: -60px;
+            }
+
+            .timeline-connector {
+                padding-left: 60px;
+                margin-left: -20px;
+            }
+
+            .demo-section {
+                padding: 80px 24px;
+            }
+
+            .demo-card {
+                padding: 40px 24px;
+            }
+
+            .progress-step .step-name {
+                width: 120px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1361,6 +1888,234 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Before vs After -->
+    <section class="comparison" id="before-after">
+        <div class="comparison-toggle">
+            <button class="toggle-btn active" data-mode="before">Before WALLY</button>
+            <button class="toggle-btn" data-mode="after">After WALLY</button>
+        </div>
+
+        <div class="comparison-container">
+            <!-- Before Side -->
+            <div class="comparison-side before-side active" id="beforeSide">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon tired">😴</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 0</span>
+                            <span class="timeline-title">Writer gets brief</span>
+                            <span class="timeline-sub">8:00 AM</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-spinner">⟳</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon tired">📧</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 0</span>
+                            <span class="timeline-title">Brief sent to designer</span>
+                            <span class="timeline-sub">via Slack DM</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-spinner">⟳</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon tired">😤</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 1</span>
+                            <span class="timeline-title">Designer starts work</span>
+                            <span class="timeline-sub">After morning standup</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-spinner">⟳</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon tired">😠</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 2</span>
+                            <span class="timeline-title">First review</span>
+                            <span class="timeline-sub">"Can you make it pop?"</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-spinner">⟳</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon tired">🤬</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 3</span>
+                            <span class="timeline-title">Sent to Webflow</span>
+                            <span class="timeline-sub">Finally</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector">
+                        <div class="connector-line"></div>
+                    </div>
+                    <div class="timeline-item final">
+                        <div class="timeline-icon tired">🎉</div>
+                        <div class="timeline-content">
+                            <span class="timeline-day">Day 4</span>
+                            <span class="timeline-title">Content goes live</span>
+                            <span class="timeline-sub">4 days later</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comparison-stats">
+                    <div class="compare-stat">
+                        <span class="stat-num red">4</span>
+                        <span class="stat-text">days</span>
+                    </div>
+                    <div class="compare-stat">
+                        <span class="stat-num red">12</span>
+                        <span class="stat-text">Slack messages</span>
+                    </div>
+                    <div class="compare-stat">
+                        <span class="stat-num red">3</span>
+                        <span class="stat-text">revision rounds</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- After Side -->
+            <div class="comparison-side after-side" id="afterSide">
+                <div class="timeline wally-timeline">
+                    <div class="timeline-item wally-step">
+                        <div class="timeline-icon wally">W</div>
+                        <div class="timeline-content">
+                            <span class="timeline-time">0:00</span>
+                            <span class="timeline-title">Brief submitted</span>
+                            <span class="timeline-sub">Human effort: 30 min done ✓</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector wally">
+                        <div class="connector-line"></div>
+                        <div class="connector-check">✓</div>
+                    </div>
+                    <div class="timeline-item wally-step">
+                        <div class="timeline-icon wally">W</div>
+                        <div class="timeline-content">
+                            <span class="timeline-time">0:01</span>
+                            <span class="timeline-title">WALLY activated</span>
+                            <span class="timeline-sub">Reading brief...</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector wally">
+                        <div class="connector-line"></div>
+                        <div class="connector-check">✓</div>
+                    </div>
+                    <div class="timeline-item wally-step">
+                        <div class="timeline-icon wally glow">W</div>
+                        <div class="timeline-content">
+                            <span class="timeline-time">0:04</span>
+                            <span class="timeline-title">Copy generated</span>
+                            <span class="timeline-sub">SEO optimized ✓</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector wally">
+                        <div class="connector-line"></div>
+                        <div class="connector-check">✓</div>
+                    </div>
+                    <div class="timeline-item wally-step">
+                        <div class="timeline-icon wally glow">W</div>
+                        <div class="timeline-content">
+                            <span class="timeline-time">0:08</span>
+                            <span class="timeline-title">Design assets ready</span>
+                            <span class="timeline-sub">All formats ✓</span>
+                        </div>
+                    </div>
+                    <div class="timeline-connector wally">
+                        <div class="connector-line"></div>
+                        <div class="connector-check">✓</div>
+                    </div>
+                    <div class="timeline-item final wally-step">
+                        <div class="timeline-icon wally glow pulse">W</div>
+                        <div class="timeline-content">
+                            <span class="timeline-time">0:30</span>
+                            <span class="timeline-title">Published to Webflow</span>
+                            <span class="timeline-sub live-badge-sm">● Live</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comparison-stats">
+                    <div class="compare-stat">
+                        <span class="stat-num teal">30</span>
+                        <span class="stat-text">minutes total</span>
+                    </div>
+                    <div class="compare-stat">
+                        <span class="stat-num teal">1</span>
+                        <span class="stat-text">human touchpoint</span>
+                    </div>
+                    <div class="compare-stat">
+                        <span class="stat-num teal">0</span>
+                        <span class="stat-text">revision rounds</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Live Demo Simulator -->
+    <section class="demo-section" id="demo">
+        <div class="demo-card">
+            <h2 class="demo-title scroll-reveal">Watch WALLY work.</h2>
+            
+            <div class="demo-input-group">
+                <textarea 
+                    class="demo-input scroll-reveal" 
+                    placeholder="Paste your content brief here...&#10;&#10;Example: Write a blog post about AI in marketing for a tech startup audience..."
+                    rows="4"
+                ></textarea>
+            </div>
+
+            <button class="demo-btn scroll-reveal" id="demoBtn">
+                <span class="btn-text">Unleash WALLY</span>
+                <span class="btn-arrow">→</span>
+            </button>
+
+            <div class="demo-progress" id="demoProgress">
+                <div class="progress-steps">
+                    <div class="progress-step" data-step="1">
+                        <div class="step-indicator">01</div>
+                        <div class="step-name">Writing copy</div>
+                        <div class="step-bar"><div class="step-fill"></div></div>
+                        <div class="step-status">⏳</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-indicator">02</div>
+                        <div class="step-name">Generating design</div>
+                        <div class="step-bar"><div class="step-fill"></div></div>
+                        <div class="step-status">⏳</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-indicator">03</div>
+                        <div class="step-name">Publishing to Webflow</div>
+                        <div class="step-bar"><div class="step-fill"></div></div>
+                        <div class="step-status">⏳</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-result" id="demoResult">
+                <div class="result-url">
+                    <span class="result-domain">yoursite.com</span>
+                    <span class="result-badge">✓ Live</span>
+                </div>
+                <p class="result-text">Content published successfully</p>
+            </div>
+        </div>
+
+        <div class="demo-orb-bg" id="demoOrbBg">
+            <div class="demo-orb"></div>
         </div>
     </section>
 
@@ -1695,6 +2450,83 @@
 
         document.querySelectorAll('.visual-typewriter').forEach(el => {
             typeObserver.observe(el.closest('.step-panel'));
+        });
+
+        // ===== BEFORE VS AFTER TOGGLE =====
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        const beforeSide = document.getElementById('beforeSide');
+        const afterSide = document.getElementById('afterSide');
+
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.mode;
+                
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (mode === 'before') {
+                    beforeSide.classList.add('active');
+                    afterSide.classList.remove('active');
+                } else {
+                    afterSide.classList.add('active');
+                    beforeSide.classList.remove('active');
+                }
+            });
+        });
+
+        // ===== LIVE DEMO SIMULATOR =====
+        const demoBtn = document.getElementById('demoBtn');
+        const demoProgress = document.getElementById('demoProgress');
+        const demoResult = document.getElementById('demoResult');
+        const demoOrbBg = document.getElementById('demoOrbBg');
+        const demoInput = document.querySelector('.demo-input');
+        const progressSteps = document.querySelectorAll('.progress-step');
+
+        demoBtn.addEventListener('click', () => {
+            if (demoBtn.classList.contains('processing')) return;
+
+            // Reset
+            demoProgress.classList.add('active');
+            demoResult.classList.remove('active');
+            progressSteps.forEach(step => {
+                step.classList.remove('active', 'complete');
+                step.querySelector('.step-fill').style.width = '0';
+                step.querySelector('.step-status').textContent = '⏳';
+            });
+
+            // Start processing
+            demoBtn.classList.add('processing');
+            demoBtn.querySelector('.btn-text').textContent = 'WALLY is thinking...';
+            demoOrbBg.querySelector('.demo-orb').classList.add('processing');
+
+            let stepIndex = 0;
+
+            function processStep() {
+                if (stepIndex < progressSteps.length) {
+                    const step = progressSteps[stepIndex];
+                    step.classList.add('active');
+                    
+                    setTimeout(() => {
+                        step.classList.remove('active');
+                        step.classList.add('complete');
+                        step.querySelector('.step-status').textContent = '✓';
+                        stepIndex++;
+                        processStep();
+                    }, 1200);
+                } else {
+                    // Complete
+                    demoBtn.classList.remove('processing');
+                    demoBtn.querySelector('.btn-text').textContent = 'Unleash WALLY';
+                    demoOrbBg.querySelector('.demo-orb').classList.remove('processing');
+                    
+                    setTimeout(() => {
+                        demoProgress.classList.remove('active');
+                        demoResult.classList.add('active');
+                    }, 500);
+                }
+            }
+
+            setTimeout(processStep, 500);
         });
 
         // Easter egg: click orb 5 times
